@@ -21,23 +21,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <!-- SEO Meta Tags -->
-    <title>{{ $meta_title ?? 'NoName Logistics' }}</title>
+    <title>{{ $meta_title ?? config('website.name') . ' Logistics' }}</title>
     <meta name="description"
-        content="{{ $meta_desc ?? 'NoName Logistics Shipping & Logistics: Reliable Courier  & Delivery Services, NoName Logistics offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Choose NoName Logistics for efficient freight shipping & logistics' }}">
-    <meta name="author" content="{{ $meta_author ?? 'NoName Logistics' }}">
+        content="{{ $meta_desc ?? config('website.name') . ' Logistics Shipping & Logistics: Reliable Courier  & Delivery Services, ' . config('website.name') . ' Logistics offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Choose ' . config('website.name') . ' Logistics for efficient freight shipping & logistics' }}">
+    <meta name="author" content="{{ $meta_author ?? config('website.name') . ' Logistics' }}">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="{{ $meta_title ?? 'NoName Logistics' }}">
+    <meta property="og:title" content="{{ $meta_title ?? config('website.name') . ' Logistics' }}">
     <meta property="og:description"
-        content="{{ $meta_desc ?? 'NoName Logistics offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Choose NoName Logistics for efficient freight shipping & logistics' }}">
+        content="{{ $meta_desc ?? config('website.name') . ' Logistics offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Choose ' . config('website.name') . ' Logistics for efficient freight shipping & logistics' }}">
     <meta property="og:image" content="{{ $meta_image ?? url('assets/images/logo/favicon.png') }}">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ $meta_title ?? 'NoName Logistics' }}">
+    <meta name="twitter:title" content="{{ $meta_title ?? config('website.name') . ' Logistics' }}">
     <meta name="twitter:description"
-        content="{{ $meta_desc ?? 'NoName Logistics offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Choose NoName Logistics for efficient freight shipping & logistics' }}">
+        content="{{ $meta_desc ?? config('website.name') . ' Logistics offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Choose ' . config('website.name') . ' Logistics for efficient freight shipping & logistics' }}">
     <meta name="twitter:image" content="{{ $meta_image ?? url('assets/images/logo/favicon.png') }}">
 
     <!-- PWA Assets -->
@@ -56,8 +56,8 @@
     <link rel="shortcut icon" href="{{ url('assets/images/logo/favicon.png?v=' . env('CACHE_VERSION')) }}">
 
     <!-- PWA Meta Tags -->
-    <meta name="apple-mobile-web-app-title" content="NoName Logistics">
-    <meta name="application-name" content="NoName Logistics">
+    <meta name="apple-mobile-web-app-title" content="{{ config('website.name') }} Logistics">
+    <meta name="application-name" content="{{ config('website.name') }} Logistics">
     <meta name="msapplication-TileColor" content="#ffffff">
 
     <meta name="theme-color" content="#ffffff">
@@ -696,12 +696,6 @@
                                             <h6 class="text-dark mb-3 fw-bold">Business Solutions</h6>
                                             <ul class="list-unstyled">
                                                 <li class="nav-submenu__item mb-2">
-                                                    <a href="{{ url('/about') }}"
-                                                        class="nav-submenu__link {{ request()->is('about*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                        about
-                                                    </a>
-                                                </li>
-                                                <li class="nav-submenu__item mb-2">
                                                     <a href="{{ url('/freight') }}"
                                                         class="nav-submenu__link {{ request()->is('freight*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
                                                         Freight
@@ -1127,7 +1121,7 @@
                         </div>
                         <p class="text--white text-line-1 fw-normal cursor-small">{{ date('Y') }} ©
                             <a href="{{ url('') }}"
-                                class="text-main-600 hover--translate-y-1 fw-bold hover-underline hover-text-main-600 cursor-big">NOName</a>
+                                class="text-main-600 hover--translate-y-1 fw-bold hover-underline hover-text-main-600 cursor-big">{{ config('website.name') }}</a>
                             - Logistic Service. All rights reserved.
                         </p>
                     </div>

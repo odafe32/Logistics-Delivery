@@ -238,7 +238,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const POPUP_INTERVAL = 3 * 60 * 1000; // 3 minutes in milliseconds
+            const POPUP_INTERVAL = 5 * 60 * 1000; // 5 minutes in milliseconds
             const welcomePopupEl = document.getElementById('welcomePopup');
             const countdownEl = document.getElementById('countdown');
 
