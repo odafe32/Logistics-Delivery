@@ -611,7 +611,7 @@
                 </div>
                 <div class="d-md-flex d-none align-items-center tw-gap-6">
                     <div class="cursor-small d-flex align-items-center tw-gap-2 tw-py-205">
-                        <span class="text-main-600 d-flex"><i class="ph-bold ph-envelope"></i></span>
+                        <span class="text-main-600 d-flex"><i class="ph-bold ph-chat-circle"></i></span>
                         <a href="mailto:contact@gmail.com"
                             class="text-black xl-tw-text-sm tw-text-xs fw-medium hover--translate-x-05 hover-text-main-600 tw-transition-all">contact@gmail.com</a>
                     </div>
