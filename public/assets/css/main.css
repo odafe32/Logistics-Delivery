@@ -135,7 +135,7 @@
     --white: 0 0% 100%;
     --black: 0 0% 0%;
     --body: 0 0% 43%;
-    --green: #07485e;
+    --green: #DF1118;
     --heading-color: var(--main-two-600);
     --body-color: var(--body);
     --star-color: rgba(255, 140, 34, 1);
@@ -316,11 +316,11 @@ a {
     display: inline-block;
     transition: 0.2s linear;
     text-decoration: none;
-    color: #0661e9;
+    color: #DF1118;
 }
 
 a:hover {
-    color: #1d72f2;
+    color: #DF1118;
 }
 
 img {
