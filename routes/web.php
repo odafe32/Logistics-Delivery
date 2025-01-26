@@ -20,10 +20,10 @@ Route::middleware('guest')->group(function () {
         // Route::post('/login', 'login');
 
         // // Password Reset Routes
-        // Route::get('/forgot-password', 'showForgotPassword')->name('password.request');
+        Route::get('/forgot-password', 'showForgotPassword')->name('password.request');
         // Route::post('/forgot-password', 'forgotPassword')->name('password.email');
-        // Route::get('/reset-password/{token}', 'showResetPassword')->name('password.reset');
-        // Route::post('/reset-password', 'resetPassword')->name('password.update');
+         Route::get('/reset-password', 'showResetPassword')->name('password.reset');
+         Route::get('/password-reset-success', 'showResetPasswordSuccess')->name('password.reset-success');
     });
 });
 
