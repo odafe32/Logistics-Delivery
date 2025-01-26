@@ -48,7 +48,7 @@
     <link rel="icon" type="image/png" sizes="194x194"
         href="{{ url('assets/images/logo/favicon.png?v=' . env('CACHE_VERSION')) }}">
     <link rel="icon" type="image/png" sizes="192x192"
-        href="{{ url('passets/images/logo/favicon.png?v=' . env('CACHE_VERSION')) }}">
+        href="{{ url('assets/images/logo/favicon.png?v=' . env('CACHE_VERSION')) }}">
     <link rel="icon" type="image/png" sizes="16x16"
         href="{{ url('assets/images/logo/favicon.png?v=' . env('CACHE_VERSION')) }}">
 
@@ -72,8 +72,63 @@
     <link rel="stylesheet" href="{{ url('assets/css/magnific-popup.css?v=' . env('CACHE_VERSION')) }}">
     <link rel="stylesheet" href="{{ url('assets/css/main.css?v=' . env('CACHE_VERSION')) }}">
 
+    <style>
+        /* Your existing media query */
+        @media (max-width: 867px) {
+            .language-full {
+                display: none;
+            }
 
+            /* Mobile-specific active states */
+            .mobile-menu .nav-submenu__link.active,
+            .mobile-menu .nav-submenu__link[aria-current="page"],
+            .mobile-menu .nav-menu__item.activePage .nav-submenu__link[aria-current="page"] {
+                background-color: white !important;
+                color: #DF1118 !important;
+            }
 
+            .mobile-menu .nav-menu__item.activePage>.nav-menu__link {
+                color: #DF1118 !important;
+            }
+
+            /* Mobile hover states */
+            .mobile-menu .nav-submenu__link:hover {
+                background-color: #f7f7f7;
+                color: #DF1118;
+            }
+
+            /* Mobile active submenu items */
+            .mobile-menu .nav-submenu__item.active>.nav-submenu__link {
+                color: #DF1118 !important;
+                background-color: white !important;
+            }
+        }
+
+        /* Desktop styles remain unchanged */
+        @media (min-width: 868px) {
+            .nav-menu__item.activePage>.nav-menu__link {
+                color: #DF1118 !important;
+            }
+
+            .nav-submenu__link.active,
+            .nav-submenu__link[aria-current="page"],
+            .nav-menu__item.activePage .nav-submenu__link[aria-current="page"] {
+                background-color: white !important;
+                color: #DF1118 !important;
+            }
+
+            .nav-submenu__link:hover {
+                background-color: #f7f7f7;
+                color: #DF1118;
+            }
+
+            .nav-submenu h6 {
+                font-size: 0.9rem;
+                margin-bottom: 0.75rem;
+                color: #DF1118;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -81,7 +136,7 @@
     <!-- Your content here -->
     {{ csrf_field() }}
     <!--====== PRELOADER PART START ======-->
-
+    {{-- 
     <div
         class="preloader bg-white tw-h-screen justify-content-center align-items-center tw-z-999 position-fixed top-0 tw-start-0 w-100 h-100">
         <div class="car-road">
@@ -109,7 +164,7 @@
             <div class="road">
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <!--====== PRELOADER PART START ======-->
 
@@ -233,36 +288,37 @@
             <div class="mobile-menu__menu">
                 <!-- Nav menu Start -->
                 <ul class="nav-menu cursor-small d-lg-flex align-items-center nav-menu--mobile d-block tw-mt-8">
-                    <li class="nav-menu__item has-submenu position-relative activePage">
+                    <li
+                        class="nav-menu__item has-submenu position-relative {{ request()->is('send-shipment*', 'shipping-rates*', 'track-shipment*') ? 'activePage' : '' }}">
                         <a href="javascript:void(0)"
                             class="nav-menu__link hover--translate-y-1 text-main-two-600 tw-py-9 fw-medium w-100 tw-pe-4">Ship
                             & Track</a>
                         <ul
                             class="nav-submenu scroll-sm position-absolute start-0 top-100 tw-w-max bg-white tw-rounded-md overflow-hidden tw-p-2 tw-mt-4 tw-duration-200 tw-z-99">
-                            <li class="nav-menu__item activePage">
+                            <li class="nav-menu__item {{ request()->is('send-shipment*') ? 'activePage' : '' }}">
                                 <a href="{{ url('/send-shipment') }}"
-                                    class="nav-submenu__link
-                                    hover-bg-neutral-100 text-black fw-medium w-100 d-block tw-py-2 tw-px-305
-                                    tw-rounded {{ request()->is('/*') ? 'active' : '' }}">
+                                    class="nav-submenu__link {{ request()->is('send-shipment*') ? 'tw-bg-blue-500 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded">
                                     Send a Shipment
                                 </a>
                             </li>
-                            <li class="nav-submenu__item d-block tw-rounded tw-duration-200 position-relative">
+                            <li class="nav-menu__item {{ request()->is('shipping-rates*') ? 'activePage' : '' }}">
                                 <a href="{{ url('/shipping-rates') }}"
-                                    class="nav-submenu__link hover-bg-neutral-100 text-black fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded {{ request()->is('/*') ? 'active' : '' }}">
+                                    class="nav-submenu__link {{ request()->is('shipping-rates*') ? 'tw-bg-blue-500 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded">
                                     Calculate Shipping Rates
                                 </a>
                             </li>
-                            <li class="nav-submenu__item d-block tw-rounded tw-duration-200 position-relative">
+                            <li class="nav-menu__item {{ request()->is('track-shipment*') ? 'activePage' : '' }}">
                                 <a href="{{ url('/track-shipment') }}"
-                                    class="nav-submenu__link hover-bg-neutral-100 text-black fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded {{ request()->is('/*') ? 'active' : '' }}">
-                                    Track a Shipment</a>
+                                    class="nav-submenu__link {{ request()->is('track-shipment*') ? 'tw-bg-blue-500 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded">
+                                    Track a Shipment
+                                </a>
                             </li>
                         </ul>
                     </li>
                     <li class="nav-menu__item has-submenu position-relative">
                         <a href="javascript:void(0)"
-                            class="nav-menu__link hover--translate-y-1 text-main-two-600 tw-py-9 fw-medium w-100 tw-pe-4">Pages</a>
+                            class="nav-menu__link hover--translate-y-1 text-main-two-600 tw-py-9 fw-medium w-100 tw-pe-4">Logistics
+                            Solutions</a>
                         <ul
                             class="nav-submenu scroll-sm position-absolute start-0 top-100 tw-w-max bg-white tw-rounded-md overflow-hidden tw-p-2 tw-mt-4 tw-duration-200 tw-z-99">
                             <li class="nav-submenu__item d-block tw-rounded tw-duration-200 position-relative">
@@ -308,32 +364,118 @@
                         <a href="about.html"
                             class="nav-menu__link hover--translate-y-1 text-main-two-600 tw-py-9 fw-medium w-100">About</a>
                     </li>
-                    <li class="nav-menu__item has-submenu position-relative">
+                    <li
+                        class="nav-menu__item has-submenu position-relative {{ request()->is('nearest-office*', 'support*', 'faqs*') ? 'activePage' : '' }}">
                         <a href="javascript:void(0)"
                             class="nav-menu__link hover--translate-y-1 text-main-two-600 tw-py-9 fw-medium w-100 tw-pe-4">Contact</a>
                         <ul
                             class="nav-submenu scroll-sm position-absolute start-0 top-100 tw-w-max bg-white tw-rounded-md overflow-hidden tw-p-2 tw-mt-4 tw-duration-200 tw-z-99">
                             <li class="nav-submenu__item d-block tw-rounded tw-duration-200 position-relative">
                                 <a href="{{ url('/nearest-office') }}"
-                                    class="nav-submenu__link hover-bg-neutral-100 text-black fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded {{ request()->is('/*') ? 'active' : '' }}">
+                                    class="nav-submenu__link {{ request()->is('nearest-office*') ? 'tw-text-[#DF1118] tw-bg-white' : 'hover-bg-neutral-100 text-black' }} fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded">
                                     Find Nearest Office
                                 </a>
                             </li>
                             <li class="nav-submenu__item d-block tw-rounded tw-duration-200 position-relative">
                                 <a href="{{ url('/support') }}"
-                                    class="nav-submenu__link hover-bg-neutral-100 text-black fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded {{ request()->is('/*') ? 'active' : '' }}">
+                                    class="nav-submenu__link {{ request()->is('support*') ? 'tw-text-[#DF1118] tw-bg-white' : 'hover-bg-neutral-100 text-black' }} fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded">
                                     Help & Support Center
                                 </a>
                             </li>
                             <li class="nav-submenu__item d-block tw-rounded tw-duration-200 position-relative">
                                 <a href="{{ url('/faqs') }}"
-                                    class="nav-submenu__link hover-bg-neutral-100 text-black fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded {{ request()->is('/*') ? 'active' : '' }}">
+                                    class="nav-submenu__link {{ request()->is('faqs*') ? 'tw-text-[#DF1118] tw-bg-white' : 'hover-bg-neutral-100 text-black' }} fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded">
                                     Frequently Asked Questions
                                 </a>
                             </li>
                         </ul>
                     </li>
-
+                    {{-- languages --}}
+                    <div class="cursor-small mt-5 nav-menu__item has-submenu position-relative">
+                        <div class="d-flex align-items-center tw-gap-2">
+                            <a href="javascript:void(0)"
+                                class="selected-text text-black py-lg-4 d-flex align-items-center gap-2">
+                                <span
+                                    class="tw-w-25-px tw-h-25-px border border-white border-2 rounded-circle common-shadow d-flex justify-content-center align-items-center">
+                                    <img src="assets/images/thumbs/flag1.png" alt="English"
+                                        class="w-100 h-100 object-fit-cover rounded-circle">
+                                </span>
+                                English
+                            </a>
+                            <span class="text-neutral-700">
+                                <i class="ph-bold ph-caret-down"></i>
+                            </span>
+                        </div>
+                        <ul
+                            class="nav-submenu scroll-sm position-absolute start-0 top-100 tw-w-max bg-white tw-rounded-md overflow-hidden tw-p-4 tw-mt-4 tw-duration-200 tw-z-99">
+                            <li class="mb-3">
+                                <a href="javascript:void(0)" data-lang="en-US"
+                                    class="text-black d-flex align-items-center gap-2 hover-text-main-600 active--translate-y-1 tw-duration-150">
+                                    <span
+                                        class="tw-w-25-px tw-h-25-px border border-white border-2 rounded-circle d-flex justify-content-center align-items-center">
+                                        <img src="assets/images/thumbs/flag1.png" alt="English"
+                                            class="w-100 h-100 object-fit-cover rounded-circle">
+                                    </span>
+                                    English
+                                </a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="javascript:void(0)" data-lang="ja-JP"
+                                    class="text-black d-flex align-items-center gap-2 hover-text-main-600 active--translate-y-1 tw-duration-150">
+                                    <span
+                                        class="tw-w-25-px tw-h-25-px border border-white border-2 rounded-circle d-flex justify-content-center align-items-center">
+                                        <img src="assets/images/thumbs/flag2.png" alt="Japanese"
+                                            class="w-100 h-100 object-fit-cover rounded-circle">
+                                    </span>
+                                    Japanese
+                                </a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="javascript:void(0)" data-lang="fr-FR"
+                                    class="text-black d-flex align-items-center gap-2 hover-text-main-600 active--translate-y-1 tw-duration-150">
+                                    <span
+                                        class="tw-w-25-px tw-h-25-px border border-white border-2 rounded-circle d-flex justify-content-center align-items-center">
+                                        <img src="assets/images/thumbs/flag3.png" alt="French"
+                                            class="w-100 h-100 object-fit-cover rounded-circle">
+                                    </span>
+                                    French
+                                </a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="javascript:void(0)" data-lang="de-DE"
+                                    class="text-black d-flex align-items-center gap-2 hover-text-main-600 active--translate-y-1 tw-duration-150">
+                                    <span
+                                        class="tw-w-25-px tw-h-25-px border border-white border-2 rounded-circle d-flex justify-content-center align-items-center">
+                                        <img src="assets/images/thumbs/flag4.png" alt="German"
+                                            class="w-100 h-100 object-fit-cover rounded-circle">
+                                    </span>
+                                    German
+                                </a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="javascript:void(0)" data-lang="bn-BD"
+                                    class="text-black d-flex align-items-center gap-2 hover-text-main-600 active--translate-y-1 tw-duration-150">
+                                    <span
+                                        class="tw-w-25-px tw-h-25-px border border-white border-2 rounded-circle d-flex justify-content-center align-items-center">
+                                        <img src="assets/images/thumbs/flag6.png" alt="Bengali"
+                                            class="w-100 h-100 object-fit-cover rounded-circle">
+                                    </span>
+                                    Bengali
+                                </a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="javascript:void(0)" data-lang="ko-KR"
+                                    class="text-black d-flex align-items-center gap-2 hover-text-main-600 active--translate-y-1 tw-duration-150">
+                                    <span
+                                        class="tw-w-25-px tw-h-25-px border border-white border-2 rounded-circle d-flex justify-content-center align-items-center">
+                                        <img src="assets/images/thumbs/flag5.png" alt="Korean"
+                                            class="w-100 h-100 object-fit-cover rounded-circle">
+                                    </span>
+                                    Korean
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </ul>
                 <!-- Nav menu End  -->
 
@@ -388,12 +530,12 @@
                     <!-- Logo Start -->
                     <div
                         class="logo-mask-bg cursor-big position-relative d-lg-flex d-none z-1 tw-w-156-px d-flex justify-content-center align-items-center">
-                        <a href="index-2.html" class="tw-mt-7">
+                        <a href="{{ url('/') }}" class="tw-mt-7">
                             <img src="assets/images/logo/logo.png" alt="Logo" class="max-w-200-px">
                         </a>
                     </div>
                     <div class="position-relative d-lg-none d-inline-block z-1">
-                        <a href="index-2.html" class="cursor-big">
+                        <a href="{{ url('/') }}" class="cursor-big">
                             <img src="assets/images/logo/logo2.png" alt="Logo" class="max-w-100-px">
                         </a>
                     </div>
@@ -403,58 +545,162 @@
                     <div class="header-menu d-lg-block d-none ps-108-px">
                         <!-- Nav menu Start -->
                         <ul class="nav-menu cursor-small d-lg-flex align-items-center xl-tw-gap-12 tw-gap-6">
-                            <li class="nav-menu__item has-submenu position-relative activePage">
+                            <li
+                                class="nav-menu__item has-submenu position-relative {{ request()->is('send-shipment*', 'shipping-rates*', 'track-shipment*') ? 'activePage' : '' }}">
                                 <a href="javascript:void(0)"
                                     class="nav-menu__link hover--translate-y-1 text-main-two-600 tw-py-9 fw-medium w-100 tw-pe-4">Ship
                                     & Track</a>
                                 <ul
                                     class="nav-submenu scroll-sm position-absolute start-0 top-100 tw-w-max bg-white tw-rounded-md overflow-hidden tw-p-2 tw-mt-4 tw-duration-200 tw-z-99">
-                                    <li class="nav-menu__item activePage">
+                                    <li
+                                        class="nav-menu__item {{ request()->is('send-shipment*') ? 'activePage' : '' }}">
                                         <a href="{{ url('/send-shipment') }}"
-                                            class="nav-submenu__link
-                                    hover-bg-neutral-100 text-black fw-medium w-100 d-block tw-py-2 tw-px-305
-                                    tw-rounded {{ request()->is('/*') ? 'active' : '' }}">
+                                            class="nav-submenu__link {{ request()->is('send-shipment*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded">
                                             Send a Shipment
                                         </a>
                                     </li>
-                                    <li class="nav-submenu__item d-block tw-rounded tw-duration-200 position-relative">
+                                    <li
+                                        class="nav-menu__item {{ request()->is('shipping-rates*') ? 'activePage' : '' }}">
                                         <a href="{{ url('/shipping-rates') }}"
-                                            class="nav-submenu__link hover-bg-neutral-100 text-black fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded {{ request()->is('/*') ? 'active' : '' }}">
+                                            class="nav-submenu__link {{ request()->is('shipping-rates*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded">
                                             Calculate Shipping Rates
                                         </a>
                                     </li>
-                                    <li class="nav-submenu__item d-block tw-rounded tw-duration-200 position-relative">
+                                    <li
+                                        class="nav-menu__item {{ request()->is('track-shipment*') ? 'activePage' : '' }}">
                                         <a href="{{ url('/track-shipment') }}"
-                                            class="nav-submenu__link hover-bg-neutral-100 text-black fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded {{ request()->is('/*') ? 'active' : '' }}">
-                                            Track a Shipment</a>
+                                            class="nav-submenu__link {{ request()->is('track-shipment*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded">
+                                            Track a Shipment
+                                        </a>
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-menu__item has-submenu position-relative">
+                            <li
+                                class="nav-menu__item has-submenu position-relative {{ request()->is('project*', 'team*') ? 'activePage' : '' }}">
                                 <a href="javascript:void(0)"
-                                    class="nav-menu__link hover--translate-y-1 text-main-two-600 tw-py-9 fw-medium w-100 tw-pe-4">Pages</a>
-                                <ul
-                                    class="nav-submenu scroll-sm position-absolute start-0 top-100 tw-w-max bg-white tw-rounded-md overflow-hidden tw-p-2 tw-mt-4 tw-duration-200 tw-z-99">
-                                    <li class="nav-submenu__item d-block tw-rounded tw-duration-200 position-relative">
-                                        <a href="project.html"
-                                            class="nav-submenu__link hover-bg-neutral-100 text-black fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded">
-                                            Project</a>
-                                    </li>
-                                    <li class="nav-submenu__item d-block tw-rounded tw-duration-200 position-relative">
-                                        <a href="project-details.html"
-                                            class="nav-submenu__link hover-bg-neutral-100 text-black fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded">
-                                            Project Details</a>
-                                    </li>
-                                    <li class="nav-submenu__item d-block tw-rounded tw-duration-200 position-relative">
-                                        <a href="team.html"
-                                            class="nav-submenu__link hover-bg-neutral-100 text-black fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded">
-                                            Team</a>
-                                    </li>
-                                    <li class="nav-submenu__item d-block tw-rounded tw-duration-200 position-relative">
-                                        <a href="team-details.html"
-                                            class="nav-submenu__link hover-bg-neutral-100 text-black fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded">
-                                            Team Details</a>
-                                    </li>
+                                    class="nav-menu__link hover--translate-y-1 text-main-two-600 tw-py-9 fw-medium w-100 tw-pe-4">
+                                    Logistics Solution
+                                </a>
+                                <ul class="nav-submenu scroll-sm position-absolute start-0 top-100 bg-white tw-rounded-md overflow-hidden tw-p-6 tw-mt-4 tw-duration-200 tw-z-99"
+                                    style="min-width: 800px;">
+                                    <div class="row g-4">
+                                        <!-- Business Solutions Column -->
+                                        <div class="col-md-4">
+                                            <h6 class="text-dark mb-3 fw-bold">Business Solutions</h6>
+                                            <ul class="list-unstyled">
+                                                <li class="nav-submenu__item mb-2">
+                                                    <a href="{{ url('/freight') }}"
+                                                        class="nav-submenu__link {{ request()->is('freight*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
+                                                        Freight
+                                                    </a>
+                                                </li>
+                                                <li class="nav-submenu__item mb-2">
+                                                    <a href="{{ url('/express') }}"
+                                                        class="nav-submenu__link {{ request()->is('express*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
+                                                        Express
+                                                    </a>
+                                                </li>
+                                                <li class="nav-submenu__item mb-2">
+                                                    <a href="{{ url('/fuel-surcharge') }}"
+                                                        class="nav-submenu__link {{ request()->is('fuel-surcharge*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
+                                                        Fuel Surcharge
+                                                    </a>
+                                                </li>
+                                                <li class="nav-submenu__item mb-2">
+                                                    <a href="{{ url('/logistics-warehousing') }}"
+                                                        class="nav-submenu__link {{ request()->is('logistics-warehousing*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
+                                                        Logistics & Warehousing
+                                                    </a>
+                                                </li>
+                                                <li class="nav-submenu__item mb-2">
+                                                    <a href="{{ url('/signature-surcharge') }}"
+                                                        class="nav-submenu__link {{ request()->is('signature-surcharge*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
+                                                        Signature Surcharge
+                                                    </a>
+                                                </li>
+                                                <li class="nav-submenu__item">
+                                                    <a href="{{ url('/service-rate-guide') }}"
+                                                        class="nav-submenu__link {{ request()->is('service-rate-guide*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
+                                                        Service & Rate Guide
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <!-- Industry Solutions Column -->
+                                        <div class="col-md-4">
+                                            <h6 class="text-dark mb-3 fw-bold">Industry Solutions</h6>
+                                            <ul class="list-unstyled">
+                                                <li class="nav-submenu__item mb-2">
+                                                    <a href="{{ url('/e-commerce-smes') }}"
+                                                        class="nav-submenu__link {{ request()->is('e-commerce-smes*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
+                                                        E-commerce & SMEs
+                                                    </a>
+                                                </li>
+                                                <li class="nav-submenu__item mb-2">
+                                                    <a href="{{ url('/oil-gas') }}"
+                                                        class="nav-submenu__link {{ request()->is('oil-gas*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
+                                                        Oil & Gas
+                                                    </a>
+                                                </li>
+                                                <li class="nav-submenu__item mb-2">
+                                                    <a href="{{ url('/chemicals-dangerous-goods') }}"
+                                                        class="nav-submenu__link {{ request()->is('chemicals-dangerous-goods*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
+                                                        Chemicals & Dangerous Goods
+                                                    </a>
+                                                </li>
+                                                <li class="nav-submenu__item mb-2">
+                                                    <a href="{{ url('/healthcare') }}"
+                                                        class="nav-submenu__link {{ request()->is('healthcare*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
+                                                        Healthcare
+                                                    </a>
+                                                </li>
+                                                <li class="nav-submenu__item">
+                                                    <a href="{{ url('/fashion-retail') }}"
+                                                        class="nav-submenu__link {{ request()->is('fashion-retail*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
+                                                        Fashion & Retail
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <!-- Products Column -->
+                                        <div class="col-md-4">
+                                            <h6 class="text-dark mb-3 fw-bold">Products</h6>
+                                            <ul class="list-unstyled">
+                                                <li class="nav-submenu__item mb-2">
+                                                    <a href="{{ url('/drop-ship') }}"
+                                                        class="nav-submenu__link {{ request()->is('drop-ship*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
+                                                        Drop & Ship
+                                                    </a>
+                                                </li>
+                                                <li class="nav-submenu__item mb-2">
+                                                    <a href="{{ url('/pickup-points') }}"
+                                                        class="nav-submenu__link {{ request()->is('pickup-points*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
+                                                        Aramex Pickup Points
+                                                    </a>
+                                                </li>
+                                                <li class="nav-submenu__item mb-2">
+                                                    <a href="{{ url('/click-to-ship') }}"
+                                                        class="nav-submenu__link {{ request()->is('click-to-ship*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
+                                                        ClickToShip
+                                                    </a>
+                                                </li>
+                                                <li class="nav-submenu__item mb-2">
+                                                    <a href="{{ url('/pick-drop-partner') }}"
+                                                        class="nav-submenu__link {{ request()->is('pick-drop-partner*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
+                                                        Pick & Drop Partner Program
+                                                    </a>
+                                                </li>
+                                                <li class="nav-submenu__item">
+                                                    <a href="{{ url('/shop-ship') }}"
+                                                        class="nav-submenu__link {{ request()->is('shop-ship*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
+                                                        Shop & Ship
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </ul>
                             </li>
                             <li class="nav-menu__item has-submenu position-relative">
@@ -478,26 +724,27 @@
                                 <a href="about.html"
                                     class="nav-menu__link hover--translate-y-1 text-main-two-600 tw-py-9 fw-medium w-100">About</a>
                             </li>
-                            <li class="nav-menu__item has-submenu position-relative">
+                            <li
+                                class="nav-menu__item has-submenu position-relative {{ request()->is('nearest-office*', 'support*', 'faqs*') ? 'active' : '' }}">
                                 <a href="javascript:void(0)"
                                     class="nav-menu__link hover--translate-y-1 text-main-two-600 tw-py-9 fw-medium w-100 tw-pe-4">Contact</a>
                                 <ul
                                     class="nav-submenu scroll-sm position-absolute start-0 top-100 tw-w-max bg-white tw-rounded-md overflow-hidden tw-p-2 tw-mt-4 tw-duration-200 tw-z-99">
                                     <li class="nav-submenu__item d-block tw-rounded tw-duration-200 position-relative">
                                         <a href="{{ url('/nearest-office') }}"
-                                            class="nav-submenu__link hover-bg-neutral-100 text-black fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded {{ request()->is('/*') ? 'active' : '' }}">
+                                            class="nav-submenu__link {{ request()->is('nearest-office') ? 'active' : '' }} hover-bg-neutral-100 text-black fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded">
                                             Find Nearest Office
                                         </a>
                                     </li>
                                     <li class="nav-submenu__item d-block tw-rounded tw-duration-200 position-relative">
                                         <a href="{{ url('/support') }}"
-                                            class="nav-submenu__link hover-bg-neutral-100 text-black fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded {{ request()->is('/*') ? 'active' : '' }}">
+                                            class="nav-submenu__link hover-bg-neutral-100 text-black fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded">
                                             Help & Support Center
                                         </a>
                                     </li>
                                     <li class="nav-submenu__item d-block tw-rounded tw-duration-200 position-relative">
                                         <a href="{{ url('/faqs') }}"
-                                            class="nav-submenu__link hover-bg-neutral-100 text-black fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded {{ request()->is('/*') ? 'active' : '' }}">
+                                            class="nav-submenu__link hover-bg-neutral-100 text-black fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded">
                                             Frequently Asked Questions
                                         </a>
                                     </li>
@@ -514,15 +761,10 @@
                 <!-- Header Right start -->
                 <div class="d-flex gap-xxl-5 gap-3">
                     <div class="d-flex align-items-center xl-tw-gap-7 tw-gap-6 flex-shrink-0">
-                        <li class="nav-submenu__item d-block tw-rounded tw-duration-200 position-relative">
-                            <a href="{{ url('/faqs') }}"
-                                class="nav-submenu__link hover-bg-neutral-100 text-black fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded {{ request()->is('/*') ? 'active' : '' }}">
-                                Login
-                            </a>
-                        </li>
+
                         <!-- Language Start -->
-                        <div class="cursor-small position-relative group-item hover-mt-0 xxsm-d-block d-none">
-                            <div class="d-flex align-items-center tw-gap-2">
+                        <div class="cursor-small position-relative group-item hover-mt-0 d-none d-lg-block">
+                            <div class="d-flex align-items-center  tw-gap-2">
                                 <a href="javascript:void(0)"
                                     class="selected-text text-black py-lg-4 d-flex align-items-center gap-2">
                                     <span
@@ -607,6 +849,12 @@
                             </ul>
                         </div>
                         <!-- Language End -->
+                        <li class="nav-submenu__item d-block tw-rounded tw-duration-200 position-relative">
+                            <a href="{{ url('/login') }}"
+                                class="nav-submenu__link bg-danger rounded text-white  fw-bold w-100 d-block tw-py-2 tw-px-305  {{ request()->is('/*') ? 'active' : '' }}">
+                                Login
+                            </a>
+                        </li>
 
                         <!-- Line Start -->
                         <span class="line h-100"></span>
@@ -780,8 +1028,8 @@
                 <div class="container container-two">
                     <div class="d-flex align-items-center justify-content-between tw-gap-6 flex-wrap">
                         <div class="mb-0">
-                            <a href="index-2.html" class="cursor-big"> <img src="assets/images/logo/logo3.png"
-                                    alt=""></a>
+                            <a href="{{ url('/') }}" class="cursor-big"> <img
+                                    src="assets/images/logo/logo3.png" alt=""></a>
                         </div>
                         <p class="text--white text-line-1 fw-normal cursor-small"> © 2024
                             <a href="https://themeforest.net/user/wowtheme7/portfolio"
