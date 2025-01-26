@@ -238,7 +238,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const POPUP_INTERVAL = 5 * 60 * 1000; // 5 minutes in milliseconds
+            const POPUP_INTERVAL = 10 * 60 * 1000; // 10 minutes in milliseconds
             const welcomePopupEl = document.getElementById('welcomePopup');
             const countdownEl = document.getElementById('countdown');
 
@@ -276,20 +276,6 @@
 
             // Update countdown every second
             setInterval(updateCountdown, 1000);
-
-            // Handle close button
-            document.querySelector('.btn-close').addEventListener('click', function() {
-                const welcomePopup = bootstrap.Modal.getInstance(welcomePopupEl);
-                welcomePopup.hide();
-            });
-
-            // Reset popup for testing (remove in production)
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'r' && e.ctrlKey) {
-                    sessionStorage.removeItem('lastPopupTime');
-                    location.reload();
-                }
-            });
         });
     </script>
 </body>

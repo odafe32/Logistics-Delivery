@@ -119,13 +119,11 @@ class HomeController extends Controller
 
     public function NearestOffice(){
            $viewData = [
-        'meta_title' => 'Home - NoName Logistics Shipping & Logistics',
-        'meta_desc' => 'NoName Logistics offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Choose NoName Logistics for efficient freight shipping & logistics',
-        'meta_image' => url('assets/images/logo/favicon.png'),
-        'data_wf_page' => '63b261b248057c80966627',
-       
-    ];
-
+          'meta_title' =>  ' Nearest Office ' . config('website.name'),
+              'meta_desc' => config('website.name') . ' offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Choose ' . config('website.name') . ' for efficient freight shipping & logistics',
+            'meta_image' => url('assets/images/logo/favicon.png'),
+            'data_wf_page' => '63b261b248057c80966627'
+           ];
     return view('nearest-office', $viewData);   
     }
 
