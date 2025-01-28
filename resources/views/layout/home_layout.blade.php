@@ -444,7 +444,7 @@
                                         <li class="nav-submenu__item mb-2">
                                             <a href="{{ url('/pickup-points') }}"
                                                 class="nav-submenu__link {{ request()->is('pickup-points*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                Aramex Pickup Points
+                                                {{ config('website.name') }} Pickup Points
                                             </a>
                                         </li>
                                         <li class="nav-submenu__item mb-2">
@@ -784,7 +784,7 @@
                                                 <li class="nav-submenu__item mb-2">
                                                     <a href="{{ url('/pickup-points') }}"
                                                         class="nav-submenu__link {{ request()->is('pickup-points*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                        Aramex Pickup Points
+                                                        {{ config('website.name') }} Pickup Points
                                                     </a>
                                                 </li>
                                                 <li class="nav-submenu__item mb-2">
@@ -998,6 +998,8 @@
 
     {{-- login section --}}
     @include('auth.login')
+
+
 
     @yield('content')
     <!--====== FOOTER PART START ======-->

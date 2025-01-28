@@ -126,6 +126,24 @@ class HomeController extends Controller
            ];
     return view('nearest-office', $viewData);   
     }
+    public function ShowShipmentDetail(){
+           $viewData = [
+          'meta_title' =>  ' Shipment Details ' . config('website.name'),
+              'meta_desc' => config('website.name') . ' offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Choose ' . config('website.name') . ' for efficient freight shipping & logistics',
+            'meta_image' => url('assets/images/logo/favicon.png'),
+            'data_wf_page' => '63b261b248057c80966627'
+           ];
+    return view('track-shipment-detail', $viewData);   
+    }
+    public function ShowShipment(){
+           $viewData = [
+          'meta_title' =>  ' Track Shipment ' . config('website.name'),
+              'meta_desc' => config('website.name') . ' offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Choose ' . config('website.name') . ' for efficient freight shipping & logistics',
+            'meta_image' => url('assets/images/logo/favicon.png'),
+            'data_wf_page' => '63b261b248057c80966627'
+           ];
+    return view('track-shipment', $viewData);   
+    }
 
     
 }

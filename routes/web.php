@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserDashboardController;
 use Illuminate\Support\Facades\Route;
 
 // Redirect root to login
@@ -30,5 +31,17 @@ Route::middleware('guest')->group(function () {
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index');
     Route::get('/nearest-office', 'NearestOffice')->name('nearest-office');
+    Route::get('/track-shipment-detail', 'ShowShipmentDetail')->name('track-shipment-detail');
+    Route::get('/track-shipment', 'ShowShipment')->name('track-shipment');
 
 });
+
+//Admin Routes 
+
+        Route::controller(UserDashboardController::class)->group(function () {
+ Route::get('dashboard', 'showDashboard')->name('dashboard');
+    
+        });
+ 
+
+

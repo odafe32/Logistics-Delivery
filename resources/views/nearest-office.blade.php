@@ -113,6 +113,7 @@
         .search-btn:hover {
             background: var(--primary-dark);
             transform: translateY(-2px);
+            color: #fff;
             box-shadow: 0 10px 20px rgba(227, 24, 55, 0.2);
         }
 
@@ -296,23 +297,23 @@
             <div class="row mt-5">
                 <div class="col-lg-4">
                     <div class="location-card">
-                        <div class="location-name">Aramex Abuja</div>
+                        <div class="location-name">{{ config('website.name') }} Abuja</div>
                         <div class="location-address">Plot 1014, Samuel Ademulegun Street, Central Business District, Abuja
                         </div>
                     </div>
 
                     <div class="location-card">
-                        <div class="location-name">Aramex Ibadan</div>
+                        <div class="location-name">{{ config('website.name') }} Ibadan</div>
                         <div class="location-address">12 Magazine Road, Jericho, Ibadan</div>
                     </div>
 
                     <div class="location-card">
-                        <div class="location-name">Aramex Airport Logistics Center</div>
+                        <div class="location-name">{{ config('website.name') }} Airport Logistics Center</div>
                         <div class="location-address">Murtala Muhammed International Airport, Ikeja, Lagos</div>
                     </div>
 
                     <div class="location-card">
-                        <div class="location-name">Aramex Port Harcourt</div>
+                        <div class="location-name">{{ config('website.name') }} Port Harcourt</div>
                         <div class="location-address">Plot 20 Trans Amadi Industrial Layout, Port Harcourt</div>
                     </div>
                 </div>

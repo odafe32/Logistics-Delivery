@@ -1,186 +1,398 @@
 @extends('layout.home_layout')
 @section('content')
-    <!-- ============================ Banner section start ======================================= -->
-    <section class="banner position-relative overflow-hidden">
-        <img src="{{ url('assets/images/shapes/plane-small.png') }}" alt="image"
-            class="planeSmall cursor-big position-absolute top-0 tw-start-0 tw-mt-134-px z-2 d-xxl-block d-none">
-        <img src="{{ url('assets/images/shapes/triangle-shape.png') }}" alt="image"
-            class="position-absolute bottom-0 tw-start-0 z-2 d-lg-block d-none">
+    <style>
+        :root {
+            --aramex-red: #E31837;
+            --aramex-dark: #d31730;
+        }
 
-        <div class="banner-slider">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <img src=" {{ url('assets/images/thumbs/banner-img1.png') }}" alt="image"
-                        class="scale-bg position-absolute top-0 tw-start-0 z-n1 w-100 h-100 object-fit-cover">
-                    <div class="banner-item z-2 position-relative">
-                        <div class="tw-container-1540-px mx-auto tw-px-4">
-                            <div class="position-relative">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-lg-7">
-                                            <span
-                                                class="splitTextStyleTwo cursor-small text-main-600 fw-bold fst-italic tw-text-lg text-decoration-underline tw-mb-5">Safe
-                                                Transportation & Logistics</span>
-                                            <h1 class="splitTextStyleOne cursor-big text-white tw-text-80-px">Flexible
-                                                logistics Fast Delivery & secure package</h1>
+        body {
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-                                            <div class="d-flex tw-gap-11 tw-mt-13 flex-wrap">
-                                                <a href="{{ url('/service') }}"
-                                                    class="cursor-small btn btn-main hover-style-two button--stroke tw-py-405 d-inline-flex align-items-center justify-content-center tw-gap-5 group active--translate-y-2"
-                                                    data-block="button">
-                                                    <span class="button__flair"></span>
-                                                    <span class="button__label">View services</span>
-                                                    <span
-                                                        class="tw-w-7 tw-h-7 bg-white text-main-600 tw-text-sm tw-rounded d-flex justify-content-center align-items-center position-relative group-hover-bg-main-600 group-hover-text-white tw-duration-500">
-                                                        <i class="ph-bold ph-check"></i>
-                                                    </span>
-                                                </a>
-                                                <a href="{{ url('/about') }}"
-                                                    class="cursor-small d-inline-flex align-items-center tw-gap-2 text-white fw-semibold hover-text-main-600 group active--translate-y-2"
-                                                    data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
-                                                    Who we are
-                                                    <span
-                                                        class="text-main-600 d-flex group-hover-text-white tw-duration-200 tw-text-base">
-                                                        <i class="ph-fill ph-caret-circle-right"></i>
-                                                    </span>
-                                                </a>
-                                            </div>
+        .tracking-section {
+            min-height: 100vh;
+            padding: 4rem 0;
+            position: relative;
+        }
 
-                                        </div>
-                                    </div>
-                                </div>
+        /* Background Elements */
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            z-index: 0;
+        }
 
-                                <div
-                                    class="cursor-big bg-blur-one tw-rounded-lg max-w-520-px px-xxl-5 px-lg-4 px-3 py-lg-5 py-4 tw-ms-auto tw-mt-3">
-                                    <span
-                                        class="triangle-shape tw-w-10 tw-h-10 bg-main-600 position-absolute tw-start-0 bottom-0"></span>
-                                    <p class="text-white tw-text-lg line-clamp-3">Temperate ocean-bass sea chub unicorn fish
-                                        treefish eulachon tidewater goby. Flier, bighe carp Devario shortnose sucker platy
-                                        small eye</p>
-                                </div>
+        .bg-circle-1 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(45deg, rgba(227, 24, 55, 0.05) 0%, rgba(227, 24, 55, 0.02) 100%);
+            top: -100px;
+            right: -100px;
+        }
+
+        .bg-circle-2 {
+            width: 300px;
+            height: 300px;
+            border: 2px dashed rgba(227, 24, 55, 0.1);
+            bottom: -50px;
+            left: -50px;
+        }
+
+        /* Left Side Content */
+        .tracking-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .tracking-title {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--aramex-red);
+            line-height: 1.2;
+            margin-bottom: 2rem;
+            animation: slideIn 1s ease-out;
+        }
+
+        .tracking-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 1s ease-out;
+        }
+
+        .input-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .tracking-input {
+            width: 100%;
+            padding: 1.2rem 1.2rem 1.2rem 3.5rem;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .tracking-input:focus {
+            outline: none;
+            border-color: var(--aramex-red);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(227, 24, 55, 0.1);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #adb5bd;
+        }
+
+        .btn-track {
+            background: var(--aramex-red);
+            color: white;
+            border: none;
+            padding: 1.2rem 2.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-track:hover {
+            background: var(--aramex-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(227, 24, 55, 0.2);
+        }
+
+        .helper-text {
+            color: #6c757d;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* Right Side Images */
+        .images-gallery {
+            position: relative;
+            height: 600px;
+            perspective: 1500px;
+        }
+
+        .gallery-image {
+            position: absolute;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .gallery-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-main {
+            width: 80%;
+            height: 450px;
+            right: 0;
+            top: 0;
+            z-index: 3;
+            transform: rotate(2deg);
+        }
+
+        .image-top {
+            width: 60%;
+            height: 300px;
+            left: 0;
+            top: 50px;
+            z-index: 2;
+            transform: rotate(-4deg) translateX(-30px);
+        }
+
+        .image-bottom {
+            width: 70%;
+            height: 350px;
+            right: 50px;
+            bottom: 0;
+            z-index: 1;
+            transform: rotate(6deg) translateY(20px);
+        }
+
+        .gallery-image:hover {
+            transform: scale(1.05) rotate(0deg) !important;
+            z-index: 4;
+        }
+
+        /* Animated Elements */
+        .floating {
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .dot-pattern {
+            position: absolute;
+            right: -20px;
+            bottom: -20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            z-index: 5;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--aramex-red);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(var(--rotation));
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(var(--rotation));
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Stats Section */
+        .stats-container {
+            margin-top: 4rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+            border-right: 1px solid #eee;
+        }
+
+        .stat-item:last-child {
+            border-right: none;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--aramex-red);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 992px) {
+            .tracking-title {
+                font-size: 3rem;
+            }
+
+            .images-gallery {
+                height: 500px;
+                margin-top: 3rem;
+            }
+
+            .image-main {
+                width: 90%;
+                height: 350px;
+            }
+
+            .image-top {
+                width: 70%;
+                height: 250px;
+            }
+
+            .image-bottom {
+                width: 80%;
+                height: 300px;
+            }
+
+            .stat-item {
+                border-right: none;
+                border-bottom: 1px solid #eee;
+                padding: 1rem;
+            }
+
+            .stat-item:last-child {
+                border-bottom: none;
+            }
+        }
+    </style>
+    {{-- track shipment --}}
+    <section class="tracking-section">
+        <!-- Background Elements -->
+        <div class="bg-circle bg-circle-1"></div>
+        <div class="bg-circle bg-circle-2"></div>
+
+        <div class="container">
+            <div class="row align-items-center">
+                <!-- Left Column -->
+                <div class="col-lg-5 tracking-content">
+                    <h1 class="tracking-title">Track your shipment</h1>
+
+                    <div class="tracking-form">
+                        <div class="input-container">
+                            <span class="input-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                    viewBox="0 0 16 16">
+                                    <path
+                                        d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z" />
+                                </svg>
+                            </span>
+                            <input type="text" class="tracking-input" placeholder="Enter your tracking number"
+                                id="trackingInput">
+                        </div>
+
+                        <button class="btn-track" onclick="handleTracking()">
+                            Track Shipment
+                        </button>
+
+                        <p class="helper-text">
+                            Separate multiple tracking numbers with a space or comma
+                        </p>
+                    </div>
+
+                    <!-- Stats Section -->
+                    <div class="stats-container">
+                        <div class="row">
+                            <div class="col-md-4 stat-item">
+                                <div class="stat-number">98%</div>
+                                <div class="stat-label">On-time Delivery</div>
+                            </div>
+                            <div class="col-md-4 stat-item">
+                                <div class="stat-number">220+</div>
+                                <div class="stat-label">Countries Served</div>
+                            </div>
+                            <div class="col-md-4 stat-item">
+                                <div class="stat-number">24/7</div>
+                                <div class="stat-label">Customer Support</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
-                    <img src="{{ url('assets/images/thumbs/banner-two-bg-1.png') }}" alt="image"
-                        class="scale-bg position-absolute top-0 tw-start-0 z-n1 w-100 h-100 object-fit-cover">
-                    <div class="banner-item z-2 position-relative">
-                        <div class="tw-container-1540-px mx-auto tw-px-4">
-                            <div class="position-relative">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-lg-7">
-                                            <span
-                                                class="splitTextStyleTwo cursor-small text-main-600 fw-bold fst-italic tw-text-lg text-decoration-underline tw-mb-5">Safe
-                                                Transportation & Logistics</span>
-                                            <h1 class="splitTextStyleOne cursor-big text-white tw-text-80-px">Adaptable
-                                                planned operations Quick Conveyance</h1>
 
-                                            <div class="d-flex tw-gap-11 tw-mt-13 flex-wrap">
-                                                <a href="{{ url('/service') }}"
-                                                    class="cursor-small btn btn-main hover-style-two button--stroke tw-py-405 d-inline-flex align-items-center justify-content-center tw-gap-5 group active--translate-y-2"
-                                                    data-block="button">
-                                                    <span class="button__flair"></span>
-                                                    <span class="button__label">View services</span>
-                                                    <span
-                                                        class="tw-w-7 tw-h-7 bg-white text-main-600 tw-text-sm tw-rounded d-flex justify-content-center align-items-center position-relative group-hover-bg-main-600 group-hover-text-white tw-duration-500">
-                                                        <i class="ph-bold ph-check"></i>
-                                                    </span>
-                                                </a>
-                                                <a href="{{ url('/about') }}"
-                                                    class="cursor-small d-inline-flex align-items-center tw-gap-2 text-white fw-semibold hover-text-main-600 group active--translate-y-2"
-                                                    data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
-                                                    Who we are
-                                                    <span
-                                                        class="text-main-600 d-flex group-hover-text-white tw-duration-200 tw-text-base">
-                                                        <i class="ph-fill ph-caret-circle-right"></i>
-                                                    </span>
-                                                </a>
-                                            </div>
+                <!-- Right Column - Image Gallery -->
+                <div class="col-lg-7">
+                    <div class="images-gallery">
+                        <div class="gallery-image image-main floating" style="--rotation: 2deg;">
+                            <img src="{{ url('assets/images/thumbs/banner-img3.png') }}"
+                                alt="{{ config('website.name') }} Delivery Service">
+                        </div>
+                        <div class="gallery-image image-top floating" style="--rotation: -4deg;">
+                            <img src="{{ url('assets/images/thumbs/blog-page-img3.png') }}"
+                                alt="{{ config('website.name') }} Global Network">
+                        </div>
+                        <div class="gallery-image image-bottom floating" style="--rotation: 6deg;">
+                            <img src="{{ url('assets/images/thumbs/blog-two-img3.png') }}"
+                                alt="{{ config('website.name') }} Shipping">
+                        </div>
 
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div
-                                    class="cursor-big bg-blur-one tw-rounded-lg max-w-520-px px-xxl-5 px-lg-4 px-3 py-lg-5 py-4 tw-ms-auto tw-mt-3">
-                                    <span
-                                        class="triangle-shape tw-w-10 tw-h-10 bg-main-600 position-absolute tw-start-0 bottom-0"></span>
-                                    <p class="text-white tw-text-lg line-clamp-3">Temperate ocean-bass sea chub unicorn fish
-                                        treefish eulachon tidewater goby. Flier, bighe carp Devario shortnose sucker platy
-                                        smalleye</p>
-                                </div>
-                            </div>
+                        <!-- Dot Pattern -->
+                        <div class="dot-pattern">
+                            <!-- 4x4 grid of dots -->
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
                         </div>
                     </div>
-                </div>
-                <div class="swiper-slide">
-                    <img src="{{ url('assets/images/thumbs/banner-img3.png') }}" alt="image"
-                        class="scale-bg position-absolute top-0 tw-start-0 z-n1 w-100 h-100 object-fit-cover">
-                    <div class="banner-item z-2 position-relative">
-                        <div class="tw-container-1540-px mx-auto tw-px-4">
-                            <div class="position-relative">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-lg-7">
-                                            <span
-                                                class="splitTextStyleTwo cursor-small text-main-600 fw-bold fst-italic tw-text-lg text-decoration-underline tw-mb-5">Safe
-                                                Transportation & Logistics</span>
-                                            <h1 class="splitTextStyleOne cursor-big text-white tw-text-80-px">Adaptable
-                                                coordinated factors Quick Conveyance</h1>
-
-                                            <div class="d-flex tw-gap-11 tw-mt-13 flex-wrap">
-                                                <a href="{{ url('/service') }}"
-                                                    class="cursor-small btn btn-main hover-style-two button--stroke tw-py-405 d-inline-flex align-items-center justify-content-center tw-gap-5 group active--translate-y-2"
-                                                    data-block="button">
-                                                    <span class="button__flair"></span>
-                                                    <span class="button__label">View services</span>
-                                                    <span
-                                                        class="tw-w-7 tw-h-7 bg-white text-main-600 tw-text-sm tw-rounded d-flex justify-content-center align-items-center position-relative group-hover-bg-main-600 group-hover-text-white tw-duration-500">
-                                                        <i class="ph-bold ph-check"></i>
-                                                    </span>
-                                                </a>
-                                                <a href="{{ url('/about') }}"
-                                                    class="cursor-small d-inline-flex align-items-center tw-gap-2 text-white fw-semibold hover-text-main-600 group active--translate-y-2"
-                                                    data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
-                                                    Who we are
-                                                    <span
-                                                        class="text-main-600 d-flex group-hover-text-white tw-duration-200 tw-text-base">
-                                                        <i class="ph-fill ph-caret-circle-right"></i>
-                                                    </span>
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div
-                                    class="cursor-big bg-blur-one tw-rounded-lg max-w-520-px px-xxl-5 px-lg-4 px-3 py-lg-5 py-4 tw-ms-auto tw-mt-3">
-                                    <span
-                                        class="triangle-shape tw-w-10 tw-h-10 bg-main-600 position-absolute tw-start-0 bottom-0"></span>
-                                    <p class="text-white tw-text-lg line-clamp-3">Temperate ocean-bass sea chub unicorn fish
-                                        treefish eulachon tidewater goby. Flier, bighe carp Devario shortnose sucker platy
-                                        smalleye</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="container w-0">
-                <div class="position-relative w-0">
-                    <div class="pagination-style-one text-start swiper-pagination banner-pagination cursor-big"></div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- ============================ Banner section End ======================================= -->
 
-
-
+    {{-- end tracking --}}
     <!-- ======================================== Section Features section start ===================================== -->
     <section class="features bg-neutral-50 bg-img" data-background-image="assets/images/shapes/features-bg.png">
         <div class="row g-0 features-item-wrapper">
@@ -1388,8 +1600,7 @@
                                     <span class="text-neutral-600 tw-text-sm">Mehedii .H</span>
                                 </div>
                                 <div class="d-flex align-items-center tw-gap-2 cursor-small">
-                                    <span class="text-main-600 tw-text-lg"><i
-                                            class="ph-bold ph-chats-circle"></i></span>
+                                    <span class="text-main-600 tw-text-lg"><i class="ph-bold ph-chats-circle"></i></span>
                                     <span class="text-neutral-600 tw-text-sm">Comments (03)</span>
                                 </div>
                             </div>
@@ -1464,4 +1675,20 @@
 
 
     @include('components.popup')
+    <script>
+        function handleTracking() {
+            const trackingNumber = document.getElementById('trackingInput').value;
+            if (trackingNumber.trim()) {
+                console.log('Tracking number:', trackingNumber);
+            } else {
+                alert('Please enter a tracking number');
+            }
+        }
+
+        document.getElementById('trackingInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleTracking();
+            }
+        });
+    </script>
 @endsection
