@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 // Redirect root to login
@@ -38,7 +39,7 @@ Route::controller(HomeController::class)->group(function () {
 
 //Admin Routes 
 
-        Route::controller(UserDashboardController::class)->group(function () {
+        Route::controller(UserController::class)->group(function () {
             Route::get('dashboard', 'showDashboard')->name('dashboard');
             Route::get('new-shipment', 'ShowNewShipment')->name('new-shipment');
             Route::get('user-track-shipment', 'ShowTrackShipment')->name('user-track-shipment');
@@ -46,6 +47,14 @@ Route::controller(HomeController::class)->group(function () {
             Route::get('shipment-history', 'ShowHistory')->name('shipment-history');
             Route::get('profile', 'ShowProfile')->name('profile');
             Route::get('support', 'ShowSupport')->name('support');
+                
+        });
+ 
+        Route::controller(AdminController::class)->group(function () {
+            Route::get('admin/dashboard', 'showDashboard')->name('dashboard');
+            Route::get('admin/users', 'showUsers')->name('users');
+            Route::get('admin/shipments', 'ShowShipments')->name('shipments');
+        
                 
         });
  
