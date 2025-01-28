@@ -2,6 +2,59 @@
 <html lang="en" data-wf-page="{{ $data_wf_page ?? '' }}" data-wf-site="63b261b248057c80966627">
 
 <head>
+
+
+    <!-- Title and Meta Description -->
+    <title>{{ $meta_title ?? config('website.name') . ' Logistics' }}</title>
+    <meta name="description"
+        content="{{ $meta_desc ?? config('website.name') . ' Logistics: Fast & reliable shipping, courier, & logistics services for domestic & international shipments' }}">
+    <meta name="author" content="{{ $meta_author ?? config('website.name') . ' Logistics' }}">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url('assets/images/logo/favicon.png') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url('assets/images/logo/favicon.png') }}">
+
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url('assets/images/logo/favicon.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ url('assets/images/logo/favicon.png') }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ url('assets/images/logo/favicon.png') }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ url('assets/images/logo/favicon.png') }}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ url('assets/images/logo/favicon.png') }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ url('assets/images/logo/favicon.png') }}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ url('assets/images/logo/favicon.png') }}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ url('assets/images/logo/favicon.png') }}">
+
+    <!-- Android Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ url('assets/images/logo/favicon.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ url('assets/images/logo/favicon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url('assets/images/logo/favicon.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url('assets/images/logo/favicon.png') }}">
+
+    <!-- Microsoft Tile -->
+    <meta name="msapplication-TileImage" content="{{ url('assets/images/logo/favicon.png') }}">
+    <meta name="msapplication-TileColor" content="#ffffff">
+
+    <!-- PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-title" content="{{ config('website.name') }} Logistics">
+    <meta name="application-name" content="{{ config('website.name') }} Logistics">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="{{ $meta_title ?? config('website.name') . ' Logistics' }}">
+    <meta property="og:description"
+        content="{{ $meta_desc ?? config('website.name') . ' Logistics offers fast & reliable shipping services' }}">
+    <meta property="og:image" content="{{ $meta_image ?? url('assets/images/logo/favicon.png') }}">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ url()->current() }}">
+    <meta name="twitter:title" content="{{ $meta_title ?? config('website.name') . ' Logistics' }}">
+    <meta name="twitter:description"
+        content="{{ $meta_desc ?? config('website.name') . ' Logistics offers fast & reliable shipping services' }}">
+    <meta name="twitter:image" content="{{ $meta_image ?? url('assets/images/logo/favicon.png') }}">
+
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-BFB4N0D1JW"></script>
     <script>
@@ -14,63 +67,28 @@
         gtag('config', 'G-BFB4N0D1JW');
     </script>
 
-
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-    <!-- SEO Meta Tags -->
-    <title>{{ $meta_title ?? config('website.name') . ' Logistics' }}</title>
-    <meta name="description"
-        content="{{ $meta_desc ?? config('website.name') . ' Logistics Shipping & Logistics: Reliable Courier  & Delivery Services, ' . config('website.name') . ' Logistics offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Choose ' . config('website.name') . ' Logistics for efficient freight shipping & logistics' }}">
-    <meta name="author" content="{{ $meta_author ?? config('website.name') . ' Logistics' }}">
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="{{ $meta_title ?? config('website.name') . ' Logistics' }}">
-    <meta property="og:description"
-        content="{{ $meta_desc ?? config('website.name') . ' Logistics offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Choose ' . config('website.name') . ' Logistics for efficient freight shipping & logistics' }}">
-    <meta property="og:image" content="{{ $meta_image ?? url('assets/images/logo/favicon.png') }}">
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ $meta_title ?? config('website.name') . ' Logistics' }}">
-    <meta name="twitter:description"
-        content="{{ $meta_desc ?? config('website.name') . ' Logistics offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Choose ' . config('website.name') . ' Logistics for efficient freight shipping & logistics' }}">
-    <meta name="twitter:image" content="{{ $meta_image ?? url('assets/images/logo/favicon.png') }}">
-
-    <!-- PWA Assets -->
-    <link rel="apple-touch-icon" sizes="180x180"
-        href="{{ url('assets/images/logo/favicon.png?v=' . env('CACHE_VERSION')) }}">
-    <link rel="icon" type="image/png" sizes="32x32"
-        href="{{ url('assets/images/logo/favicon.png?v=' . env('CACHE_VERSION')) }}">
-    <link rel="icon" type="image/png" sizes="194x194"
-        href="{{ url('assets/images/logo/favicon.png?v=' . env('CACHE_VERSION')) }}">
-    <link rel="icon" type="image/png" sizes="192x192"
-        href="{{ url('assets/images/logo/favicon.png?v=' . env('CACHE_VERSION')) }}">
-    <link rel="icon" type="image/png" sizes="16x16"
-        href="{{ url('assets/images/logo/favicon.png?v=' . env('CACHE_VERSION')) }}">
-
-
-    <link rel="shortcut icon" href="{{ url('assets/images/logo/favicon.png?v=' . env('CACHE_VERSION')) }}">
-
-    <!-- PWA Meta Tags -->
-    <meta name="apple-mobile-web-app-title" content=" config('website.name') . ' Logistics '">
-    <meta name="application-name" content="{{ config('website.name') }} Logistics">
-    <meta name="msapplication-TileColor" content="#ffffff">
-
-    <meta name="theme-color" content="#ffffff">
-
-
-    <!-- Stylesheets -->
+    <!-- CSS Dependencies -->
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="{{ url('assets/css/bootstrap.min.css?v=' . env('CACHE_VERSION')) }}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom Fonts -->
     <link rel="stylesheet" href="{{ url('assets/css/satoshi.css?v=' . env('CACHE_VERSION')) }}">
+    <!-- Plugins -->
     <link rel="stylesheet" href="{{ url('assets/css/swiper-bundle.min.css?v=' . env('CACHE_VERSION')) }}">
     <link rel="stylesheet" href="{{ url('assets/css/aos.css?v=' . env('CACHE_VERSION')) }}">
     <link rel="stylesheet" href="{{ url('assets/css/animated-radial-progress.css?v=' . env('CACHE_VERSION')) }}">
     <link rel="stylesheet" href="{{ url('assets/css/magnific-popup.css?v=' . env('CACHE_VERSION')) }}">
+    <!-- Main CSS -->
     <link rel="stylesheet" href="{{ url('assets/css/main.css?v=' . env('CACHE_VERSION')) }}">
+
+    <!-- Preload Critical Resources -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
     <style>
         /* Mobile Navigation Styles */

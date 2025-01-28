@@ -420,6 +420,7 @@
 
         .dropdown-menu {
             background: #f8fafc;
+            list-style: none;
             margin: 5px 0;
             padding: 5px;
             border-radius: 8px;
@@ -437,6 +438,7 @@
             padding: 12px 15px 12px 54px;
             color: #4b5563;
             text-decoration: none;
+            list-style: none;
             display: flex;
             align-items: center;
             transition: all 0.2s;
@@ -551,10 +553,7 @@
                     <i class="fas fa-user"></i>
                     View Profile
                 </a>
-                <a href="{{ url('settings') }}" class="profile-dropdown-item">
-                    <i class="fas fa-cog"></i>
-                    Settings
-                </a>
+
                 <div class="profile-dropdown-divider"></div>
                 <a href="{{ url('logout') }}" class="profile-dropdown-item text-red-600">
                     <i class="fas fa-sign-out-alt"></i>
@@ -571,26 +570,7 @@
             </a>
 
             <!-- Account Management Dropdown -->
-            <div class="nav-item-dropdown">
-                <div class="nav-item dropdown-toggle">
-                    <span class="nav-icon"><i class="fas fa-users"></i></span>
-                    <span class="nav-text">Account Management</span>
-                </div>
-                <div class="dropdown-menu">
-                    <a href="{{ url('profile') }}"
-                        class="dropdown-item {{ request()->is('profile') ? 'active' : '' }}">
-                        My Profile
-                    </a>
-                    <a href="{{ url('accounts') }}"
-                        class="dropdown-item {{ request()->is('accounts') ? 'active' : '' }}">
-                        My Accounts
-                    </a>
-                    <a href="{{ url('billing') }}"
-                        class="dropdown-item {{ request()->is('billing') ? 'active' : '' }}">
-                        Billing & Payments
-                    </a>
-                </div>
-            </div>
+
 
             <!-- Shipment Management Dropdown -->
             <div class="nav-item-dropdown">
@@ -599,12 +579,9 @@
                     <span class="nav-text">Shipments</span>
                 </div>
                 <div class="dropdown-menu">
-                    <a href="{{ url('shipments') }}"
-                        class="dropdown-item {{ request()->is('shipments') ? 'active' : '' }}">
-                        All Shipments
-                    </a>
-                    <a href="{{ url('create-shipment') }}"
-                        class="dropdown-item {{ request()->is('create-shipment') ? 'active' : '' }}">
+
+                    <a href="{{ url('new-shipment') }}" style="list-style: none;"
+                        class="dropdown-item {{ request()->is('new-shipment') ? 'active' : '' }}">
                         Create Shipment
                     </a>
                     <a href="{{ url('shipment-history') }}"
@@ -622,32 +599,10 @@
                 <span class="nav-arrow">→</span>
             </a>
 
-            <a href="{{ url('accounts') }}" class="nav-item {{ request()->is('accounts') ? 'active' : '' }}">
-                <span class="nav-icon">
-                    <i class="fas fa-users"></i>
-                </span>
-                <span class="nav-text">My Accounts</span>
-                <span class="nav-arrow">→</span>
-            </a>
 
             <div class="sidebar-divider"></div>
 
-            <a href="{{ url('shipments') }}" class="nav-item {{ request()->is('shipments') ? 'active' : '' }}">
-                <span class="nav-icon">
-                    <i class="fas fa-box"></i>
-                </span>
-                <span class="nav-text">My Shipments</span>
-                <span class="nav-arrow">→</span>
-            </a>
 
-            <a href="{{ url('address-book') }}"
-                class="nav-item {{ request()->is('address-book') ? 'active' : '' }}">
-                <span class="nav-icon">
-                    <i class="fas fa-book"></i>
-                </span>
-                <span class="nav-text">Address Book</span>
-                <span class="nav-arrow">→</span>
-            </a>
 
             <a href="{{ url('support') }}" class="nav-item {{ request()->is('support') ? 'active' : '' }}">
                 <span class="nav-icon">
@@ -657,13 +612,16 @@
                 <span class="nav-arrow">→</span>
             </a>
 
-            <a href="{{ url('supplies') }}" class="nav-item {{ request()->is('supplies') ? 'active' : '' }}">
+            <a href="{{ url('logout') }}" class="nav-item {{ request()->is('logout') ? 'active' : '' }}">
                 <span class="nav-icon">
-                    <i class="fas fa-shopping-cart"></i>
+                    <i class="fas fa-sign-out-alt"></i>
                 </span>
-                <span class="nav-text">Order Supplies</span>
+                <span class="nav-text">Logout</span>
                 <span class="nav-arrow">→</span>
             </a>
+
+
+
         </nav>
     </div>
 

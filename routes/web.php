@@ -39,8 +39,14 @@ Route::controller(HomeController::class)->group(function () {
 //Admin Routes 
 
         Route::controller(UserDashboardController::class)->group(function () {
- Route::get('dashboard', 'showDashboard')->name('dashboard');
-    
+            Route::get('dashboard', 'showDashboard')->name('dashboard');
+            Route::get('new-shipment', 'ShowNewShipment')->name('new-shipment');
+            Route::get('user-track-shipment', 'ShowTrackShipment')->name('user-track-shipment');
+            Route::get('user-track-details', 'ShowTrackShipmentDetails')->name('user-track-details');
+            Route::get('shipment-history', 'ShowHistory')->name('shipment-history');
+            Route::get('profile', 'ShowProfile')->name('profile');
+            Route::get('support', 'ShowSupport')->name('support');
+                
         });
  
 

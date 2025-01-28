@@ -1,4 +1,4 @@
-@extends('layout.home_layout')
+@extends('layout.user_layout')
 @section('content')
     <style>
         :root {
@@ -382,6 +382,26 @@
                         </div>
                     </div>
 
+                    <div class="quick-links">
+                        <a href="{{ url('/new-shipment') }}">
+                            <div class="quick-link">
+                                <i class="fas fa-plus-circle"></i>
+                                <span>Create Shipment</span>
+                            </div>
+                        </a>
+                        <a href="{{ url('/shipments') }}">
+                            <div class="quick-link">
+                                <i class="fas fa-history"></i>
+                                <span>Recent Tracks</span>
+                            </div>
+                        </a>
+                        <a href="{{ url('/support') }}">
+                            <div class="quick-link">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Support Team</span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
