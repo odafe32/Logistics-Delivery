@@ -53,7 +53,11 @@ Route::controller(HomeController::class)->group(function () {
         Route::controller(AdminController::class)->group(function () {
             Route::get('admin/dashboard', 'showDashboard')->name('dashboard');
             Route::get('admin/users', 'showUsers')->name('users');
-            Route::get('admin/shipments', 'ShowShipments')->name('shipments');
+            Route::get('admin/timelines', 'ShowTimelines')->name('timelines');
+            Route::get('admin/shipment-details', 'ShowShipmentDetails')->name('shipment-details');
+            Route::get('admin/add-timeline', 'AddTimelines')->name('add-timeline');
+            Route::get('admin/new-shipment', 'ShowNewShipment')->name('new-shipment');
+            Route::get('admin/profile', 'ShowProfile')->name('profile');
         
                 
         });

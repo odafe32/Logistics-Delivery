@@ -577,16 +577,17 @@
                 <span class="nav-arrow">→</span>
             </a>
 
-            <a href="{{ url('admin/shipments') }}"
-                class="nav-item {{ request()->is('admin/shipments') ? 'active' : '' }}">
+            <a href="{{ url('admin/timelines') }}"
+                class="nav-item {{ request()->is('admin/timelines') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-car"></i></span>
-                <span class="nav-text">Shipments</span>
+                <span class="nav-text">Timelines</span>
                 <span class="nav-arrow">→</span>
             </a>
 
             <!-- Shipment Management Dropdown -->
 
-            <a href="{{ url('profile') }}" class="nav-item {{ request()->is('profile') ? 'active' : '' }}">
+            <a href="{{ url('admin/profile') }}"
+                class="nav-item {{ request()->is('admin/profile') ? 'active' : '' }}">
                 <span class="nav-icon">
                     <i class="fas fa-user"></i>
                 </span>
@@ -599,13 +600,7 @@
 
 
 
-            <a href="{{ url('support') }}" class="nav-item {{ request()->is('support') ? 'active' : '' }}">
-                <span class="nav-icon">
-                    <i class="fas fa-headset"></i>
-                </span>
-                <span class="nav-text">Support Requests</span>
-                <span class="nav-arrow">→</span>
-            </a>
+
 
             <a href="{{ url('logout') }}" class="nav-item {{ request()->is('logout') ? 'active' : '' }}">
                 <span class="nav-icon">

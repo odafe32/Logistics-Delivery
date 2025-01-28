@@ -234,6 +234,7 @@
                     <thead>
                         <tr>
                             <th>Tracking Code</th>
+                            <th>Name</th>
                             <th>Origin</th>
                             <th>Destination</th>
                             <th>Mode</th>
@@ -247,6 +248,7 @@
                     <tbody>
                         <tr>
                             <td>TJCh-SCgg-wJjm-a4j</td>
+                            <td>John Jane</td>
                             <td>Dallas Fort Worth International Airport (DFW)</td>
                             <td>Thiruvananthapuram International Airport (TRV)</td>
                             <td>Air</td>
@@ -254,14 +256,16 @@
                             <td><span class="status-badge status-cleared">Cleared On Transit</span></td>
                             <td>
                                 <div class="btn-group">
-                                    <button class="btn btn-view btn-sm" data-bs-toggle="modal" data-bs-target="#viewModal"
-                                        data-tracking="TJCh-SCgg-wJjm-a4j">
-                                        <i class="fas fa-eye"></i> View
-                                    </button>
-                                    <a href="{{ url('') }}"></a>
-                                    <button class="btn btn-timeline btn-sm">
-                                        <i class="fas fa-clock"></i> Add Timeline
-                                    </button>
+                                    <a href="{{ url('admin/shipment-details') }}">
+                                        <button class="btn btn-view btn-sm">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                    </a>
+                                    <a href="{{ url('admin/add-timeline') }}">
+                                        <button class="btn btn-timeline btn-sm">
+                                            <i class="fas fa-clock"></i> Add Timeline
+                                        </button>
+                                    </a>
                                     <button class="btn btn-delete btn-sm" data-bs-toggle="modal"
                                         data-bs-target="#deleteModal" data-tracking="TJCh-SCgg-wJjm-a4j">
                                         <i class="fas fa-trash"></i> Delete
@@ -271,6 +275,7 @@
                         </tr>
                         <tr>
                             <td>TJCx-Bsqd-XWSj-rvJ</td>
+                            <td>John Doe</td>
                             <td>Los Angeles International Airport (LAX)</td>
                             <td>Toronto Pearson International Airport (YYZ)</td>
                             <td>Air</td>
