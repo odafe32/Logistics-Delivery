@@ -33,23 +33,10 @@ Route::middleware('guest')->group(function () {
     });
 });
 
-<<<<<<< HEAD
-Route::controller(HomeController::class)->group(function () {
-    Route::get('/', 'index');
-    Route::get('/nearest-office', 'NearestOffice')->name('nearest-office');
-    Route::get('/track-shipment-detail', 'ShowShipmentDetail')->name('track-shipment-detail');
-    Route::get('/track-shipment', 'ShowShipment')->name('track-shipment');
-        Route::get('faqs', 'ShowFaqs')->name('faqs');
-
-});
-
-//Admin Routes 
-=======
 // Authentication Required Routes
 Route::middleware(['auth'])->group(function () {
     // Logout Route
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
->>>>>>> 300dd19d538206ddf44d053fec638ecb14b3e567
 
     // User Routes
     Route::middleware('role:user')->group(function () {
@@ -61,10 +48,6 @@ Route::middleware(['auth'])->group(function () {
             Route::get('shipment-history', 'ShowHistory')->name('shipment-history');
             Route::get('profile', 'ShowProfile')->name('profile');
             Route::get('support', 'ShowSupport')->name('support');
-<<<<<<< HEAD
-        
-                
-=======
                     // // Profile Routes
             Route::post('/profile/update', 'updateProfile')->name('profile.update');
             Route::post('/profile/password', 'updatePassword')->name('profile.password');
@@ -74,7 +57,6 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/shipments/track/{tracking_number}', 'trackShipment')->name('shipments.track');
             Route::get('/shipment-history', 'getShipmentHistory')->name('shipments.history');
             Route::get('/shipments/{tracking}/details', 'getShipmentDetails')->name('shipment.details');
->>>>>>> 300dd19d538206ddf44d053fec638ecb14b3e567
         });
     });
 
@@ -119,6 +101,13 @@ Route::controller(HomeController::class)->group(function () {
     Route::post('/track-shipment', 'trackShipment')->name('track-shipment.submit');
     Route::get('/contact', 'showContact')->name('contact');
     Route::post('/contact', 'submitContact')->name('contact.submit');
+    Route::get('/faqs', 'showFaqs')->name('faqs');
+    Route::get('/about', 'showAbout')->name('about');
+    Route::get('/freight', 'showFreight')->name('freight');
+    Route::get('/express ', 'showExpress')->name('express');
+    Route::get('/fuel-surcharge ', 'showSurcharge')->name('fuel-surcharge');
+    Route::get('/logistics-warehousing ', 'warehousinge')->name('logistics-warehousing');
+    Route::get('/signature-surcharge ', 'Signature')->name('signature-surcharge');
 });
 
 // User Routes

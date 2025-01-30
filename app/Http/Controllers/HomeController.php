@@ -133,12 +133,6 @@ class HomeController extends Controller
     }
 
 
-<<<<<<< HEAD
-    public function ShowShipmentDetail(){
-           $viewData = [
-          'meta_title' =>  ' Shipment Details ' . config('website.name'),
-              'meta_desc' => config('website.name') . ' offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Choose ' . config('website.name') . ' for efficient freight shipping & logistics',
-=======
     public function ShowShipmentDetail($trackingNumber)
     {
         // Fetch shipment details
@@ -151,7 +145,6 @@ class HomeController extends Controller
         $viewData = [
             'meta_title' => 'Shipment Details - ' . config('website.name'),
             'meta_desc' => config('website.name') . ' offers fast & reliable shipping, courier, & logistics services',
->>>>>>> 300dd19d538206ddf44d053fec638ecb14b3e567
             'meta_image' => url('assets/images/logo/favicon.png'),
             'data_wf_page' => '63b261b248057c80966627',
             'shipment' => $shipment
@@ -160,9 +153,6 @@ class HomeController extends Controller
         return view('track-shipment-detail', $viewData);
     }
 
-<<<<<<< HEAD
-
-=======
     public function trackShipment(Request $request)
     {
         $request->validate([
@@ -180,7 +170,6 @@ class HomeController extends Controller
         // If shipment not found, redirect back with an error
         return back()->with('error', 'Tracking number not found');
     }
->>>>>>> 300dd19d538206ddf44d053fec638ecb14b3e567
 
     public function ShowShipment(){
            $viewData = [
@@ -192,19 +181,6 @@ class HomeController extends Controller
     return view('track-shipment', $viewData);
     }
 
-<<<<<<< HEAD
-    public function ShowFaqs(){
-           $viewData = [
-          'meta_title' =>  ' Frequently Asked Question ' . config('website.name'),
-              'meta_desc' => config('website.name') . ' offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Choose ' . config('website.name') . ' for efficient freight shipping & logistics',
-            'meta_image' => url('assets/images/logo/favicon.png'),
-            'data_wf_page' => '63b261b248057c80966627'
-           ];
-    return view('faqs', $viewData);   
-    }
-
-    
-=======
     public function showSendShipment()
     {
         return view('send-shipment');
@@ -253,5 +229,82 @@ public function submitContact(Request $request)
     }
 }
 
->>>>>>> 300dd19d538206ddf44d053fec638ecb14b3e567
+public function showFaqs()
+{
+$viewData = [
+    'meta_title' => 'FAQS - ' . config('website.name'),
+    'meta_desc' => config('website.name') . ' offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Contact us for any queries or support.',
+    'meta_image' => url('assets/images/logo/favicon.png'),
+    'data_wf_page' => '63b261b248057c80966627'
+];
+return view('faqs', $viewData);
+}
+
+public function showAbout()
+{
+$viewData = [
+    'meta_title' => 'About Us - ' . config('website.name'),
+    'meta_desc' => config('website.name') . ' offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Contact us for any queries or support.',
+    'meta_image' => url('assets/images/logo/favicon.png'),
+    'data_wf_page' => '63b261b248057c80966627'
+];
+return view('about', $viewData);
+}
+
+
+public function showFreight()
+{
+$viewData = [
+    'meta_title' => 'Frieght - ' . config('website.name'),
+    'meta_desc' => config('website.name') . ' offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Contact us for any queries or support.',
+    'meta_image' => url('assets/images/logo/favicon.png'),
+    'data_wf_page' => '63b261b248057c80966627'
+];
+return view('freight', $viewData);
+}
+
+
+public function showExpress()
+{
+$viewData = [
+    'meta_title' => 'Express - ' . config('website.name'),
+    'meta_desc' => config('website.name') . ' offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Contact us for any queries or support.',
+    'meta_image' => url('assets/images/logo/favicon.png'),
+    'data_wf_page' => '63b261b248057c80966627'
+];
+return view('express', $viewData);
+}
+
+public function showSurcharge()
+{
+$viewData = [
+    'meta_title' => 'Fuel Surcharge - ' . config('website.name'),
+    'meta_desc' => config('website.name') . ' offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Contact us for any queries or support.',
+    'meta_image' => url('assets/images/logo/favicon.png'),
+    'data_wf_page' => '63b261b248057c80966627'
+];
+return view('fuel-surcharge', $viewData);
+}
+
+public function warehousinge()
+{
+$viewData = [
+    'meta_title' => 'Ware Housing - ' . config('website.name'),
+    'meta_desc' => config('website.name') . ' offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Contact us for any queries or support.',
+    'meta_image' => url('assets/images/logo/favicon.png'),
+    'data_wf_page' => '63b261b248057c80966627'
+];
+return view('logistics-warehousing', $viewData);
+}
+public function Signature()
+{
+$viewData = [
+    'meta_title' => 'Signature Surcharge - ' . config('website.name'),
+    'meta_desc' => config('website.name') . ' offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Contact us for any queries or support.',
+    'meta_image' => url('assets/images/logo/favicon.png'),
+    'data_wf_page' => '63b261b248057c80966627'
+];
+return view('signature-surcharge', $viewData);
+}
+
 }
