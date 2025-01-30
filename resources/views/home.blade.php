@@ -310,26 +310,36 @@
                     <h1 class="tracking-title">Track your shipment</h1>
 
                     <div class="tracking-form">
-                        <div class="input-container">
-                            <span class="input-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                                    viewBox="0 0 16 16">
-                                    <path
-                                        d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z" />
-                                </svg>
-                            </span>
-                            <input type="text" class="tracking-input" placeholder="Enter your tracking number"
-                                id="trackingInput">
-                        </div>
+                        <form action="{{ route('track-shipment.submit') }}" method="POST">
+                            @csrf
+                            <div class="input-container">
+                                <span class="input-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                        viewBox="0 0 16 16">
+                                        <path
+                                            d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z" />
+                                    </svg>
+                                </span>
+                                <input type="text"
+                                    name="tracking_number"
+                                    class="tracking-input"
+                                    placeholder="Enter your tracking number"
+                                    id="trackingInput"
+                                    required>
+                            </div>
 
-                        <button class="btn-track" onclick="handleTracking()">
-                            Track Shipment
-                        </button>
-
-                        <p class="helper-text">
-                            Separate multiple tracking numbers with a space or comma
-                        </p>
+                            <button type="submit" class="btn-track">
+                                Track Shipment
+                            </button>
+                        </form>
                     </div>
+
+                    @if(session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                        {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    @endif
 
                     <!-- Stats Section -->
                     <div class="stats-container">
@@ -1676,19 +1686,33 @@
 
     @include('components.popup')
     <script>
-        function handleTracking() {
-            const trackingNumber = document.getElementById('trackingInput').value;
-            if (trackingNumber.trim()) {
-                console.log('Tracking number:', trackingNumber);
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.tracking-form form');
+    const input = document.getElementById('trackingInput');
+
+    form.addEventListener('submit', function(e) {
+        if (!input.value.trim()) {
+            e.preventDefault();
+            input.classList.add('error');
+            input.focus();
+            return;
+        }
+    });
+
+    input.addEventListener('input', function() {
+        this.classList.remove('error');
+    });
+
+    input.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            if (input.value.trim()) {
+                form.submit();
             } else {
-                alert('Please enter a tracking number');
+                input.classList.add('error');
+                input.focus();
             }
         }
-
-        document.getElementById('trackingInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                handleTracking();
-            }
-        });
+    });
+});
     </script>
 @endsection

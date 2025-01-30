@@ -103,6 +103,8 @@ Route::controller(HomeController::class)->group(function () {
     Route::post('/contact', 'submitContact')->name('contact.submit');
 });
 
+Route::get('/shipping-rates', [HomeController::class, 'showShippingRates'])->name('shipping-rates');
+
 // User Routes
 Route::middleware(['auth'])->group(function () {
     Route::get('/support', [SupportMessageController::class, 'showSupportForm'])->name('support');

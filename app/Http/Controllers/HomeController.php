@@ -229,4 +229,16 @@ public function submitContact(Request $request)
     }
 }
 
+public function showShippingRates()
+{
+    $viewData = [
+        'meta_title' => 'Shipping Rates - ' . config('website.name'),
+        'meta_desc' => config('website.name') . ' offers competitive shipping rates for domestic & international shipments. Calculate your shipping costs easily.',
+        'meta_image' => url('assets/images/logo/favicon.png'),
+        'data_wf_page' => '63b261b248057c80966627'
+    ];
+
+    return view('shipping-rates', $viewData);
+}
+
 }
