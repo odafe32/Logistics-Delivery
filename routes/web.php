@@ -101,6 +101,13 @@ Route::controller(HomeController::class)->group(function () {
     Route::post('/track-shipment', 'trackShipment')->name('track-shipment.submit');
     Route::get('/contact', 'showContact')->name('contact');
     Route::post('/contact', 'submitContact')->name('contact.submit');
+    Route::get('/faqs', 'showFaqs')->name('faqs');
+    Route::get('/about', 'showAbout')->name('about');
+    Route::get('/freight', 'showFreight')->name('freight');
+    Route::get('/express ', 'showExpress')->name('express');
+    Route::get('/fuel-surcharge ', 'showSurcharge')->name('fuel-surcharge');
+    Route::get('/logistics-warehousing ', 'warehousinge')->name('logistics-warehousing');
+    Route::get('/signature-surcharge ', 'Signature')->name('signature-surcharge');
 });
 
 Route::get('/shipping-rates', [HomeController::class, 'showShippingRates'])->name('shipping-rates');

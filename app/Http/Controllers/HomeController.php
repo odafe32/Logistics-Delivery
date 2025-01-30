@@ -229,6 +229,83 @@ public function submitContact(Request $request)
     }
 }
 
+public function showFaqs()
+{
+$viewData = [
+    'meta_title' => 'FAQS - ' . config('website.name'),
+    'meta_desc' => config('website.name') . ' offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Contact us for any queries or support.',
+    'meta_image' => url('assets/images/logo/favicon.png'),
+    'data_wf_page' => '63b261b248057c80966627'
+];
+return view('faqs', $viewData);
+}
+
+public function showAbout()
+{
+$viewData = [
+    'meta_title' => 'About Us - ' . config('website.name'),
+    'meta_desc' => config('website.name') . ' offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Contact us for any queries or support.',
+    'meta_image' => url('assets/images/logo/favicon.png'),
+    'data_wf_page' => '63b261b248057c80966627'
+];
+return view('about', $viewData);
+}
+
+
+public function showFreight()
+{
+$viewData = [
+    'meta_title' => 'Frieght - ' . config('website.name'),
+    'meta_desc' => config('website.name') . ' offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Contact us for any queries or support.',
+    'meta_image' => url('assets/images/logo/favicon.png'),
+    'data_wf_page' => '63b261b248057c80966627'
+];
+return view('freight', $viewData);
+}
+
+
+public function showExpress()
+{
+$viewData = [
+    'meta_title' => 'Express - ' . config('website.name'),
+    'meta_desc' => config('website.name') . ' offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Contact us for any queries or support.',
+    'meta_image' => url('assets/images/logo/favicon.png'),
+    'data_wf_page' => '63b261b248057c80966627'
+];
+return view('express', $viewData);
+}
+
+public function showSurcharge()
+{
+$viewData = [
+    'meta_title' => 'Fuel Surcharge - ' . config('website.name'),
+    'meta_desc' => config('website.name') . ' offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Contact us for any queries or support.',
+    'meta_image' => url('assets/images/logo/favicon.png'),
+    'data_wf_page' => '63b261b248057c80966627'
+];
+return view('fuel-surcharge', $viewData);
+}
+
+public function warehousinge()
+{
+$viewData = [
+    'meta_title' => 'Ware Housing - ' . config('website.name'),
+    'meta_desc' => config('website.name') . ' offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Contact us for any queries or support.',
+    'meta_image' => url('assets/images/logo/favicon.png'),
+    'data_wf_page' => '63b261b248057c80966627'
+];
+return view('logistics-warehousing', $viewData);
+}
+public function Signature()
+{
+$viewData = [
+    'meta_title' => 'Signature Surcharge - ' . config('website.name'),
+    'meta_desc' => config('website.name') . ' offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Contact us for any queries or support.',
+    'meta_image' => url('assets/images/logo/favicon.png'),
+    'data_wf_page' => '63b261b248057c80966627'
+];
+return view('signature-surcharge', $viewData);
+}
 public function showShippingRates()
 {
     $viewData = [

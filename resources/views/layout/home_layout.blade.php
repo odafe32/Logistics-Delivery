@@ -203,7 +203,8 @@
             border: 0;
         }
 
-        .dropdown-item:hover, .dropdown-item:focus {
+        .dropdown-item:hover,
+        .dropdown-item:focus {
             color: #dc3545;
             text-decoration: none;
             background-color: #f8f9fa;
@@ -401,12 +402,12 @@
                             class="nav-menu__link hover--translate-y-1 text-main-two-600 tw-py-9 fw-medium w-100 tw-pe-4">
                             Logistics Solution
                         </a>
-                        <ul class="nav-submenu scroll-sm position-absolute start-0 top-100 bg-white tw-rounded-md overflow-hidden tw-p-6 tw-mt-4 tw-duration-200 tw-z-99"
-                            style="min-width: 800px;">
+                        <ul
+                            class="nav-submenu scroll-sm position-absolute start-0 top-100 bg-white tw-rounded-md overflow-hidden tw-p-6 tw-mt-4 tw-duration-200 tw-z-99">
                             <div class="row g-4">
                                 <!-- Business Solutions Column -->
                                 <div class="col-md-4">
-                                    <h6 class="text-dark mb-3 fw-bold">Business Solutions</h6>
+
                                     <ul class="list-unstyled">
                                         <li class="nav-submenu__item mb-2">
                                             <a href="{{ url('/about') }}"
@@ -444,88 +445,11 @@
                                                 Signature Surcharge
                                             </a>
                                         </li>
-                                        <li class="nav-submenu__item">
-                                            <a href="{{ url('/service-rate-guide') }}"
-                                                class="nav-submenu__link {{ request()->is('service-rate-guide*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                Service & Rate Guide
-                                            </a>
-                                        </li>
+
                                     </ul>
                                 </div>
 
-                                <!-- Industry Solutions Column -->
-                                <div class="col-md-4">
-                                    <h6 class="text-dark mb-3 fw-bold">Industry Solutions</h6>
-                                    <ul class="list-unstyled">
-                                        <li class="nav-submenu__item mb-2">
-                                            <a href="{{ url('/e-commerce-smes') }}"
-                                                class="nav-submenu__link {{ request()->is('e-commerce-smes*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                E-commerce & SMEs
-                                            </a>
-                                        </li>
-                                        <li class="nav-submenu__item mb-2">
-                                            <a href="{{ url('/oil-gas') }}"
-                                                class="nav-submenu__link {{ request()->is('oil-gas*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                Oil & Gas
-                                            </a>
-                                        </li>
-                                        <li class="nav-submenu__item mb-2">
-                                            <a href="{{ url('/chemicals-dangerous-goods') }}"
-                                                class="nav-submenu__link {{ request()->is('chemicals-dangerous-goods*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                Chemicals & Dangerous Goods
-                                            </a>
-                                        </li>
-                                        <li class="nav-submenu__item mb-2">
-                                            <a href="{{ url('/healthcare') }}"
-                                                class="nav-submenu__link {{ request()->is('healthcare*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                Healthcare
-                                            </a>
-                                        </li>
-                                        <li class="nav-submenu__item">
-                                            <a href="{{ url('/fashion-retail') }}"
-                                                class="nav-submenu__link {{ request()->is('fashion-retail*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                Fashion & Retail
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
 
-                                <!-- Products Column -->
-                                <div class="col-md-4">
-                                    <h6 class="text-dark mb-3 fw-bold">Products</h6>
-                                    <ul class="list-unstyled">
-                                        <li class="nav-submenu__item mb-2">
-                                            <a href="{{ url('/drop-ship') }}"
-                                                class="nav-submenu__link {{ request()->is('drop-ship*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                Drop & Ship
-                                            </a>
-                                        </li>
-                                        <li class="nav-submenu__item mb-2">
-                                            <a href="{{ url('/pickup-points') }}"
-                                                class="nav-submenu__link {{ request()->is('pickup-points*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                {{ config('website.name') }} Pickup Points
-                                            </a>
-                                        </li>
-                                        <li class="nav-submenu__item mb-2">
-                                            <a href="{{ url('/click-to-ship') }}"
-                                                class="nav-submenu__link {{ request()->is('click-to-ship*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                ClickToShip
-                                            </a>
-                                        </li>
-                                        <li class="nav-submenu__item mb-2">
-                                            <a href="{{ url('/pick-drop-partner') }}"
-                                                class="nav-submenu__link {{ request()->is('pick-drop-partner*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                Pick & Drop Partner Program
-                                            </a>
-                                        </li>
-                                        <li class="nav-submenu__item">
-                                            <a href="{{ url('/shop-ship') }}"
-                                                class="nav-submenu__link {{ request()->is('shop-ship*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                Shop & Ship
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
                             </div>
                         </ul>
                     </li>
@@ -556,92 +480,7 @@
                             </li>
                         </ul>
                     </li>
-                    {{-- languages --}}
-                    <div class="cursor-small mt-5 nav-menu__item has-submenu position-relative">
-                        <div class="d-flex align-items-center tw-gap-2">
-                            <a href="javascript:void(0)"
-                                class="selected-text text-black py-lg-4 d-flex align-items-center gap-2">
-                                <span
-                                    class="tw-w-25-px tw-h-25-px border border-white border-2 rounded-circle common-shadow d-flex justify-content-center align-items-center">
-                                    <img src="{{ url('assets/images/thumbs/flag1.png') }}" alt="English"
-                                        class="w-100 h-100 object-fit-cover rounded-circle">
-                                </span>
-                                English
-                            </a>
-                            <span class="text-neutral-700">
-                                <i class="ph-bold ph-caret-down"></i>
-                            </span>
-                        </div>
-                        <ul
-                            class="nav-submenu scroll-sm position-absolute start-0 top-100 tw-w-max bg-white tw-rounded-md overflow-hidden tw-p-4 tw-mt-4 tw-duration-200 tw-z-99">
-                            <li class="mb-3">
-                                <a href="javascript:void(0)" data-lang="en-US"
-                                    class="text-black d-flex align-items-center gap-2 hover-text-main-600 active--translate-y-1 tw-duration-150">
-                                    <span
-                                        class="tw-w-25-px tw-h-25-px border border-white border-2 rounded-circle d-flex justify-content-center align-items-center">
-                                        <img src="{{ url('assets/images/thumbs/flag1.png') }}" alt="English"
-                                            class="w-100 h-100 object-fit-cover rounded-circle">
-                                    </span>
-                                    English
-                                </a>
-                            </li>
-                            <li class="mb-3">
-                                <a href="javascript:void(0)" data-lang="ja-JP"
-                                    class="text-black d-flex align-items-center gap-2 hover-text-main-600 active--translate-y-1 tw-duration-150">
-                                    <span
-                                        class="tw-w-25-px tw-h-25-px border border-white border-2 rounded-circle d-flex justify-content-center align-items-center">
-                                        <img src="{{ url('assets/images/thumbs/flag2.png') }} " alt="Japanese"
-                                            class="w-100 h-100 object-fit-cover rounded-circle">
-                                    </span>
-                                    Japanese
-                                </a>
-                            </li>
-                            <li class="mb-3">
-                                <a href="javascript:void(0)" data-lang="fr-FR"
-                                    class="text-black d-flex align-items-center gap-2 hover-text-main-600 active--translate-y-1 tw-duration-150">
-                                    <span
-                                        class="tw-w-25-px tw-h-25-px border border-white border-2 rounded-circle d-flex justify-content-center align-items-center">
-                                        <img src="assets/images/thumbs/flag3.png" alt="French"
-                                            class="w-100 h-100 object-fit-cover rounded-circle">
-                                    </span>
-                                    French
-                                </a>
-                            </li>
-                            <li class="mb-3">
-                                <a href="javascript:void(0)" data-lang="de-DE"
-                                    class="text-black d-flex align-items-center gap-2 hover-text-main-600 active--translate-y-1 tw-duration-150">
-                                    <span
-                                        class="tw-w-25-px tw-h-25-px border border-white border-2 rounded-circle d-flex justify-content-center align-items-center">
-                                        <img src="assets/images/thumbs/flag4.png" alt="German"
-                                            class="w-100 h-100 object-fit-cover rounded-circle">
-                                    </span>
-                                    German
-                                </a>
-                            </li>
-                            <li class="mb-3">
-                                <a href="javascript:void(0)" data-lang="bn-BD"
-                                    class="text-black d-flex align-items-center gap-2 hover-text-main-600 active--translate-y-1 tw-duration-150">
-                                    <span
-                                        class="tw-w-25-px tw-h-25-px border border-white border-2 rounded-circle d-flex justify-content-center align-items-center">
-                                        <img src="assets/images/thumbs/flag6.png" alt="Bengali"
-                                            class="w-100 h-100 object-fit-cover rounded-circle">
-                                    </span>
-                                    Bengali
-                                </a>
-                            </li>
-                            <li class="mb-3">
-                                <a href="javascript:void(0)" data-lang="ko-KR"
-                                    class="text-black d-flex align-items-center gap-2 hover-text-main-600 active--translate-y-1 tw-duration-150">
-                                    <span
-                                        class="tw-w-25-px tw-h-25-px border border-white border-2 rounded-circle d-flex justify-content-center align-items-center">
-                                        <img src="assets/images/thumbs/flag5.png" alt="Korean"
-                                            class="w-100 h-100 object-fit-cover rounded-circle">
-                                    </span>
-                                    Korean
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+
                 </ul>
                 <!-- Nav menu End  -->
 
@@ -747,13 +586,19 @@
                                     class="nav-menu__link hover--translate-y-1 text-main-two-600 tw-py-9 fw-medium w-100 tw-pe-4">
                                     Logistics Solution
                                 </a>
-                                <ul class="nav-submenu scroll-sm position-absolute start-0 top-100 bg-white tw-rounded-md overflow-hidden tw-p-6 tw-mt-4 tw-duration-200 tw-z-99"
-                                    style="min-width: 800px;">
-                                    <div class="row g-4">
+                                <ul
+                                    class="nav-submenu scroll-sm position-absolute start-0 top-100 bg-white tw-rounded-md overflow-hidden tw-p-6 tw-mt-4 tw-duration-200 tw-z-99">
+                                    <div class="row g-5">
                                         <!-- Business Solutions Column -->
-                                        <div class="col-md-4">
-                                            <h6 class="text-dark mb-3 fw-bold">Business Solutions</h6>
+                                        <div class="col-md-12">
+
                                             <ul class="list-unstyled">
+                                                <li class="nav-submenu__item mb-2">
+                                                    <a href="{{ url('/about') }}"
+                                                        class="nav-submenu__link {{ request()->is('about*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
+                                                        About
+                                                    </a>
+                                                </li>
                                                 <li class="nav-submenu__item mb-2">
                                                     <a href="{{ url('/freight') }}"
                                                         class="nav-submenu__link {{ request()->is('freight*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
@@ -784,88 +629,11 @@
                                                         Signature Surcharge
                                                     </a>
                                                 </li>
-                                                <li class="nav-submenu__item">
-                                                    <a href="{{ url('/service-rate-guide') }}"
-                                                        class="nav-submenu__link {{ request()->is('service-rate-guide*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                        Service & Rate Guide
-                                                    </a>
-                                                </li>
+
                                             </ul>
                                         </div>
 
-                                        <!-- Industry Solutions Column -->
-                                        <div class="col-md-4">
-                                            <h6 class="text-dark mb-3 fw-bold">Industry Solutions</h6>
-                                            <ul class="list-unstyled">
-                                                <li class="nav-submenu__item mb-2">
-                                                    <a href="{{ url('/e-commerce-smes') }}"
-                                                        class="nav-submenu__link {{ request()->is('e-commerce-smes*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                        E-commerce & SMEs
-                                                    </a>
-                                                </li>
-                                                <li class="nav-submenu__item mb-2">
-                                                    <a href="{{ url('/oil-gas') }}"
-                                                        class="nav-submenu__link {{ request()->is('oil-gas*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                        Oil & Gas
-                                                    </a>
-                                                </li>
-                                                <li class="nav-submenu__item mb-2">
-                                                    <a href="{{ url('/chemicals-dangerous-goods') }}"
-                                                        class="nav-submenu__link {{ request()->is('chemicals-dangerous-goods*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                        Chemicals & Dangerous Goods
-                                                    </a>
-                                                </li>
-                                                <li class="nav-submenu__item mb-2">
-                                                    <a href="{{ url('/healthcare') }}"
-                                                        class="nav-submenu__link {{ request()->is('healthcare*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                        Healthcare
-                                                    </a>
-                                                </li>
-                                                <li class="nav-submenu__item">
-                                                    <a href="{{ url('/fashion-retail') }}"
-                                                        class="nav-submenu__link {{ request()->is('fashion-retail*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                        Fashion & Retail
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
 
-                                        <!-- Products Column -->
-                                        <div class="col-md-4">
-                                            <h6 class="text-dark mb-3 fw-bold">Products</h6>
-                                            <ul class="list-unstyled">
-                                                <li class="nav-submenu__item mb-2">
-                                                    <a href="{{ url('/drop-ship') }}"
-                                                        class="nav-submenu__link {{ request()->is('drop-ship*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                        Drop & Ship
-                                                    </a>
-                                                </li>
-                                                <li class="nav-submenu__item mb-2">
-                                                    <a href="{{ url('/pickup-points') }}"
-                                                        class="nav-submenu__link {{ request()->is('pickup-points*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                        {{ config('website.name') }} Pickup Points
-                                                    </a>
-                                                </li>
-                                                <li class="nav-submenu__item mb-2">
-                                                    <a href="{{ url('/click-to-ship') }}"
-                                                        class="nav-submenu__link {{ request()->is('click-to-ship*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                        ClickToShip
-                                                    </a>
-                                                </li>
-                                                <li class="nav-submenu__item mb-2">
-                                                    <a href="{{ url('/pick-drop-partner') }}"
-                                                        class="nav-submenu__link {{ request()->is('pick-drop-partner*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                        Pick & Drop Partner Program
-                                                    </a>
-                                                </li>
-                                                <li class="nav-submenu__item">
-                                                    <a href="{{ url('/shop-ship') }}"
-                                                        class="nav-submenu__link {{ request()->is('shop-ship*') ? 'tw-bg-main-600 tw-text-white' : 'hover-bg-neutral-100 text-black' }} fw-medium d-block tw-py-2 tw-px-3 tw-rounded">
-                                                        Shop & Ship
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
                                     </div>
                                 </ul>
                             </li>
@@ -908,106 +676,21 @@
                 <div class="d-flex gap-xxl-5 gap-3">
                     <div class="d-flex align-items-center xl-tw-gap-7 tw-gap-6 flex-shrink-0">
 
-                        <!-- Language Start -->
-                        <div class="cursor-small position-relative group-item hover-mt-0 d-none d-lg-block">
-                            <div class="d-flex align-items-center  tw-gap-2">
-                                <a href="javascript:void(0)"
-                                    class="selected-text text-black py-lg-4 d-flex align-items-center gap-2">
-                                    <span
-                                        class="tw-w-25-px tw-h-25-px border border-white border-2 rounded-circle common-shadow d-flex justify-content-center align-items-center">
-                                        <img src="assets/images/thumbs/flag1.png" alt=""
-                                            class="w-100 h-100 object-fit-cover rounded-circle">
-                                    </span>
-                                    English
-                                </a>
-                                <span class="text-neutral-700">
-                                    <i class="ph-bold ph-caret-down"></i>
-                                </span>
-                            </div>
-                            <ul
-                                class="lang-dropdown tw-max-h-300-px overflow-y-auto scroll-sm bg-white common-shadow tw-px-4 tw-py-3 position-absolute tw-end-0 top-100 min-w-max tw-rounded-lg d-flex flex-column tw-gap-3 tw-invisible opacity-0 group-hover-item-visible group-hover-item-opacity-1 tw-duration-200 group-hover-item-mt-0 tw-mt-4 tw-z-99">
-                                <li>
-                                    <a href="javascript:void(0)"
-                                        class="text-black d-flex align-items-center gap-2 hover-text-main-600 active--translate-y-1 tw-duration-150">
-                                        <span
-                                            class="tw-w-25-px tw-h-25-px border border-white border-2 rounded-circle d-flex justify-content-center align-items-center">
-                                            <img src="assets/images/thumbs/flag1.png" alt=""
-                                                class="w-100 h-100 object-fit-cover rounded-circle">
-                                        </span>
-                                        English
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"
-                                        class="text-black d-flex align-items-center gap-2 hover-text-main-600 active--translate-y-1 tw-duration-150">
-                                        <span
-                                            class="tw-w-25-px tw-h-25-px border border-white border-2 rounded-circle d-flex justify-content-center align-items-center">
-                                            <img src="assets/images/thumbs/flag2.png" alt=""
-                                                class="w-100 h-100 object-fit-cover rounded-circle">
-                                        </span>
-                                        Japan
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"
-                                        class="text-black d-flex align-items-center gap-2 hover-text-main-600 active--translate-y-1 tw-duration-150">
-                                        <span
-                                            class="tw-w-25-px tw-h-25-px border border-white border-2 rounded-circle d-flex justify-content-center align-items-center">
-                                            <img src="assets/images/thumbs/flag3.png" alt=""
-                                                class="w-100 h-100 object-fit-cover rounded-circle">
-                                        </span>
-                                        French
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"
-                                        class="text-black d-flex align-items-center gap-2 hover-text-main-600 active--translate-y-1 tw-duration-150">
-                                        <span
-                                            class="tw-w-25-px tw-h-25-px border border-white border-2 rounded-circle d-flex justify-content-center align-items-center">
-                                            <img src="assets/images/thumbs/flag4.png" alt=""
-                                                class="w-100 h-100 object-fit-cover rounded-circle">
-                                        </span>
-                                        Germany
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"
-                                        class="text-black d-flex align-items-center gap-2 hover-text-main-600 active--translate-y-1 tw-duration-150">
-                                        <span
-                                            class="tw-w-25-px tw-h-25-px border border-white border-2 rounded-circle d-flex justify-content-center align-items-center">
-                                            <img src="assets/images/thumbs/flag6.png" alt=""
-                                                class="w-100 h-100 object-fit-cover rounded-circle">
-                                        </span>
-                                        Bangladesh
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"
-                                        class="text-black d-flex align-items-center gap-2 hover-text-main-600 active--translate-y-1 tw-duration-150">
-                                        <span
-                                            class="tw-w-25-px tw-h-25-px border border-white border-2 rounded-circle d-flex justify-content-center align-items-center">
-                                            <img src="assets/images/thumbs/flag5.png" alt=""
-                                                class="w-100 h-100 object-fit-cover rounded-circle">
-                                        </span>
-                                        Sought Kores
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+
                         <!-- Language End -->
                         <div class="nav-submenu__item d-block tw-rounded tw-duration-200 position-relative">
                             @auth
                                 <div class="dropdown">
-                                    <button class="btn btn-danger dropdown-toggle rounded fw-bold d-flex align-items-center gap-2"
-                                            type="button" id="userDropdown"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false">
+                                    <button
+                                        class="btn btn-danger dropdown-toggle rounded fw-bold d-flex align-items-center gap-2"
+                                        type="button" id="userDropdown" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
                                         <span class="d-inline-block text-truncate" style="max-width: 150px;">
                                             {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}
                                         </span>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                                        @if(Auth::user()->role === 'admin')
+                                        @if (Auth::user()->role === 'admin')
                                             <li>
                                                 <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
                                                     <i class="ph-bold ph-gauge me-2"></i>
@@ -1022,7 +705,9 @@
                                                 </a>
                                             </li>
                                         @endif
-                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
                                         <li>
                                             <form method="POST" action="{{ route('logout') }}" class="d-inline">
                                                 @csrf
@@ -1035,7 +720,8 @@
                                     </ul>
                                 </div>
                             @else
-                                <button type="button" class="btn btn-danger rounded fw-bold" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                <button type="button" class="btn btn-danger rounded fw-bold" data-bs-toggle="modal"
+                                    data-bs-target="#loginModal">
                                     Login
                                 </button>
                             @endauth
@@ -1267,42 +953,42 @@
 
 
     <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Bootstrap
-    if (typeof bootstrap !== 'undefined') {
-        // Initialize all dropdowns
-        var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
-        dropdownElementList.forEach(function(dropdownToggleEl) {
-            new bootstrap.Dropdown(dropdownToggleEl, {
-                offset: [0, 10],
-                boundary: 'viewport'
-            });
-        });
-    }
-
-    // Fallback manual initialization if Bootstrap isn't loaded
-    document.querySelectorAll('.dropdown-toggle').forEach(function(element) {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            var dropdownMenu = this.nextElementSibling;
-            if (dropdownMenu && dropdownMenu.classList.contains('dropdown-menu')) {
-                dropdownMenu.classList.toggle('show');
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Bootstrap
+            if (typeof bootstrap !== 'undefined') {
+                // Initialize all dropdowns
+                var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
+                dropdownElementList.forEach(function(dropdownToggleEl) {
+                    new bootstrap.Dropdown(dropdownToggleEl, {
+                        offset: [0, 10],
+                        boundary: 'viewport'
+                    });
+                });
             }
-        });
-    });
 
-    // Close dropdowns when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!e.target.matches('.dropdown-toggle')) {
-            document.querySelectorAll('.dropdown-menu.show').forEach(function(dropdown) {
-                dropdown.classList.remove('show');
+            // Fallback manual initialization if Bootstrap isn't loaded
+            document.querySelectorAll('.dropdown-toggle').forEach(function(element) {
+                element.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    var dropdownMenu = this.nextElementSibling;
+                    if (dropdownMenu && dropdownMenu.classList.contains('dropdown-menu')) {
+                        dropdownMenu.classList.toggle('show');
+                    }
+                });
             });
-        }
-    });
-});
-</script>
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.matches('.dropdown-toggle')) {
+                    document.querySelectorAll('.dropdown-menu.show').forEach(function(dropdown) {
+                        dropdown.classList.remove('show');
+                    });
+                }
+            });
+        });
+    </script>
 
 </body>
 
