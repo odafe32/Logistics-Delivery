@@ -335,22 +335,29 @@
                         <p class="tracking-subtitle">Real-time tracking for your deliveries</p>
                     </div>
 
+                    <form action="{{ route('track-shipment.submit') }}" method="POST">
                     <div class="tracking-form">
+                        @csrf
                         <div class="input-wrapper">
                             <div class="input-icon">
                                 <i class="fas fa-search"></i>
                             </div>
-                            <input type="text" class="tracking-input" placeholder="Enter your tracking number"
-                                id="trackingInput">
+                            <input type="text"
+                                name="tracking_number"
+                                class="tracking-input"
+                                placeholder="Enter your tracking number"
+                                id="trackingInput"
+                                required>
                             <div class="loading">
                                 <span></span><span></span><span></span>
                             </div>
                         </div>
-                        <button class="btn-track" onclick="handleTracking()">
+                        <button type="submit" class="btn-track">
                             <span class="btn-text">Track Package</span>
                             <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
+                </form>
 
                     <div class="features-grid">
                         <div class="feature-card">
@@ -431,30 +438,21 @@
             if (features) observer.observe(features);
 
             // Handle tracking
-            window.handleTracking = function() {
+            document.querySelector('form').addEventListener('submit', function(e) {
                 const input = document.getElementById('trackingInput');
                 const loading = document.querySelector('.loading');
                 const button = document.querySelector('.btn-track');
-                const trackingNumber = input.value.trim();
 
-                if (!trackingNumber) {
+                if (!input.value.trim()) {
+                    e.preventDefault();
                     input.classList.add('error');
                     input.focus();
                     return;
                 }
 
-                input.classList.remove('error');
                 loading.classList.add('active');
                 button.disabled = true;
-
-                setTimeout(() => {
-                    loading.classList.remove('active');
-                    button.disabled = false;
-                    window.location.href =
-                        '/tracking-details'; // Replace with your tracking details page
-                }, 2000);
-            };
-
+            });
             // Handle Enter key
             const trackingInput = document.getElementById('trackingInput');
             trackingInput.addEventListener('keypress', function(e) {

@@ -14,24 +14,16 @@
             margin: 20px;
         }
 
-        .form-control {
-            border: 2px solid #eee;
-            border-radius: 8px;
-            padding: 12px 16px;
-            height: auto;
-            font-size: 0.95rem;
-            background: white;
+        .success-message {
+            text-align: center;
+            padding: 2rem;
         }
 
-        .form-control:focus {
-            border-color: #dc3545;
-            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
-        }
-
-        .form-label {
-            font-weight: 500;
-            color: #495057;
-            margin-bottom: 8px;
+        .success-icon {
+            color: #dc3545;
+            width: 64px;
+            height: 64px;
+            margin-bottom: 1rem;
         }
 
         .btn-primary {
@@ -44,52 +36,28 @@
             border: none;
             width: 100%;
             margin-top: 20px;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease;
         }
 
         .btn-primary:hover {
             background: #c82333;
+            color: white;
+            text-decoration: none;
         }
 
-        .form-group {
-            margin-bottom: 1.5rem;
+        h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
         }
 
-        .auth-header {
-            text-align: center;
+        .text-muted {
+            color: #6c757d;
             margin-bottom: 2rem;
         }
-
-        .auth-icon {
-            width: 64px;
-            height: 64px;
-            margin-bottom: 1rem;
-        }
-
-        .back-link {
-            color: #6c757d;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .back-link:hover {
-            color: #dc3545;
-        }
-
-        .success-message {
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .success-icon {
-            color: #28a745;
-            width: 64px;
-            height: 64px;
-            margin-bottom: 1rem;
-        }
     </style>
+
     <div class="auth-container">
         <div class="container">
             <div class="row justify-content-center">
@@ -103,8 +71,8 @@
                             </svg>
                             <h3>Password Reset Successfully!</h3>
                             <p class="text-muted">Your password has been changed successfully.</p>
-                            <a href="{{ url('/') }}" class="btn btn-success mt-3">
-                                Back to Website
+                            <a href="{{ route('login') }}" class="btn btn-primary">
+                                Back to Login
                             </a>
                         </div>
                     </div>
@@ -112,3 +80,4 @@
             </div>
         </div>
     </div>
+@endsection

@@ -304,261 +304,164 @@
     </head>
 
     <div class="hero-section">
-        <div class="container">
-            <h1 class="page-title">Track Your Shipment</h1>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="page-title">Shipment Details</h1>
+            <a href="{{ url('/admin/add-timeline', $shipment->tracking_number) }}" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Add Timeline
+            </a>
+        </div>
 
-            <div class="search-container">
-                <div class="search-input-group">
-                    <input type="text" class="search-input" placeholder="Enter tracking number (e.g., MX0020706362)"
-                        value="MX0020706362">
-                    <button class="btn btn-primary">
-                        <i class="fas fa-search me-2"></i>Track
-                    </button>
-                    <button class="btn btn-outline">
-                        <i class="fas fa-star me-2"></i>Add to Watchlist
-                    </button>
+        <div class="tracking-progress">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="progress-title mb-0">Shipment Progress</h2>
+                <div class="status-badge">
+                    <i class="fas fa-truck"></i>
+                    {{ ucfirst(str_replace('_', ' ', $shipment->current_status)) }}
                 </div>
             </div>
 
-            <div class="tracking-progress">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2 class="progress-title mb-0">Shipment Progress</h2>
-                    <div class="status-badge">
-                        <i class="fas fa-truck"></i>
-                        In Transit
-                    </div>
-                </div>
+            <div class="progress-timeline">
+                <div class="timeline-track"></div>
+                <div class="timeline-progress" style="width: {{ $progressPercentage }}%"></div>
+                <div class="timeline-points">
+                    @php
+                        $statuses = ['pending', 'picked_up', 'processing', 'in_transit', 'out_for_delivery', 'delivered'];
+                        $currentStatusIndex = array_search($shipment->current_status, $statuses);
+                    @endphp
 
-                <div class="progress-timeline">
-                    <div class="timeline-track"></div>
-                    <div class="timeline-progress"></div>
-                    <div class="timeline-points">
+                    @foreach($statuses as $index => $status)
                         <div class="timeline-point">
-                            <div class="point-indicator completed"></div>
-                            <div class="point-label">Picked Up</div>
-                            <div class="point-date">Jan 25, 2025</div>
+                            <div class="point-indicator {{ $index < $currentStatusIndex ? 'completed' : ($index === $currentStatusIndex ? 'active' : '') }}"></div>
+                            <div class="point-label">{{ ucfirst(str_replace('_', ' ', $status)) }}</div>
+                            @if($latestStatus = $shipment->statuses->where('status', $status)->first())
+                                <div class="point-date">{{ $latestStatus->status_date->format('M d, Y') }}</div>
+                            @else
+                                <div class="point-date">Expected</div>
+                            @endif
                         </div>
-                        <div class="timeline-point">
-                            <div class="point-indicator completed"></div>
-                            <div class="point-label">Processing</div>
-                            <div class="point-date">Jan 26, 2025</div>
-                        </div>
-                        <div class="timeline-point">
-                            <div class="point-indicator active"></div>
-                            <div class="point-label">In Transit</div>
-                            <div class="point-date">Jan 26, 2025</div>
-                        </div>
-                        <div class="timeline-point">
-                            <div class="point-indicator"></div>
-                            <div class="point-label">Out for Delivery</div>
-                            <div class="point-date">Expected</div>
-                        </div>
-                        <div class="timeline-point">
-                            <div class="point-indicator"></div>
-                            <div class="point-label">Delivered</div>
-                            <div class="point-date">Expected</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="shipment-details">
-                <h2 class="progress-title mb-4">Shipment Details</h2>
-                <div class="details-grid">
-                    <div class="detail-group">
-                        <div class="detail-label">Tracking Number</div>
-                        <div class="detail-value">MX0020706362</div>
-                    </div>
-                    <div class="detail-group">
-                        <div class="detail-label">Service Type</div>
-                        <div class="detail-value">Authority to Leave</div>
-                    </div>
-                    <div class="detail-group">
-                        <div class="detail-label">Expected Delivery</div>
-                        <div class="detail-value">Jan 22, 2025</div>
-                    </div>
-                    <div class="detail-group">
-                        <div class="detail-label">Package Details</div>
-                        <div class="detail-value">2.5 kg, 30×20×15 cm</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="shipment-details">
-                <h2 class="progress-title mb-4">Activity History</h2>
-                <div class="activity-timeline">
-                    <div class="activity-line"></div>
-
-                    <div class="activity-item">
-                        <div class="activity-point"></div>
-                        <div class="activity-content">
-                            <div class="activity-date">Jan 26, 2025 - 14:30</div>
-                            <div class="activity-title">Package in transit</div>
-                            <div class="activity-location">Lagos Distribution Center</div>
-                        </div>
-                    </div>
-
-                    <div class="activity-item">
-                        <div class="activity-point"></div>
-                        <div class="activity-content">
-                            <div class="activity-date">Jan 26, 2025 - 09:15</div>
-                            <div class="activity-title">Package has left origin facility</div>
-                            <div class="activity-location">Abuja Sorting Center</div>
-                        </div>
-                    </div>
-
-                    <div class="activity-item">
-                        <div class="activity-point"></div>
-                        <div class="activity-content">
-                            <div class="activity-date">Jan 25, 2025 - 16:45</div>
-                            <div class="activity-title">Package received</div>
-                            <div class="activity-location">Abuja, Nigeria</div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
+
+        <div class="shipment-details">
+            <h2 class="progress-title mb-4">Shipment Information</h2>
+            <div class="details-grid">
+                <div class="detail-group">
+                    <div class="detail-label">Tracking Number</div>
+                    <div class="detail-value">{{ $shipment->tracking_number }}</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Service Type</div>
+                    <div class="detail-value">{{ ucfirst($shipment->service_type) }}</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Created Date</div>
+                    <div class="detail-value">{{ $shipment->created_at->format('M d, Y') }}</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Total Price</div>
+                    <div class="detail-value">${{ number_format($shipment->total_price, 2) }}</div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="detail-group">
+                        <div class="detail-label">Sender Information</div>
+                        <div class="detail-value">
+                            <strong>{{ $shipment->sender_name }}</strong><br>
+                            {{ $shipment->sender_phone }}<br>
+                            {{ $shipment->sender_email }}<br>
+                            {{ $shipment->sender_address }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="detail-group">
+                        <div class="detail-label">Recipient Information</div>
+                        <div class="detail-value">
+                            <strong>{{ $shipment->recipient_name }}</strong><br>
+                            {{ $shipment->recipient_phone }}<br>
+                            {{ $shipment->recipient_email }}<br>
+                            {{ $shipment->recipient_address }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if($shipment->packages->count() > 0)
+                <h3 class="progress-title mb-3 mt-4">Package Details</h3>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Weight (kg)</th>
+                                <th>Dimensions (cm)</th>
+                                <th>Contents</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($shipment->packages as $package)
+                                <tr>
+                                    <td>{{ $package->weight }}</td>
+                                    <td>{{ $package->length }} × {{ $package->width }} × {{ $package->height }}</td>
+                                    <td>{{ $package->contents }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @endif
+        </div>
+
+        <div class="shipment-details">
+            <h2 class="progress-title mb-4">Activity History</h2>
+            <div class="activity-timeline">
+                <div class="activity-line"></div>
+                @foreach($shipment->statuses->sortByDesc('status_date') as $status)
+                    <div class="activity-item">
+                        <div class="activity-point"></div>
+                        <div class="activity-content">
+                            <div class="activity-date">{{ $status->status_date->format('M d, Y - H:i') }}</div>
+                            <div class="activity-title">{{ ucfirst(str_replace('_', ' ', $status->status)) }}</div>
+                            @if($status->location)
+                                <div class="activity-location">{{ $status->location }}</div>
+                            @endif
+                            @if($status->notes)
+                                <div class="activity-description mt-2">{{ $status->notes }}</div>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
     </div>
+</div>
 
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate progress bar on page load
+    setTimeout(() => {
+        document.querySelector('.timeline-progress').style.width = '{{ $progressPercentage }}%';
+    }, 500);
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Animate progress bar on page load
-            setTimeout(() => {
-                document.querySelector('.timeline-progress').style.width = '60%';
-            }, 500);
-
-            // Handle tracking button click
-            const trackButton = document.querySelector('.btn-primary');
-            const searchInput = document.querySelector('.search-input');
-
-            trackButton.addEventListener('click', function() {
-                const trackingNumber = searchInput.value.trim();
-
-                // Validate input
-                if (!trackingNumber) {
-                    searchInput.classList.add('is-invalid');
-                    searchInput.focus();
-                    return;
-                }
-
-                // Remove invalid state if present
-                searchInput.classList.remove('is-invalid');
-
-                // Add loading state
-                trackButton.disabled = true;
-                trackButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Tracking...';
-
-                // Simulate API call
+    // Initialize tooltip for tracking number
+    const trackingNumberValue = document.querySelector('.detail-value');
+    trackingNumberValue.style.cursor = 'pointer';
+    trackingNumberValue.addEventListener('click', function() {
+        navigator.clipboard.writeText(this.textContent.trim())
+            .then(() => {
+                const originalText = this.textContent;
+                this.textContent = 'Copied!';
                 setTimeout(() => {
-                    // Reset button state
-                    trackButton.disabled = false;
-                    trackButton.innerHTML = '<i class="fas fa-search me-2"></i>Track';
-
-                    // Refresh tracking info (in real implementation, this would update with API data)
-                    updateTrackingInfo();
+                    this.textContent = originalText;
                 }, 1500);
             });
-
-            // Handle watchlist button
-            const watchlistButton = document.querySelector('.btn-outline');
-            watchlistButton.addEventListener('click', function() {
-                const trackingNumber = searchInput.value.trim();
-
-                if (!trackingNumber) {
-                    searchInput.classList.add('is-invalid');
-                    searchInput.focus();
-                    return;
-                }
-
-                // Toggle watchlist state
-                const isWatched = watchlistButton.classList.contains('watched');
-
-                if (isWatched) {
-                    watchlistButton.innerHTML = '<i class="fas fa-star me-2"></i>Add to Watchlist';
-                    watchlistButton.classList.remove('watched');
-                } else {
-                    watchlistButton.innerHTML = '<i class="fas fa-star me-2"></i>Added to Watchlist';
-                    watchlistButton.classList.add('watched');
-                }
-            });
-
-            // Handle input validation
-            searchInput.addEventListener('input', function() {
-                if (this.value.trim()) {
-                    this.classList.remove('is-invalid');
-                }
-            });
-
-            // Function to update tracking information
-            function updateTrackingInfo() {
-                // Animate timeline points
-                const points = document.querySelectorAll('.point-indicator');
-                points.forEach((point, index) => {
-                    setTimeout(() => {
-                        if (index <= 2) { // Assuming package is in transit (3rd stage)
-                            point.classList.add('completed');
-                        }
-                    }, index * 300);
-                });
-
-                // Update status badge
-                const statusBadge = document.querySelector('.status-badge');
-                statusBadge.innerHTML = '<i class="fas fa-truck"></i>In Transit';
-
-                // Add hover effects for timeline points
-                points.forEach(point => {
-                    point.addEventListener('mouseenter', function() {
-                        if (this.classList.contains('completed') || this.classList.contains(
-                                'active')) {
-                            this.style.transform = 'scale(1.2)';
-                        }
-                    });
-
-                    point.addEventListener('mouseleave', function() {
-                        this.style.transform = 'scale(1)';
-                    });
-                });
-            }
-
-            // Initialize tooltip for tracking number
-            const trackingNumberValue = document.querySelector('.detail-value');
-            trackingNumberValue.style.cursor = 'pointer';
-            trackingNumberValue.addEventListener('click', function() {
-                // Copy tracking number to clipboard
-                navigator.clipboard.writeText(this.textContent)
-                    .then(() => {
-                        // Show temporary copied message
-                        const originalText = this.textContent;
-                        this.textContent = 'Copied!';
-                        setTimeout(() => {
-                            this.textContent = originalText;
-                        }, 1500);
-                    });
-            });
-
-            // Add smooth scroll for activity timeline
-            const activityItems = document.querySelectorAll('.activity-item');
-            activityItems.forEach(item => {
-                item.style.opacity = '0';
-                item.style.transform = 'translateY(20px)';
-            });
-
-            // Animate activity items when they come into view
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                        entry.target.style.transition = 'all 0.5s ease';
-                    }
-                });
-            }, {
-                threshold: 0.1
-            });
-
-            activityItems.forEach(item => observer.observe(item));
-        });
-    </script>
+    });
+});
+</script>
+@endpush
 @endsection

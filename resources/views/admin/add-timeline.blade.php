@@ -1,6 +1,6 @@
 @extends('layout.admin_layout')
 @section('content')
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <style>
         :root {
@@ -134,128 +134,186 @@
                 transform: translateY(0);
             }
         }
+        .timeline {
+        position: relative;
+        padding: 20px 0;
+    }
+
+    .timeline-item {
+        padding: 20px;
+        border-left: 2px solid #dee2e6;
+        position: relative;
+        margin-left: 20px;
+        margin-bottom: 15px;
+    }
+
+    .timeline-badge {
+        position: absolute;
+        left: -9px;
+        top: 25px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        text-align: center;
+        color: white;
+        line-height: 16px;
+        font-size: 8px;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: 0.875rem;
+    }
+
+    .status-pending { background: #fff3cd; color: #856404; }
+    .status-picked_up { background: #cce5ff; color: #004085; }
+    .status-processing { background: #d4edda; color: #155724; }
+    .status-in_transit { background: #e2efff; color: #004085; }
+    .status-out_for_delivery { background: #d1ecf1; color: #0c5460; }
+    .status-delivered { background: #d4edda; color: #155724; }
     </style>
 
     <div class="container">
         <div class="form-container animate__animated animate__fadeIn">
             <div class="header">
-                <h5 class="mb-0">CREATE TRACKING INFO TIMELINE</h5>
+                <h5 class="mb-0">UPDATE TRACKING TIMELINE</h5>
             </div>
 
-            <form id="trackingForm">
-                <div class="tracking-code-container">
-                    <label class="form-label">TRACKING CODE</label>
-                    <div class="tracking-code" id="trackingCode">TJCh-SCgg-wJjm-a4j</div>
+            <!-- Shipment Info Summary -->
+            <div class="shipment-summary mb-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="tracking-code-container">
+                            <label class="form-label">TRACKING NUMBER</label>
+                            <div class="tracking-code">{{ $shipment->tracking_number }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="current-status-container">
+                            <label class="form-label">CURRENT STATUS</label>
+                            <div class="status-badge status-{{ $shipment->current_status }}">
+                                {{ ucfirst(str_replace('_', ' ', $shipment->current_status)) }}
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
+
+            <!-- Update Form -->
+            <form id="trackingForm">
+                @csrf
+                <input type="hidden" name="tracking_number" value="{{ $shipment->tracking_number }}">
 
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="currentLocation" placeholder="Enter current location"
-                        required>
+                    <input type="text" class="form-control" id="currentLocation" name="location" placeholder="Enter current location" required>
                     <label for="currentLocation">Current Location</label>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-floating mb-3">
-                            <input type="date" class="form-control" id="deliveryDate" required>
-                            <label for="deliveryDate">Delivery Date</label>
+                            <input type="date" class="form-control" id="deliveryDate" name="delivery_date" required value="{{ date('Y-m-d') }}">
+                            <label for="deliveryDate">Date</label>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-floating mb-3">
-                            <input type="time" class="form-control" id="deliveryTime" required>
-                            <label for="deliveryTime">Delivery Time</label>
+                            <input type="time" class="form-control" id="deliveryTime" name="delivery_time" required value="{{ date('H:i') }}">
+                            <label for="deliveryTime">Time</label>
                         </div>
                     </div>
                 </div>
 
-                <div class="form-floating mb-4">
-                    <select class="form-control" id="status" required>
+                <div class="form-floating mb-3">
+                    <select class="form-control" id="status" name="status" required>
                         <option value="">Select Status</option>
-                        <option value="processing">Processing</option>
-                        <option value="in-transit">In Transit</option>
-                        <option value="out-for-delivery">Out for Delivery</option>
-                        <option value="delivered">Delivered</option>
-                        <option value="delayed">Delayed</option>
-                        <option value="failed-attempt">Failed Delivery Attempt</option>
+                        <option value="pending" {{ $shipment->current_status === 'pending' ? 'selected' : '' }}>Pending</option>
+                        <option value="picked_up" {{ $shipment->current_status === 'picked_up' ? 'selected' : '' }}>Picked Up</option>
+                        <option value="processing" {{ $shipment->current_status === 'processing' ? 'selected' : '' }}>Processing</option>
+                        <option value="in_transit" {{ $shipment->current_status === 'in_transit' ? 'selected' : '' }}>In Transit</option>
+                        <option value="out_for_delivery" {{ $shipment->current_status === 'out_for_delivery' ? 'selected' : '' }}>Out for Delivery</option>
+                        <option value="delivered" {{ $shipment->current_status === 'delivered' ? 'selected' : '' }}>Delivered</option>
                     </select>
                     <label for="status">Status</label>
                 </div>
 
+                <div class="form-floating mb-4">
+                    <textarea class="form-control" id="notes" name="notes" style="height: 100px" placeholder="Enter notes"></textarea>
+                    <label for="notes">Notes (Optional)</label>
+                </div>
+
                 <button type="submit" class="btn btn-danger update-btn w-100">
-                    Update Tracking Information
+                    Update Timeline
                 </button>
 
-                <div class="success-message" id="successMessage">
-                    <div class="d-flex align-items-center">
-                        <svg class="bi bi-check-circle-fill me-2" width="24" height="24" viewBox="0 0 16 16"
-                            fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-                        </svg>
-                        Tracking information updated successfully!
-                    </div>
+                <div class="alert alert-success mt-3" id="successMessage" style="display: none;">
+                    Timeline updated successfully!
                 </div>
             </form>
+
+            <!-- Previous Updates -->
+            <div class="previous-updates mt-4">
+                <h6 class="mb-3">Previous Updates</h6>
+                <div class="timeline">
+                    @foreach($shipment->statuses as $status)
+                        <div class="timeline-item">
+                            <div class="timeline-badge bg-{{ $status->status === 'delivered' ? 'success' : 'info' }}">
+                                <i class="fas fa-circle"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <h6 class="mb-1">{{ ucfirst(str_replace('_', ' ', $status->status)) }}</h6>
+                                <p class="mb-1">{{ $status->location }}</p>
+                                <p class="mb-1">{{ $status->notes }}</p>
+                                <small class="text-muted">{{ $status->status_date->format('M d, Y H:i') }}</small>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById('trackingForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+    document.getElementById('trackingForm').addEventListener('submit', function(e) {
+        e.preventDefault();
 
-            // Add loading state to button
-            const submitButton = this.querySelector('button[type="submit"]');
-            submitButton.disabled = true;
-            submitButton.innerHTML = `
-                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                Updating...
-            `;
+        const submitBtn = this.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Updating...';
 
-            // Simulate API call
-            setTimeout(() => {
-                const formData = {
-                    trackingCode: document.getElementById('trackingCode').textContent,
-                    currentLocation: document.getElementById('currentLocation').value,
-                    deliveryDate: document.getElementById('deliveryDate').value,
-                    status: document.getElementById('status').value,
-                    deliveryTime: document.getElementById('deliveryTime').value
-                };
+        const formData = new FormData(this);
+        formData.append('status_date', formData.get('delivery_date') + ' ' + formData.get('delivery_time'));
 
-                console.log('Form Data:', formData);
-
-                // Show success message
-                const successMessage = document.getElementById('successMessage');
-                successMessage.style.display = 'block';
-
-                // Reset button state
-                submitButton.disabled = false;
-                submitButton.innerHTML = 'Update Tracking Information';
-
-                // Add validation styles
-                document.querySelectorAll('.form-control').forEach(input => {
-                    input.classList.add('is-valid');
-                });
-
-                // Hide success message after 3 seconds
+        fetch('/admin/shipments/{{ $shipment->id }}/status', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Accept': 'application/json',
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('successMessage').style.display = 'block';
                 setTimeout(() => {
-                    successMessage.style.display = 'none';
-                }, 3000);
-            }, 1500);
+                    window.location.reload();
+                }, 2000);
+            } else {
+                throw new Error(data.message || 'Update failed');
+            }
+        })
+        .catch(error => {
+            alert('Error: ' + error.message);
+        })
+        .finally(() => {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Update Timeline';
         });
-
-        // Add real-time validation
-        document.querySelectorAll('.form-control').forEach(input => {
-            input.addEventListener('input', function() {
-                if (this.checkValidity()) {
-                    this.classList.add('is-valid');
-                    this.classList.remove('is-invalid');
-                } else {
-                    this.classList.remove('is-valid');
-                    this.classList.add('is-invalid');
-                }
-            });
-        });
+    });
     </script>
 @endsection

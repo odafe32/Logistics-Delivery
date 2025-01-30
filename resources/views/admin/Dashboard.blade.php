@@ -194,114 +194,98 @@
     <div class="container-fluid">
         <!-- Stats Cards -->
         <div class="row g-4 mb-4">
-            <div class="col-12 col-md-6 col-lg-3">
-                <div class="stat-card">
-                    <i class="fas fa-envelope stat-icon email-icon"></i>
-                    <div class="stat-number">0</div>
-                    <div class="stat-label">Total Contact Messages</div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3">
-                <div class="stat-card">
-                    <i class="fas fa-history stat-icon timeline-icon"></i>
-                    <div class="stat-number">5</div>
-                    <div class="stat-label">Total Timeline Created</div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3">
-                <div class="stat-card">
-                    <i class="fas fa-code stat-icon code-icon"></i>
-                    <div class="stat-number">2</div>
-                    <div class="stat-label">Total Tracking Codes Created</div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3">
-                <div class="stat-card">
-                    <i class="fas fa-users stat-icon admin-icon"></i>
-                    <div class="stat-number">1</div>
-                    <div class="stat-label">Total Number of Admin</div>
-                </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="stat-card">
+                <i class="fas fa-boxes stat-icon email-icon"></i>
+                <div class="stat-number">{{ $totalShipments }}</div>
+                <div class="stat-label">Total Shipments</div>
             </div>
         </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="stat-card">
+                <i class="fas fa-clock stat-icon timeline-icon"></i>
+                <div class="stat-number">{{ $pendingShipments }}</div>
+                <div class="stat-label">Pending Shipments</div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="stat-card">
+                <i class="fas fa-truck stat-icon code-icon"></i>
+                <div class="stat-number">{{ $inTransitShipments }}</div>
+                <div class="stat-label">In Transit</div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="stat-card">
+                <i class="fas fa-check-circle stat-icon admin-icon"></i>
+                <div class="stat-number">{{ $deliveredShipments }}</div>
+                <div class="stat-label">Delivered</div>
+            </div>
+        </div>
+    </div>
+
 
         <!-- Tracking Table -->
         <div class="tracking-table">
-            <div class="card-header">
-                <h5 class="mb-0">Update Tracker Code Timeline</h5>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Tracking Code</th>
-                            <th>Name</th>
-                            <th>Origin</th>
-                            <th>Destination</th>
-                            <th>Mode</th>
-
-
-
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>TJCh-SCgg-wJjm-a4j</td>
-                            <td>John Jane</td>
-                            <td>Dallas Fort Worth International Airport (DFW)</td>
-                            <td>Thiruvananthapuram International Airport (TRV)</td>
-                            <td>Air</td>
-
-                            <td><span class="status-badge status-cleared">Cleared On Transit</span></td>
-                            <td>
-                                <div class="btn-group">
-                                    <a href="{{ url('admin/shipment-details') }}">
-                                        <button class="btn btn-view btn-sm">
-                                            <i class="fas fa-eye"></i> View
-                                        </button>
-                                    </a>
-                                    <a href="{{ url('admin/add-timeline') }}">
-                                        <button class="btn btn-timeline btn-sm">
-                                            <i class="fas fa-clock"></i> Add Timeline
-                                        </button>
-                                    </a>
-                                    <button class="btn btn-delete btn-sm" data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal" data-tracking="TJCh-SCgg-wJjm-a4j">
-                                        <i class="fas fa-trash"></i> Delete
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>TJCx-Bsqd-XWSj-rvJ</td>
-                            <td>John Doe</td>
-                            <td>Los Angeles International Airport (LAX)</td>
-                            <td>Toronto Pearson International Airport (YYZ)</td>
-                            <td>Air</td>
-
-                            <td><span class="status-badge status-pending">Pending</span></td>
-                            <td>
-                                <div class="btn-group">
-                                    <button class="btn btn-view btn-sm" data-bs-toggle="modal" data-bs-target="#viewModal"
-                                        data-tracking="TJCx-Bsqd-XWSj-rvJ">
-                                        <i class="fas fa-eye"></i> View
-                                    </button>
-                                    <button class="btn btn-timeline btn-sm" data-bs-toggle="modal"
-                                        data-bs-target="#timelineModal" data-tracking="TJCx-Bsqd-XWSj-rvJ">
-                                        <i class="fas fa-clock"></i> Timeline
-                                    </button>
-                                    <button class="btn btn-delete btn-sm" data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal" data-tracking="TJCx-Bsqd-XWSj-rvJ">
-                                        <i class="fas fa-trash"></i> Delete
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Recent Shipments</h5>
+            <a href="{{ route('timelines') }}" class="btn btn-sm btn-outline-primary">View All</a>
         </div>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Tracking Number</th>
+                        <th>Sender</th>
+                        <th>Recipient</th>
+                        <th>Service</th>
+                        <th>Status</th>
+                        <th>Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($shipments as $shipment)
+                        <tr>
+                            <td>{{ $shipment->tracking_number }}</td>
+                            <td>{{ $shipment->sender_name }}</td>
+                            <td>{{ $shipment->recipient_name }}</td>
+                            <td>
+                                <span class="badge bg-{{ $shipment->service_type === 'express' ? 'danger' : ($shipment->service_type === 'standard' ? 'primary' : 'success') }}">
+                                    {{ ucfirst($shipment->service_type) }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge bg-{{
+                                    $shipment->current_status === 'delivered' ? 'success' :
+                                    ($shipment->current_status === 'pending' ? 'warning' : 'info')
+                                }}">
+                                    {{ ucfirst(str_replace('_', ' ', $shipment->current_status)) }}
+                                </span>
+                            </td>
+                            <td>{{ $shipment->created_at->format('M d, Y') }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="{{ route('admin.shipments.details', $shipment->id) }}" class="btn btn-sm btn-info">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ route('add-timeline', ['tracking_number' => $shipment->tracking_number]) }}"
+                                        class="btn btn-sm btn-warning">
+                                            <i class="fas fa-plus"></i> Add Timeline
+                                        </a>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7" class="text-center">No shipments found</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+        {{ $shipments->links() }}
+    </div>
     </div>
 
     <!-- View Modal -->

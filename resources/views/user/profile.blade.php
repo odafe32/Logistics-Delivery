@@ -512,38 +512,78 @@
         }
     </style>
 
-    <div class="container">
+<div class="container">
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
         <!-- Profile Header -->
         <div class="profile-header">
             <div class="header-content">
                 <div class="avatar-wrapper">
-                    <img src="/api/placeholder/120/120" alt="Profile" class="avatar">
-                    <button class="avatar-upload" title="Upload new photo">
+                            <img src="{{ $user->profile_image ? Storage::url($user->profile_image) : '/api/placeholder/120/120' }}"
+                    alt="Profile" class="avatar" id="profileImage">
+                <form id="avatarForm" action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="first_name" value="{{ $user->first_name }}">
+                    <input type="hidden" name="last_name" value="{{ $user->last_name }}">
+                    <input type="hidden" name="phone_number" value="{{ $user->phone_number }}">
+                    <input type="hidden" name="job_title" value="{{ $user->job_title }}">
+                    @if($user->account_type === 'business')
+                        <input type="hidden" name="company_name" value="{{ $user->company_name }}">
+                        <input type="hidden" name="industry" value="{{ $user->industry }}">
+                    @endif
+                    <input type="file" id="profileImageInput" name="profile_image" class="d-none" accept="image/*">
+                    <button type="button" class="avatar-upload" onclick="document.getElementById('profileImageInput').click()">
                         <i class="fas fa-camera"></i>
                     </button>
+                </form>
                 </div>
                 <div class="profile-info">
                     <div class="name-section">
-                        <h1 class="profile-name">Sarah Anderson</h1>
-                        <span class="role-badge">User</span>
+                        <h1 class="profile-name">{{ $user->first_name }} {{ $user->last_name }}</h1>
+                        <span class="role-badge">{{ ucfirst($user->role) }}</span>
                     </div>
                     <div class="profile-meta">
                         <div class="meta-item">
                             <i class="fas fa-envelope"></i>
-                            sarah.anderson@company.com
+                            {{ $user->email }}
                         </div>
                         <div class="meta-item">
                             <i class="fas fa-phone"></i>
-                            +1 (555) 123-4567
+                            {{ $user->phone_number }}
                         </div>
+                        @if($user->company_name)
                         <div class="meta-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            San Francisco, CA
+                            <i class="fas fa-building"></i>
+                            {{ $user->company_name }}
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>
-            <button class="edit-button">
+            <button class="edit-button" onclick="toggleEditMode()">
                 <i class="fas fa-pen"></i>
                 Edit Profile
             </button>
@@ -555,111 +595,116 @@
 
         </div>
 
-        <!-- Profile Content -->
-        <div class="tab-content">
-            <!-- Personal Information Tab -->
-            <div id="personal" class="form-section">
-                <div class="section-header">
-                    <h2 class="section-title">Personal Information</h2>
-                </div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label class="form-label">First Name</label>
-                        <input type="text" class="form-input" value="Sarah" disabled>
+        <form id="profileForm" action="{{ route('profile.update') }}" method="POST">
+            @csrf
+            <div class="tab-content">
+                <div class="form-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Personal Information</h2>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Last Name</label>
-                        <input type="text" class="form-input" value="Anderson" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Email Address</label>
-                        <input type="email" class="form-input" value="sarah.anderson@company.com" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Phone Number</label>
-                        <input type="tel" class="form-input" value="+1 (555) 123-4567" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Location</label>
-                        <input type="text" class="form-input" value="San Francisco, CA" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Time Zone</label>
-                        <input type="text" class="form-input" value="Pacific Time (PT)" disabled>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">First Name</label>
+                            <input type="text" name="first_name" class="form-input" value="{{ $user->first_name }}" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" name="last_name" class="form-input" value="{{ $user->last_name }}" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-input" value="{{ $user->email }}" disabled readonly>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" name="phone_number" class="form-input" value="{{ $user->phone_number }}" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Job Title</label>
+                            <input type="text" name="job_title" class="form-input" value="{{ $user->job_title }}" disabled>
+                        </div>
+                        @if($user->account_type === 'business')
+                            <div class="form-group">
+                                <label class="form-label">Company Name</label>
+                                <input type="text" name="company_name" class="form-input" value="{{ $user->company_name }}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Industry</label>
+                                <input type="text" name="industry" class="form-input" value="{{ $user->industry }}" disabled>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
+        </form>
 
-            <!-- Security Settings Section -->
-            <div class="form-section">
-                <div class="section-header">
-                    <h2 class="section-title">Security Settings</h2>
-                </div>
-                <div class="security-grid">
-                    <div class="security-item">
-                        <div class="security-info">
-                            <div class="security-icon">
-                                <i class="fas fa-key"></i>
-                            </div>
-                            <div class="security-text">
-                                <h4>Change Password</h4>
-
-                            </div>
+        <!-- Security Settings Section -->
+        <div class="form-section">
+            <div class="section-header">
+                <h2 class="section-title">Security Settings</h2>
+            </div>
+            <div class="security-grid">
+                <div class="security-item">
+                    <div class="security-info">
+                        <div class="security-icon">
+                            <i class="fas fa-key"></i>
                         </div>
-                        <button class="btn btn-secondary" onclick="openModal('passwordModal')">Update</button>
-
-
+                        <div class="security-text">
+                            <h4>Change Password</h4>
+                        </div>
                     </div>
+                    <button class="btn btn-secondary" onclick="openModal('passwordModal')">Update</button>
                 </div>
-
             </div>
         </div>
 
-        <!-- Modals -->
+        <!-- Password Modal -->
         <div class="modal" id="passwordModal">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h3>Change Password</h3>
-                    <button class="modal-close" onclick="closeModal('passwordModal')">
-
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label class="form-label">Current Password</label>
-                        <div class="password-input">
-                            <input type="password" class="form-input">
-                            <button class="toggle-password">
-                                <i class="fas fa-eye"></i>
-                            </button>
+                <form action="{{ route('profile.password') }}" method="POST" id="passwordForm">
+                    @csrf
+                    <div class="modal-header">
+                        <h3>Change Password</h3>
+                        <button type="button" class="close" onclick="closeModal('passwordModal')">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="form-label">Current Password</label>
+                            <div class="password-input">
+                                <input type="password" name="current_password" class="form-input" required>
+                                <button type="button" class="toggle-password">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">New Password</label>
+                            <div class="password-input">
+                                <input type="password" name="password" class="form-input" required>
+                                <button type="button" class="toggle-password">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="password-strength"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Confirm New Password</label>
+                            <div class="password-input">
+                                <input type="password" name="password_confirmation" class="form-input" required>
+                                <button type="button" class="toggle-password">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">New Password</label>
-                        <div class="password-input">
-                            <input type="password" class="form-input">
-                            <button class="toggle-password">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                        <div class="password-strength"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('passwordModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Update Password</button>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Confirm New Password</label>
-                        <div class="password-input">
-                            <input type="password" class="form-input">
-                            <button class="toggle-password">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" onclick="closeModal('passwordModal')">Cancel</button>
-                    <button class="btn btn-primary" onclick="updatePassword()">Update Password</button>
-                </div>
+                </form>
             </div>
         </div>
+    </div>
 
         <script>
             // Tab switching
@@ -673,32 +718,47 @@
             });
 
             // Edit mode toggle
-            const editButton = document.querySelector('.edit-button');
-            const inputs = document.querySelectorAll('.form-input');
-            let isEditing = false;
+            function toggleEditMode() {
+                const editButton = document.querySelector('.edit-button');
+                const inputs = document.querySelectorAll('.form-input:not([readonly])');
+                const profileForm = document.getElementById('profileForm');
 
-            editButton.addEventListener('click', () => {
-                isEditing = !isEditing;
-                editButton.innerHTML = isEditing ?
-                    '<i class="fas fa-save"></i> Save Changes' :
-                    '<i class="fas fa-pen"></i> Edit Profile';
-
-                inputs.forEach(input => {
-                    input.disabled = !isEditing;
-                    if (isEditing) {
+                if (editButton.innerHTML.includes('Save')) {
+                    // If saving, submit the form
+                    profileForm.submit();
+                } else {
+                    // If enabling edit mode
+                    inputs.forEach(input => {
+                        input.disabled = false;
                         input.classList.add('editing');
-                    } else {
-                        input.classList.remove('editing');
-                    }
-                });
+                    });
+                    editButton.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+                }
+            }
+
+            // Image upload handling
+            document.getElementById('profileImageInput').addEventListener('change', function(e) {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('profileImage').src = e.target.result;
+                        // Add loading state to the upload button
+                        const uploadButton = document.querySelector('.avatar-upload');
+                        uploadButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                        uploadButton.style.pointerEvents = 'none';
+                        // Submit the form
+                        document.getElementById('avatarForm').submit();
+                    };
+                    reader.readAsDataURL(this.files[0]);
+                }
             });
 
             // Password visibility toggle
             document.querySelectorAll('.toggle-password').forEach(button => {
                 button.addEventListener('click', () => {
-                    const input = button.previousElementSibling;
-                    const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
-                    input.setAttribute('type', type);
+                    const input = button.parentElement.querySelector('input');
+                    const type = input.type === 'password' ? 'text' : 'password';
+                    input.type = type;
                     button.innerHTML = type === 'password' ?
                         '<i class="fas fa-eye"></i>' :
                         '<i class="fas fa-eye-slash"></i>';

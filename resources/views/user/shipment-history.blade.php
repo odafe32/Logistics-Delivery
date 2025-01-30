@@ -2,6 +2,97 @@
 @section('content')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: #e2e8f0;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 1.5rem;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            width: 2rem;
+            height: 2rem;
+            left: -3rem;
+            background: white;
+            border: 2px solid #3b82f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .timeline-marker i {
+            font-size: 0.875rem;
+            color: #3b82f6;
+        }
+
+        .timeline-content {
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Make modal larger */
+        .modal-lg {
+            max-width: 800px;
+        }
+
+        .modal-body {
+            padding: 0;
+        }
+
+        .shipment-details-content {
+            min-height: 200px;
+        }
+
+        .modal-header {
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .modal-title {
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .btn-close:focus {
+            box-shadow: none;
+            outline: none;
+        }
+        .empty-state {
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .empty-state i {
+            color: var(--gray-400);
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            color: var(--gray-800);
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            color: var(--gray-500);
+            margin-bottom: 1.5rem;
+        }
         * {
             margin: 0;
             padding: 0;
@@ -382,7 +473,7 @@
                     <h2 class="header-title">
                         <i class="fas fa-shipping-fast"></i> Shipments
                     </h2>
-                    <span class="shipment-count">3 Total</span>
+                    <span class="shipment-count">{{ $shipments->total() }} Total</span>
                 </div>
                 <div class="search-wrapper">
                     <i class="fas fa-search search-icon"></i>
@@ -390,183 +481,177 @@
                 </div>
             </div>
 
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>
-                                <div class="sort-header">
-                                    Tracking Number
-                                    <i class="fas fa-sort"></i>
-                                </div>
-                            </th>
-                            <th>
-                                <div class="sort-header">
-                                    Date
-                                    <i class="fas fa-sort"></i>
-                                </div>
-                            </th>
-                            <th>
-                                <div class="sort-header">
-                                    From
-                                    <i class="fas fa-sort"></i>
-                                </div>
-                            </th>
-                            <th>
-                                <div class="sort-header">
-                                    To
-                                    <i class="fas fa-sort"></i>
-                                </div>
-                            </th>
-                            <th>
-                                <div class="sort-header">
-                                    Status
-                                    <i class="fas fa-sort"></i>
-                                </div>
-                            </th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="tracking-number">
-                                    <span>MX123456789</span>
-                                    <i class="far fa-copy"></i>
-                                </div>
-                            </td>
-                            <td>Jan 25, 2025</td>
-                            <td>Lagos</td>
-                            <td>Abuja</td>
-                            <td>
-                                <span class="status-badge in-transit">
-                                    <i class="fas fa-truck"></i>
-                                    In Transit
-                                </span>
-                            </td>
-                            <td>
+            @if($shipments->isEmpty())
+                <div class="text-center py-5">
+                    <div class="empty-state">
+                        <i class="fas fa-box-open fa-3x mb-3 text-gray-400"></i>
+                        <h3 class="font-weight-bold mb-2">No Shipments Yet</h3>
+                        <p class="text-muted mb-3">You haven't created any shipments yet.</p>
+                        <a href="{{ route('new-shipment') }}" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Create New Shipment
+                        </a>
+                    </div>
+                </div>
+            @else
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div class="sort-header">
+                                        Tracking Number
+                                        <i class="fas fa-sort"></i>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="sort-header">
+                                        Date
+                                        <i class="fas fa-sort"></i>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="sort-header">
+                                        From
+                                        <i class="fas fa-sort"></i>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="sort-header">
+                                        To
+                                        <i class="fas fa-sort"></i>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="sort-header">
+                                        Status
+                                        <i class="fas fa-sort"></i>
+                                    </div>
+                                </th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($shipments as $shipment)
+                            <tr>
+                                <td>
+                                    <div class="tracking-number">
+                                        <span>{{ $shipment->tracking_number }}</span>
+                                    </div>
+                                </td>
+                                <td>{{ $shipment->created_at->format('M d, Y') }}</td>
+                                <td>{{ $shipment->sender_address }}</td>
+                                <td>{{ $shipment->recipient_address }}</td>
+                                <td>
+                                    <span class="status-badge {{ $shipment->current_status }}">
+                                        <i class="fas {{ getStatusIcon($shipment->current_status) }}"></i>
+                                        {{ ucfirst($shipment->current_status) }}
+                                    </span>
+                                </td>
+                                <td>
                                 <div class="actions">
-
-                                    <button class="btn btn-secondary" title="View Details">
+                                    <a href="{{ route('shipments.track', $shipment->tracking_number) }}"
+                                    class="btn btn-secondary"
+                                    title="View Details">
                                         <i class="fas fa-info-circle"></i>
-                                    </button>
+                                    </a>
                                 </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="tracking-number">
-                                    <span>MX987654321</span>
-                                    <i class="far fa-copy"></i>
-                                </div>
-                            </td>
-                            <td>Jan 20, 2025</td>
-                            <td>Ibadan</td>
-                            <td>Port Harcourt</td>
-                            <td>
-                                <span class="status-badge delivered">
-                                    <i class="fas fa-check-circle"></i>
-                                    Delivered
-                                </span>
-                            </td>
-                            <td>
-                                <div class="actions">
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
 
-                                    <button class="btn btn-secondary" title="View Details">
-                                        <i class="fas fa-info-circle"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="tracking-number">
-                                    <span>MX456789012</span>
-                                    <i class="far fa-copy"></i>
-                                </div>
-                            </td>
-                            <td>Jan 28, 2025</td>
-                            <td>Kano</td>
-                            <td>Enugu</td>
-                            <td>
-                                <span class="status-badge pending">
-                                    <i class="fas fa-clock"></i>
-                                    Pending
-                                </span>
-                            </td>
-                            <td>
-                                <div class="actions">
-
-                                    <button class="btn btn-secondary" title="View Details">
-                                        <i class="fas fa-info-circle"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="empty-message">
-                <i class="fas fa-box fa-2x mb-3"></i>
-                <h3>No shipments found</h3>
-                <p>Try adjusting your search terms</p>
-            </div>
+                <div class="pagination-container p-3">
+                    {{ $shipments->links() }}
+                </div>
+            @endif
         </div>
     </div>
 
+    @push('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
-        // Copy tracking number
-        document.querySelectorAll('.tracking-number').forEach(number => {
-            number.addEventListener('click', function() {
-                const text = this.querySelector('span').textContent;
-                navigator.clipboard.writeText(text).then(() => {
-                    const icon = this.querySelector('i');
-                    icon.className = 'fas fa-check';
-                    this.style.color = '#16a34a';
+document.addEventListener('DOMContentLoaded', function() {
+    const trackingNumbers = document.querySelectorAll('.tracking-number');
 
-                    setTimeout(() => {
-                        icon.className = 'far fa-copy';
-                        this.style.color = '';
-                    }, 1500);
+    trackingNumbers.forEach(function(element) {
+        element.addEventListener('click', function() {
+            const trackingSpan = this.querySelector('span');
+            const trackingNumber = trackingSpan.textContent.trim();
+            const icon = this.querySelector('i');
+
+            // Create temporary textarea
+            const textarea = document.createElement('textarea');
+            textarea.value = trackingNumber;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            try {
+                // Try to copy
+                document.execCommand('copy');
+
+                // Show success message
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    icon: 'success',
+                    title: 'Tracking number copied!',
+                    customClass: {
+                        popup: 'swal2-toast'
+                    }
                 });
-            });
-        });
 
+                // Change icon temporarily
+                icon.className = 'fas fa-check';
+                element.style.color = '#16a34a';
 
+                setTimeout(() => {
+                    icon.className = 'far fa-copy';
+                    element.style.color = '#3b82f6';
+                }, 1500);
 
-        // Add tooltip functionality for buttons
-        document.querySelectorAll('.btn').forEach(btn => {
-            btn.addEventListener('mouseenter', function(e) {
-                const tooltip = document.createElement('div');
-                tooltip.className = 'tooltip';
-                tooltip.textContent = this.title;
-                tooltip.style.cssText = `
-          position: absolute;
-          background: #1f2937;
-          color: white;
-          padding: 4px 8px;
-          border-radius: 4px;
-          font-size: 12px;
-          white-space: nowrap;
-          pointer-events: none;
-          opacity: 0;
-          transition: opacity 0.2s;
-          z-index: 1000;
-        `;
-                document.body.appendChild(tooltip);
-
-                const rect = this.getBoundingClientRect();
-                tooltip.style.top = rect.top - tooltip.offsetHeight - 8 + 'px';
-                tooltip.style.left = rect.left + (rect.width - tooltip.offsetWidth) / 2 + 'px';
-
-                requestAnimationFrame(() => tooltip.style.opacity = '1');
-
-                this.addEventListener('mouseleave', function handler() {
-                    tooltip.remove();
-                    this.removeEventListener('mouseleave', handler);
+            } catch (err) {
+                // Show error message
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    icon: 'error',
+                    title: 'Failed to copy tracking number',
+                    customClass: {
+                        popup: 'swal2-toast'
+                    }
                 });
-            });
+            }
+
+            // Clean up
+            document.body.removeChild(textarea);
         });
+    });
+});
     </script>
+@endpush
+
+    @php
+    function getStatusIcon($status) {
+        return match($status) {
+            'pending' => 'fa-clock',
+            'picked_up' => 'fa-box',
+            'processing' => 'fa-cog',
+            'in_transit' => 'fa-truck',
+            'out_for_delivery' => 'fa-shipping-fast',
+            'delivered' => 'fa-check-circle',
+            default => 'fa-circle'
+        };
+    }
+    @endphp
 @endsection

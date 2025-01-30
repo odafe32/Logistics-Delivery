@@ -89,7 +89,92 @@
             height: 64px;
             margin-bottom: 1rem;
         }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+            transform: translateY(-100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .notification-success {
+            border-left: 4px solid #28a745;
+        }
+
+        .notification-icon {
+            width: 24px;
+            height: 24px;
+            color: #28a745;
+        }
+
+        .notification-message {
+            color: #2c3e50;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .spinner {
+        display: none;
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 0.8s linear infinite;
+        margin-right: 8px;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .btn-loading {
+        position: relative;
+        cursor: not-allowed;
+        opacity: 0.8;
+    }
+
+    .btn-loading .spinner {
+        display: inline-block;
+    }
+
+    .btn-loading .btn-text {
+        margin-left: 8px;
+    }
+
+    .btn-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
     </style>
+
+    {{-- Success Notification --}}
+    @if(session('status'))
+        <div class="notification notification-success" id="successNotification">
+            <svg class="notification-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p class="notification-message">Password reset link sent successfully!</p>
+        </div>
+    @endif
 
     {{-- Forgot Password Page --}}
     <div class="auth-container">
@@ -108,15 +193,18 @@
                             <p class="text-muted">Enter your email address to receive a password reset link</p>
                         </div>
 
-                        <form action="/forgot-password" method="POST">
+                        <form action="{{ route('password.email') }}" method="POST" id="resetForm">
                             @csrf
                             <div class="form-group">
                                 <label class="form-label">Email Address</label>
                                 <input type="email" class="form-control" name="email" required>
                             </div>
 
-                            <button type="submit" class="btn btn-primary">
-                                Send Reset Link
+                            <button type="submit" class="btn btn-primary" id="submitBtn">
+                                <div class="btn-content">
+                                    <div class="spinner"></div>
+                                    <span class="btn-text">Send Reset Link</span>
+                                </div>
                             </button>
                         </form>
                     </div>
@@ -124,4 +212,29 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const notification = document.getElementById('successNotification');
+            if (notification) {
+                // Show notification
+                setTimeout(() => {
+                    notification.classList.add('show');
+                }, 100);
+
+                // Hide notification after 5 seconds
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 5000);
+            }
+        });
+    </script>
+
+    <script>
+        document.getElementById('resetForm').addEventListener('submit', function(e) {
+            const button = document.getElementById('submitBtn');
+            button.classList.add('btn-loading');
+            button.disabled = true;
+        });
+    </script>
 @endsection

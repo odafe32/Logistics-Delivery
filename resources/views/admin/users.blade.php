@@ -189,35 +189,53 @@
       </head>
 
       <body>
+      @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
           <div class="page-container">
               <!-- Header Section -->
               <div class="d-flex justify-content-between align-items-center mb-4 page-title-section">
                   <h2 class="h4 mb-0">Users Management</h2>
-                  <button class="btn btn-danger" onclick="openAddModal()">
-                      <i class="fas fa-plus me-2"></i>Add New User
-                  </button>
+                  <a href="{{ route('users.new') }}" class="btn btn-danger">
+                        <i class="fas fa-plus me-2"></i>Add New User
+                    </a>
               </div>
 
               <!-- Filters -->
               <div class="filter-section">
-                  <div class="row g-3">
-                      <div class="col-12 col-md-4">
-                          <input type="text" class="form-control" placeholder="Search users...">
-                      </div>
-                      <div class="col-6 col-md-2">
-                          <select class="form-select">
-                              <option value="">Status</option>
-                              <option>Active</option>
-                              <option>Inactive</option>
-                          </select>
-                      </div>
-
-                      <div class="col-12 col-md-2">
-                          <button class="btn btn-secondary w-100">Apply Filters</button>
-                      </div>
-                  </div>
-              </div>
-
+        <form action="{{ route('users') }}" method="GET" class="row g-3">
+            <div class="col-12 col-md-4">
+                <input type="text" class="form-control" name="search" placeholder="Search users..." value="{{ request('search') }}">
+            </div>
+                <div class="col-6 col-md-2">
+                    <select class="form-select" name="role">
+                        <option value="">All Roles</option>
+                        <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                        <option value="user" {{ request('role') == 'user' ? 'selected' : '' }}>User</option>
+                    </select>
+                </div>
+                <div class="col-6 col-md-2">
+                    <select class="form-select" name="account_type">
+                        <option value="">Account Type</option>
+                        <option value="personal" {{ request('account_type') == 'personal' ? 'selected' : '' }}>Personal</option>
+                        <option value="business" {{ request('account_type') == 'business' ? 'selected' : '' }}>Business</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-2">
+                    <button type="submit" class="btn btn-secondary w-100">Apply Filters</button>
+                </div>
+            </form>
+        </div>
               <!-- Users Table -->
               <div class="table-responsive">
                   <table class="table custom-table">
@@ -225,356 +243,64 @@
                           <tr>
                               <th>User</th>
                               <th>Contact</th>
-                              <th>Location</th>
-                              <th>Status</th>
+                              <th>Account Type</th>
                               <th>Role</th>
+                              <th>Status</th>
                               <th>Actions</th>
                           </tr>
                       </thead>
                       <tbody>
-                          <tr>
-                              <td data-label="User">
-                                  <div class="user-info">
-                                      <div class="user-avatar">JD</div>
-                                      <div>
-                                          <div class="fw-bold">John Doe</div>
-                                          <div class="text-muted small">john@example.com</div>
-                                      </div>
-                                  </div>
-                              </td>
-                              <td data-label="Contact">+1 234-567-8900</td>
-                              <td data-label="Location">New York, USA</td>
-                              <td data-label="Status">
-                                  <span class="status-badge bg-success-subtle text-success">Active</span>
-                              </td>
-                              <td data-label="Role">
-                                  <span class="badge bg-danger">Admin</span>
-                              </td>
-                              <td data-label="Actions">
-                                  <div class="action-buttons">
-                                      <button class="btn btn-sm btn-outline-danger action-btn" onclick="viewUser(1)">
-                                          <i class="fas fa-eye"></i>
-                                      </button>
-                                      <button class="btn btn-sm btn-outline-secondary action-btn" onclick="editUser(1)">
-                                          <i class="fas fa-edit"></i>
-                                      </button>
-                                  </div>
-                              </td>
-                          </tr>
-                          <!-- Add more rows as needed -->
-                      </tbody>
+                        @forelse($users as $user)
+                        <tr>
+                            <td data-label="User">
+                                <div class="user-info">
+                                    <div class="user-avatar">{{ substr($user->first_name, 0, 1) }}{{ substr($user->last_name, 0, 1) }}</div>
+                                    <div>
+                                        <div class="fw-bold">{{ $user->first_name }} {{ $user->last_name }}</div>
+                                        <div class="text-muted small">{{ $user->email }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td data-label="Contact">
+                                <div>{{ $user->phone_number }}</div>
+                                @if($user->account_type === 'business')
+                                    <div class="text-muted small">{{ $user->company_name }}</div>
+                                @endif
+                            </td>
+                            <td data-label="Account Type">
+                                <span class="badge {{ $user->account_type === 'business' ? 'bg-primary' : 'bg-info' }}">
+                                    {{ ucfirst($user->account_type) }}
+                                </span>
+                            </td>
+                            <td data-label="Role">
+                                <span class="badge {{ $user->role === 'admin' ? 'bg-danger' : 'bg-success' }}">
+                                    {{ ucfirst($user->role) }}
+                                </span>
+                            </td>
+                            <td data-label="Role">
+                                <span class="badge {{ $user->status === 'inactive' ? 'bg-danger' : 'bg-success' }}">
+                                    {{ ucfirst($user->status) }}
+                                </span>
+                            </td>
+                            <td data-label="Actions">
+                                <div class="action-buttons">
+                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-outline-secondary action-btn">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                                                </div>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="6" class="text-center py-4">No users found</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
                   </table>
               </div>
+              <!-- Pagination -->
+                <div class="d-flex justify-content-center mt-4">
+                    {{ $users->withQueryString()->links() }}
+                </div>
           </div>
-
-          <!-- Add User Modal -->
-          <div class="modal fade" id="addUserModal" tabindex="-1">
-              <div class="modal-dialog modal-lg">
-                  <div class="modal-content">
-                      <div class="modal-header">
-                          <h5 class="modal-title">Add New User</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                      </div>
-                      <div class="modal-body">
-                          <form id="addUserForm" class="row g-3">
-                              <div class="col-md-6">
-                                  <label class="form-label">First Name</label>
-                                  <input type="text" class="form-control" required>
-                              </div>
-                              <div class="col-md-6">
-                                  <label class="form-label">Last Name</label>
-                                  <input type="text" class="form-control" required>
-                              </div>
-                              <div class="col-md-6">
-                                  <label class="form-label">Email</label>
-                                  <input type="email" class="form-control" required>
-                              </div>
-                              <div class="col-md-6">
-                                  <label class="form-label">Phone</label>
-                                  <input type="tel" class="form-control" required>
-                              </div>
-                              <div class="col-12">
-                                  <label class="form-label">Location</label>
-                                  <input type="text" class="form-control" required>
-                              </div>
-                              <div class="col-md-6">
-                                  <label class="form-label">Time Zone</label>
-                                  <select class="form-select" required>
-                                      <option value="">Select timezone</option>
-                                      <option>UTC-5 (EST)</option>
-                                      <option>UTC-8 (PST)</option>
-                                  </select>
-                              </div>
-                              <div class="col-md-6">
-                                  <label class="form-label">Role</label>
-                                  <select class="form-select" required>
-                                      <option value="">Select role</option>
-                                      <option>Admin</option>
-                                      <option>User</option>
-                                  </select>
-                              </div>
-                          </form>
-                      </div>
-                      <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                          <button type="button" class="btn btn-danger" onclick="saveUser()">Add User</button>
-                      </div>
-                  </div>
-              </div>
-          </div>
-
-          <!-- View User Modal -->
-          <div class="modal fade" id="viewUserModal" tabindex="-1">
-              <div class="modal-dialog modal-lg">
-                  <div class="modal-content">
-                      <div class="modal-header">
-                          <h5 class="modal-title">User Details</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                      </div>
-                      <div class="modal-body">
-                          <div class="row g-4">
-                              <div class="col-md-12 text-center mb-3">
-                                  <div class="user-avatar mx-auto" style="width: 80px; height: 80px; font-size: 2em;">
-                                      JD
-                                  </div>
-                                  <h5 class="mt-3 mb-1">John Doe</h5>
-                                  <span class="status-badge bg-success-subtle text-success">Active</span>
-                              </div>
-                              <div class="col-md-6">
-                                  <h6 class="mb-3">Personal Information</h6>
-                                  <div class="mb-2">
-                                      <strong>Email:</strong> john@example.com
-                                  </div>
-                                  <div class="mb-2">
-                                      <strong>Phone:</strong> +1 234-567-8900
-                                  </div>
-                                  <div class="mb-2">
-                                      <strong>Location:</strong> New York, USA
-                                  </div>
-                              </div>
-                              <div class="col-md-6">
-                                  <h6 class="mb-3">Account Information</h6>
-                                  <div class="mb-2">
-                                      <strong>Role:</strong> Admin
-                                  </div>
-                                  <div class="mb-2">
-                                      <strong>Time Zone:</strong> UTC-5 (EST)
-                                  </div>
-                                  <div class="mb-2">
-                                      <strong>Last Login:</strong> 2 hours ago
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-danger" onclick="editUser(1)">Edit User</button>
-                      </div>
-                  </div>
-              </div>
-          </div>
-
-          <!-- Edit User Modal -->
-          <div class="modal fade" id="editUserModal" tabindex="-1">
-              <div class="modal-dialog modal-lg">
-                  <div class="modal-content">
-                      <div class="modal-header">
-                          <h5 class="modal-title">Edit User</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                      </div>
-                      <div class="modal-body">
-                          <form id="editUserForm" class="row g-3">
-                              <div class="col-md-6">
-                                  <label class="form-label">First Name</label>
-                                  <input type="text" class="form-control" value="John" required>
-                              </div>
-                              <div class="col-md-6">
-                                  <label class="form-label">Last Name</label>
-                                  <input type="text" class="form-control" value="Doe" required>
-                              </div>
-                              <div class="col-md-6">
-                                  <label class="form-label">Email</label>
-                                  <input type="email" class="form-control" value="john@example.com" required>
-                              </div>
-                              <div class="col-md-6">
-                                  <label class="form-label">Phone</label>
-                                  <input type="tel" class="form-control" value="+1 234-567-8900" required>
-                              </div>
-                              <div class="col-12">
-                                  <label class="form-label">Location</label>
-                                  <input type="text" class="form-control" value="New York, USA" required>
-                              </div>
-                              <div class="col-md-6">
-                                  <label class="form-label">Time Zone</label>
-                                  <select class="form-select" required>
-                                      <option selected>UTC-5 (EST)</option>
-                                      <option>UTC-8 (PST)</option>
-                                  </select>
-                              </div>
-                              <div class="col-md-6">
-                                  <label class="form-label">Role</label>
-                                  <select class="form-select" required>
-                                      <option selected>Admin</option>
-                                      <option>User</option>
-                                      <option>Manager</option>
-                                  </select>
-                              </div>
-                              <div class="col-12">
-                                  <label class="form-label">Status</label>
-                                  <select class="form-select" required>
-                                      <option selected>Active</option>
-                                      <option>Inactive</option>
-                                      <option>Suspended</option>
-                                  </select>
-                              </div>
-
-                          </form>
-                      </div>
-                      <div class="modal-footer">
-                          <button type="button" class="btn btn-danger me-auto" onclick="confirmDelete()">Delete
-                              User</button>
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                          <button type="button" class="btn btn-danger" onclick="updateUser()">Save Changes</button>
-                      </div>
-                  </div>
-              </div>
-          </div>
-
-          <!-- Delete Confirmation Modal -->
-          <div class="modal fade" id="deleteModal" tabindex="-1">
-              <div class="modal-dialog modal-sm">
-                  <div class="modal-content">
-                      <div class="modal-header">
-                          <h5 class="modal-title">Confirm Delete</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                      </div>
-                      <div class="modal-body">
-                          <p>Are you sure you want to delete this user? This action cannot be undone.</p>
-                      </div>
-                      <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                          <button type="button" class="btn btn-danger" onclick="deleteUser()">Delete</button>
-                      </div>
-                  </div>
-              </div>
-          </div>
-
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-          <script>
-              // Modal instances
-              let currentUserId = null;
-              const modals = {
-                  add: new bootstrap.Modal(document.getElementById('addUserModal')),
-                  view: new bootstrap.Modal(document.getElementById('viewUserModal')),
-                  edit: new bootstrap.Modal(document.getElementById('editUserModal')),
-                  delete: new bootstrap.Modal(document.getElementById('deleteModal'))
-              };
-
-              // Open modals
-              function openAddModal() {
-                  modals.add.show();
-              }
-
-              function viewUser(userId) {
-                  currentUserId = userId;
-                  modals.view.show();
-              }
-
-              function editUser(userId) {
-                  currentUserId = userId;
-                  modals.view.hide();
-                  modals.edit.show();
-              }
-
-              function confirmDelete() {
-                  modals.edit.hide();
-                  modals.delete.show();
-              }
-
-              // Form handling
-              function saveUser() {
-                  const form = document.getElementById('addUserForm');
-                  if (form.checkValidity()) {
-                      // Add your save logic here
-                      modals.add.hide();
-                      showToast('User added successfully');
-                      form.reset();
-                  } else {
-                      form.reportValidity();
-                  }
-              }
-
-              function updateUser() {
-                  const form = document.getElementById('editUserForm');
-                  if (form.checkValidity()) {
-                      // Add your update logic here
-                      modals.edit.hide();
-                      showToast('User updated successfully');
-                  } else {
-                      form.reportValidity();
-                  }
-              }
-
-              function deleteUser() {
-                  // Add your delete logic here
-                  modals.delete.hide();
-                  showToast('User deleted successfully');
-              }
-
-              // Search functionality
-              document.querySelector('input[type="text"]').addEventListener('input', function(e) {
-                  const searchTerm = e.target.value.toLowerCase();
-                  const rows = document.querySelectorAll('tbody tr');
-
-                  rows.forEach(row => {
-                      const text = row.textContent.toLowerCase();
-                      row.style.display = text.includes(searchTerm) ? '' : 'none';
-                  });
-              });
-
-              // Filter functionality
-              document.querySelectorAll('.filter-section select').forEach(select => {
-                  select.addEventListener('change', function() {
-                      applyFilters();
-                  });
-              });
-
-              function applyFilters() {
-                  const status = document.querySelector('select[name="status"]')?.value;
-                  const role = document.querySelector('select[name="role"]')?.value;
-
-                  const rows = document.querySelectorAll('tbody tr');
-                  rows.forEach(row => {
-                      let show = true;
-
-                      if (status && !row.querySelector(`[data-status="${status}"]`)) {
-                          show = false;
-                      }
-                      if (role && !row.querySelector(`[data-role="${role}"]`)) {
-                          show = false;
-                      }
-
-                      row.style.display = show ? '' : 'none';
-                  });
-              }
-
-              // Toast notification (you can replace with your preferred notification system)
-              function showToast(message) {
-                  alert(message); // Replace with a proper toast notification
-              }
-
-              // Mobile responsiveness enhancements
-              function adjustModalHeight() {
-                  if (window.innerWidth <= 576) {
-                      const modals = document.querySelectorAll('.modal-dialog');
-                      modals.forEach(modal => {
-                          const windowHeight = window.innerHeight;
-                          modal.style.height = windowHeight * 0.9 + 'px';
-                      });
-                  }
-              }
-
-              window.addEventListener('resize', adjustModalHeight);
-              document.addEventListener('DOMContentLoaded', adjustModalHeight);
-          </script>
       @endsection

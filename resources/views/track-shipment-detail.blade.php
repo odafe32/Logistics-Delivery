@@ -304,123 +304,106 @@
     </head>
 
     <body>
-        <div class="hero-section">
-            <div class="container">
-                <h1 class="page-title">Track Your Shipment</h1>
+    <div class="hero-section">
+        <div class="container">
+            <h1 class="page-title">Track Your Shipment</h1>
 
-                <div class="search-container">
-                    <div class="search-input-group">
-                        <input type="text" class="search-input" placeholder="Enter tracking number (e.g., MX0020706362)"
-                            value="MX0020706362">
-                        <button class="btn btn-primary">
-                            <i class="fas fa-search me-2"></i>Track
-                        </button>
-                        <button class="btn btn-outline">
-                            <i class="fas fa-star me-2"></i>Add to Watchlist
-                        </button>
+            <div class="tracking-progress">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="progress-title mb-0">Shipment Progress</h2>
+                    <div class="status-badge">
+                        <i class="fas fa-truck"></i>
+                        {{ ucfirst(str_replace('_', ' ', $shipment->current_status)) }}
                     </div>
                 </div>
 
-                <div class="tracking-progress">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h2 class="progress-title mb-0">Shipment Progress</h2>
-                        <div class="status-badge">
-                            <i class="fas fa-truck"></i>
-                            In Transit
-                        </div>
-                    </div>
+                <div class="progress-timeline">
+                    <div class="timeline-track"></div>
+                    <div class="timeline-progress"></div>
+                    <div class="timeline-points">
+                        @php
+                            $statusOrder = ['pending', 'picked_up', 'processing', 'in_transit', 'out_for_delivery', 'delivered'];
+                            $currentStatusIndex = array_search($shipment->current_status, $statusOrder);
+                        @endphp
 
-                    <div class="progress-timeline">
-                        <div class="timeline-track"></div>
-                        <div class="timeline-progress"></div>
-                        <div class="timeline-points">
+                        @foreach($statusOrder as $index => $status)
                             <div class="timeline-point">
-                                <div class="point-indicator completed"></div>
-                                <div class="point-label">Picked Up</div>
-                                <div class="point-date">Jan 25, 2025</div>
+                                <div class="point-indicator {{ $index <= $currentStatusIndex ? 'completed' : '' }} {{ $index == $currentStatusIndex ? 'active' : '' }}"></div>
+                                <div class="point-label">{{ ucfirst(str_replace('_', ' ', $status)) }}</div>
+                                <div class="point-date">
+                                    @if($latestStatus = $shipment->statuses->where('status', $status)->first())
+                                        {{ $latestStatus->status_date->format('M d, Y') }}
+                                    @else
+                                        Expected
+                                    @endif
+                                </div>
                             </div>
-                            <div class="timeline-point">
-                                <div class="point-indicator completed"></div>
-                                <div class="point-label">Processing</div>
-                                <div class="point-date">Jan 26, 2025</div>
-                            </div>
-                            <div class="timeline-point">
-                                <div class="point-indicator active"></div>
-                                <div class="point-label">In Transit</div>
-                                <div class="point-date">Jan 26, 2025</div>
-                            </div>
-                            <div class="timeline-point">
-                                <div class="point-indicator"></div>
-                                <div class="point-label">Out for Delivery</div>
-                                <div class="point-date">Expected</div>
-                            </div>
-                            <div class="timeline-point">
-                                <div class="point-indicator"></div>
-                                <div class="point-label">Delivered</div>
-                                <div class="point-date">Expected</div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
+            </div>
 
-                <div class="shipment-details">
-                    <h2 class="progress-title mb-4">Shipment Details</h2>
-                    <div class="details-grid">
-                        <div class="detail-group">
-                            <div class="detail-label">Tracking Number</div>
-                            <div class="detail-value">MX0020706362</div>
-                        </div>
-                        <div class="detail-group">
-                            <div class="detail-label">Service Type</div>
-                            <div class="detail-value">Authority to Leave</div>
-                        </div>
-                        <div class="detail-group">
-                            <div class="detail-label">Expected Delivery</div>
-                            <div class="detail-value">Jan 22, 2025</div>
-                        </div>
-                        <div class="detail-group">
-                            <div class="detail-label">Package Details</div>
-                            <div class="detail-value">2.5 kg, 30×20×15 cm</div>
+            <div class="shipment-details">
+                <h2 class="progress-title mb-4">Shipment Details</h2>
+                <div class="details-grid">
+                    <div class="detail-group">
+                        <div class="detail-label">Tracking Number</div>
+                        <div class="detail-value">{{ $shipment->tracking_number }}</div>
+                    </div>
+                    <div class="detail-group">
+                        <div class="detail-label">Service Type</div>
+                        <div class="detail-value">{{ ucfirst($shipment->service_type) }}</div>
+                    </div>
+                    <div class="detail-group">
+                        <div class="detail-label">Expected Delivery</div>
+                        <div class="detail-value">
+                            @if($latestStatus = $shipment->statuses->where('status', 'delivered')->first())
+                                {{ $latestStatus->status_date->format('M d, Y') }}
+                            @else
+                                Pending
+                            @endif
                         </div>
                     </div>
-                </div>
-
-                <div class="shipment-details">
-                    <h2 class="progress-title mb-4">Activity History</h2>
-                    <div class="activity-timeline">
-                        <div class="activity-line"></div>
-
-                        <div class="activity-item">
-                            <div class="activity-point"></div>
-                            <div class="activity-content">
-                                <div class="activity-date">Jan 26, 2025 - 14:30</div>
-                                <div class="activity-title">Package in transit</div>
-                                <div class="activity-location">Lagos Distribution Center</div>
-                            </div>
-                        </div>
-
-                        <div class="activity-item">
-                            <div class="activity-point"></div>
-                            <div class="activity-content">
-                                <div class="activity-date">Jan 26, 2025 - 09:15</div>
-                                <div class="activity-title">Package has left origin facility</div>
-                                <div class="activity-location">Abuja Sorting Center</div>
-                            </div>
-                        </div>
-
-                        <div class="activity-item">
-                            <div class="activity-point"></div>
-                            <div class="activity-content">
-                                <div class="activity-date">Jan 25, 2025 - 16:45</div>
-                                <div class="activity-title">Package received</div>
-                                <div class="activity-location">Abuja, Nigeria</div>
-                            </div>
+                    <div class="detail-group">
+                        <div class="detail-label">Package Details</div>
+                        <div class="detail-value">
+                            @if($shipment->packages->count() > 0)
+                                @php
+                                    $package = $shipment->packages->first();
+                                @endphp
+                                {{ $package->weight }} kg, {{ $package->length }}×{{ $package->width }}×{{ $package->height }} cm
+                            @else
+                                No package details
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
+            <div class="shipment-details">
+                <h2 class="progress-title mb-4">Activity History</h2>
+                <div class="activity-timeline">
+                    <div class="activity-line"></div>
+
+                    @forelse($shipment->statuses->sortByDesc('status_date') as $status)
+                        <div class="activity-item">
+                            <div class="activity-point"></div>
+                            <div class="activity-content">
+                                <div class="activity-date">{{ $status->status_date->format('M d, Y - H:i') }}</div>
+                                <div class="activity-title">{{ ucfirst(str_replace('_', ' ', $status->status)) }}</div>
+                                <div class="activity-location">{{ $status->location ?? 'Location not specified' }}</div>
+                                @if($status->notes)
+                                    <div class="activity-notes mt-2 text-muted">{{ $status->notes }}</div>
+                                @endif
+                            </div>
+                        </div>
+                    @empty
+                        <div class="text-center text-muted">No activity history available</div>
+                    @endforelse
+                </div>
+            </div>
+        </div>
+    </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
         <script>
@@ -429,6 +412,17 @@
                 setTimeout(() => {
                     document.querySelector('.timeline-progress').style.width = '60%';
                 }, 500);
+
+                 // Calculate progress percentage
+            const statusOrder = ['pending', 'picked_up', 'processing', 'in_transit', 'out_for_delivery', 'delivered'];
+            const currentStatus = '{{ $shipment->current_status }}';
+            const currentStatusIndex = statusOrder.indexOf(currentStatus);
+            const progressPercentage = (currentStatusIndex + 1) / statusOrder.length * 100;
+
+            // Set progress bar width
+            setTimeout(() => {
+                document.querySelector('.timeline-progress').style.width = `${progressPercentage}%`;
+            }, 500);
 
                 // Handle tracking button click
                 const trackButton = document.querySelector('.btn-primary');
@@ -443,6 +437,8 @@
                         searchInput.focus();
                         return;
                     }
+
+
 
                     // Remove invalid state if present
                     searchInput.classList.remove('is-invalid');

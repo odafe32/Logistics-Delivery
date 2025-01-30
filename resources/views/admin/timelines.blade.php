@@ -148,132 +148,124 @@
                 word-break: break-word;
             }
         }
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .status-pending { background-color: #fff3e0; color: #ef6c00; }
+        .status-picked_up { background-color: #e3f2fd; color: #1976d2; }
+        .status-processing { background-color: #f3e5f5; color: #7b1fa2; }
+        .status-in_transit { background-color: #e8f5e9; color: #2e7d32; }
+        .status-out_for_delivery { background-color: #e0f7fa; color: #0097a7; }
+        .status-delivered { background-color: #e8f5e9; color: #2e7d32; }
     </style>
-    <div class="page-container" style="">
+
+    <div class="page-container">
         <!-- Header Section -->
         <div class="d-flex justify-content-between align-items-center mb-4 page-title-section">
-            <h2 class="h4 mb-0">Timelines</h2>
-            <a href="{{ url('/admin/new-shipment') }}">
-                <button class="btn btn-danger">
-                    <i class="fas fa-plus me-2"></i>Create New Shipment
-                </button>
+            <h2 class="h4 mb-0">All Shipments</h2>
+            <a href="{{ route('new-shipment') }}" class="btn btn-danger">
+                <i class="fas fa-plus me-2"></i>Create New Shipment
             </a>
         </div>
 
         <!-- Filters -->
-        <div class="filter-section">
-            <div class="row g-3">
-                <div class="col-12 col-md-4">
-                    <input type="text" class="form-control" placeholder="Search users...">
+        <div class="data-card mb-4">
+            <form action="{{ route('admin.shipments.index') }}" method="GET" class="row g-3">
+                <div class="col-12 col-md-3">
+                    <input type="text" name="search" class="form-control"
+                        placeholder="Search tracking number..."
+                        value="{{ request('search') }}">
                 </div>
                 <div class="col-6 col-md-2">
-                    <select class="form-select">
-                        <option value="">Status</option>
-                        <option>Active</option>
-                        <option>Inactive</option>
+                    <select name="status" class="form-select">
+                        <option value="">All Status</option>
+                        <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                        <option value="picked_up" {{ request('status') == 'picked_up' ? 'selected' : '' }}>Picked Up</option>
+                        <option value="processing" {{ request('status') == 'processing' ? 'selected' : '' }}>Processing</option>
+                        <option value="in_transit" {{ request('status') == 'in_transit' ? 'selected' : '' }}>In Transit</option>
+                        <option value="out_for_delivery" {{ request('status') == 'out_for_delivery' ? 'selected' : '' }}>Out for Delivery</option>
+                        <option value="delivered" {{ request('status') == 'delivered' ? 'selected' : '' }}>Delivered</option>
                     </select>
                 </div>
-
                 <div class="col-12 col-md-2">
-                    <button class="btn btn-secondary w-100">Apply Filters</button>
+                    <button type="submit" class="btn btn-secondary w-100">Apply Filters</button>
                 </div>
-            </div>
+            </form>
         </div>
 
-        <!-- Users Table -->
-        <!-- Tracking Table -->
+        <!-- Shipments Table -->
         <div class="tracking-table">
-            <div class="card-header">
-                <h5 class="mb-0">Update Tracker Code Timeline</h5>
-            </div>
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>Tracking Code</th>
-                            <th>Name</th>
-                            <th>Origin</th>
-                            <th>Destination</th>
-                            <th>Mode</th>
-
-
-
+                            <th>Tracking Number</th>
+                            <th>Sender</th>
+                            <th>Recipient</th>
+                            <th>Service Type</th>
                             <th>Status</th>
+                            <th>Created</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>TJCh-SCgg-wJjm-a4j</td>
-                            <td>John doe</td>
-                            <td>Dallas Fort Worth International Airport (DFW)</td>
-                            <td>Thiruvananthapuram International Airport (TRV)</td>
-                            <td>Air</td>
-
-                            <td><span class="status-badge status-cleared">Cleared On Transit</span></td>
-                            <td>
-                                <div class="btn-group">
-                                    <a href="{{ url('admin/shipment-details') }}">
-                                        <button class="btn btn-view btn-sm">
+                        @forelse($shipments as $shipment)
+                            <tr>
+                                <td>{{ $shipment->tracking_number }}</td>
+                                <td>
+                                    {{ $shipment->sender_name }}<br>
+                                    <small class="text-muted">{{ $shipment->sender_address }}</small>
+                                </td>
+                                <td>
+                                    {{ $shipment->recipient_name }}<br>
+                                    <small class="text-muted">{{ $shipment->recipient_address }}</small>
+                                </td>
+                                <td>
+                                    <span class="badge bg-{{ $shipment->service_type === 'express' ? 'danger' : ($shipment->service_type === 'standard' ? 'primary' : 'success') }}">
+                                        {{ ucfirst($shipment->service_type) }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-{{ $shipment->current_status }}">
+                                        {{ ucfirst(str_replace('_', ' ', $shipment->current_status)) }}
+                                    </span>
+                                </td>
+                                <td>{{ $shipment->created_at->format('M d, Y') }}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="{{ route('admin.shipments.details', $shipment->id) }}"
+                                           class="btn btn-info btn-sm me-2">
                                             <i class="fas fa-eye"></i> View
-                                        </button>
-                                    </a>
-                                    <a href="{{ url('admin/add-timeline') }}">
-                                        <button class="btn btn-timeline btn-sm">
-                                            <i class="fas fa-clock"></i> Add Timeline
-                                        </button>
-                                    </a>
-                                    <button class="btn btn-delete btn-sm" data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal" data-tracking="TJCh-SCgg-wJjm-a4j">
-                                        <i class="fas fa-trash"></i> Delete
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
+                                        </a>
+                                        <a href="{{ route('add-timeline', $shipment->tracking_number) }}"
+                                           class="btn btn-warning btn-sm">
+                                            <i class="fas fa-clock"></i> Timeline
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="text-center py-4">
+                                    <div class="text-muted">
+                                        <i class="fas fa-box fa-2x mb-3"></i>
+                                        <p>No shipments found</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
-            <!-- Delete Modal -->
-            <div class="modal fade" id="deleteModal" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Confirm Deletion</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Are you sure you want to delete tracking code: <span id="deleteTrackingCode"></span>?</p>
-                            <p class="text-danger">This action cannot be undone.</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-danger">Delete</button>
-                        </div>
-                    </div>
-                </div>
+
+            <!-- Pagination -->
+            <div class="d-flex justify-content-end mt-4">
+                {{ $shipments->links() }}
             </div>
         </div>
     </div>
-    <script>
-        const viewModal = document.getElementById('viewModal');
-        viewModal.addEventListener('show.bs.modal', function(event) {
-            const button = event.relatedTarget;
-            const trackingCode = button.getAttribute('data-tracking');
-            const row = button.closest('tr');
-
-            document.getElementById('modalTrackingCode').textContent = trackingCode;
-            document.getElementById('modalOrigin').textContent = row.cells[1].textContent;
-            document.getElementById('modalDestination').textContent = row.cells[2].textContent;
-            document.getElementById('modalStatus').textContent = row.cells[6].textContent;
-        });
-
-        // Handle Delete Modal
-        const deleteModal = document.getElementById('deleteModal');
-        deleteModal.addEventListener('show.bs.modal', function(event) {
-            const button = event.relatedTarget;
-            const trackingCode = button.getAttribute('data-tracking');
-            document.getElementById('deleteTrackingCode').textContent = trackingCode;
-        });
-    </script>
 @endsection
