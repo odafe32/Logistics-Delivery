@@ -34,6 +34,7 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/nearest-office', 'NearestOffice')->name('nearest-office');
     Route::get('/track-shipment-detail', 'ShowShipmentDetail')->name('track-shipment-detail');
     Route::get('/track-shipment', 'ShowShipment')->name('track-shipment');
+        Route::get('faqs', 'ShowFaqs')->name('faqs');
 
 });
 
@@ -47,6 +48,7 @@ Route::controller(HomeController::class)->group(function () {
             Route::get('shipment-history', 'ShowHistory')->name('shipment-history');
             Route::get('profile', 'ShowProfile')->name('profile');
             Route::get('support', 'ShowSupport')->name('support');
+        
                 
         });
  

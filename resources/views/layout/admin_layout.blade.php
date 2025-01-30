@@ -580,7 +580,15 @@
             <a href="{{ url('admin/timelines') }}"
                 class="nav-item {{ request()->is('admin/timelines') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-car"></i></span>
-                <span class="nav-text">Timelines</span>
+                <span class="nav-text">Timelines</span>```php
+                <!-- Add Logs Link -->
+                <a href="{{ url('admin/logs') }}"
+                    class="nav-item {{ request()->is('admin/logs') ? 'active' : '' }}">
+                    <span class="nav-icon"><i class="fas fa-file-alt"></i></span>
+                    <span class="nav-text">Logs</span>
+                    <span class="nav-arrow">→</span>
+                </a>
+                ```
                 <span class="nav-arrow">→</span>
             </a>
 
