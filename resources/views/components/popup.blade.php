@@ -208,7 +208,7 @@
                             <img src="{{ url('assets/images/logo/favicon.png') }}" alt="Aramex Logo" class="logo">
 
                             <h1 class="heading-primary">BEWARE of</h1>
-                            <h2 class="heading-secondary">fraudsters pretending to be Noname!</h2>
+                            <h2 class="heading-secondary">fraudsters pretending to be us</h2>
 
                             <div class="alert-section">
                                 <h3 class="h5 fw-bold mb-2">Help us beat the scam</h3>

@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Shipment;
+use App\Models\ShipmentPackage;
+use App\Models\ShipmentStatus;
+use App\Models\Contact;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -124,21 +129,58 @@ class HomeController extends Controller
             'meta_image' => url('assets/images/logo/favicon.png'),
             'data_wf_page' => '63b261b248057c80966627'
            ];
-    return view('nearest-office', $viewData);   
+    return view('nearest-office', $viewData);
     }
 
 
+<<<<<<< HEAD
     public function ShowShipmentDetail(){
            $viewData = [
           'meta_title' =>  ' Shipment Details ' . config('website.name'),
               'meta_desc' => config('website.name') . ' offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Choose ' . config('website.name') . ' for efficient freight shipping & logistics',
+=======
+    public function ShowShipmentDetail($trackingNumber)
+    {
+        // Fetch shipment details
+        $shipment = Shipment::where('tracking_number', $trackingNumber)
+            ->with(['packages', 'statuses' => function($query) {
+                $query->orderBy('status_date', 'desc');
+            }])
+            ->firstOrFail();
+
+        $viewData = [
+            'meta_title' => 'Shipment Details - ' . config('website.name'),
+            'meta_desc' => config('website.name') . ' offers fast & reliable shipping, courier, & logistics services',
+>>>>>>> 300dd19d538206ddf44d053fec638ecb14b3e567
             'meta_image' => url('assets/images/logo/favicon.png'),
-            'data_wf_page' => '63b261b248057c80966627'
-           ];
-    return view('track-shipment-detail', $viewData);   
+            'data_wf_page' => '63b261b248057c80966627',
+            'shipment' => $shipment
+        ];
+
+        return view('track-shipment-detail', $viewData);
     }
 
+<<<<<<< HEAD
 
+=======
+    public function trackShipment(Request $request)
+    {
+        $request->validate([
+            'tracking_number' => 'required|string'
+        ]);
+
+        // Find the shipment with the given tracking number
+        $shipment = Shipment::where('tracking_number', $request->tracking_number)->first();
+
+        if ($shipment) {
+            // Redirect to tracking details page with the tracking number
+            return redirect()->route('track-shipment-detail', ['tracking_number' => $shipment->tracking_number]);
+        }
+
+        // If shipment not found, redirect back with an error
+        return back()->with('error', 'Tracking number not found');
+    }
+>>>>>>> 300dd19d538206ddf44d053fec638ecb14b3e567
 
     public function ShowShipment(){
            $viewData = [
@@ -147,9 +189,10 @@ class HomeController extends Controller
             'meta_image' => url('assets/images/logo/favicon.png'),
             'data_wf_page' => '63b261b248057c80966627'
            ];
-    return view('track-shipment', $viewData);   
+    return view('track-shipment', $viewData);
     }
 
+<<<<<<< HEAD
     public function ShowFaqs(){
            $viewData = [
           'meta_title' =>  ' Frequently Asked Question ' . config('website.name'),
@@ -161,4 +204,54 @@ class HomeController extends Controller
     }
 
     
+=======
+    public function showSendShipment()
+    {
+        return view('send-shipment');
+    }
+
+    public function showContact()
+{
+    $viewData = [
+        'meta_title' => 'Contact Us - ' . config('website.name'),
+        'meta_desc' => config('website.name') . ' offers fast & reliable shipping, courier, & logistics services for domestic & international shipments. Contact us for any queries or support.',
+        'meta_image' => url('assets/images/logo/favicon.png'),
+        'data_wf_page' => '63b261b248057c80966627'
+    ];
+    return view('contact', $viewData);
+}
+
+
+public function submitContact(Request $request)
+{
+    try {
+        $validated = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string'
+        ]);
+
+        Contact::create([
+            'first_name' => $validated['first_name'],
+            'last_name' => $validated['last_name'],
+            'email' => $validated['email'],
+            'subject' => $validated['subject'],
+            'message' => $validated['message'],
+            'is_read' => false
+        ]);
+
+        return back()->with('success', 'Thank you for your message. We will get back to you soon!');
+    } catch (\Exception $e) {
+        // Log the error for debugging
+        Log::error('Contact form error: ' . $e->getMessage());
+
+        return back()
+            ->withInput()
+            ->with('error', 'Sorry, there was an error sending your message. Please try again later.');
+    }
+}
+
+>>>>>>> 300dd19d538206ddf44d053fec638ecb14b3e567
 }

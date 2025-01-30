@@ -1,6 +1,14 @@
 @extends('layout.home_layout')
 @section('content')
     <style>
+        .loading-state {
+         display: none;
+        }
+        .btn-submit:disabled {
+            background: #dc3545;
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
         .signup-container {
             background: #f8f9fa;
             padding: 60px 0;
@@ -130,6 +138,35 @@
             background-position: right 1rem center;
             padding-right: 2.5rem;
         }
+
+        .login-section {
+        text-align: center;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid #eee;
+    }
+
+    .login-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        background: transparent;
+        border: 2px solid #dc3545;
+        color: #dc3545;
+        border-radius: 30px;
+        padding: 12px 24px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.3s;
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .login-link:hover {
+        background: rgba(220, 53, 69, 0.1);
+        color: #c82333;
+    }
     </style>
 
     <div class="signup-container">
@@ -167,23 +204,33 @@
                             </button>
                         </div>
 
-                        <form>
+                        <form method="POST" action="{{ route('register.submit') }}" id="registerForm">
+                            @csrf
+                            <input type="hidden" name="account_type" id="accountType" value="personal">
+
                             <div class="form-group">
                                 <label class="form-label">Email address</label>
-                                <input type="email" class="form-control" required>
+                                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
+                                    value="{{ old('email') }}" required>
+                                @error('email')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">Password</label>
-                                        <input type="password" class="form-control" required>
+                                        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" required>
+                                        @error('password')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">Confirm Password</label>
-                                        <input type="password" class="form-control" required>
+                                        <input type="password" name="password_confirmation" class="form-control" required>
                                     </div>
                                 </div>
                             </div>
@@ -194,13 +241,21 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">First Name</label>
-                                        <input type="text" class="form-control" required>
+                                        <input type="text" name="first_name" class="form-control @error('first_name') is-invalid @enderror"
+                                            value="{{ old('first_name') }}" required>
+                                        @error('first_name')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" required>
+                                        <input type="text" name="last_name" class="form-control @error('last_name') is-invalid @enderror"
+                                            value="{{ old('last_name') }}" required>
+                                        @error('last_name')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -211,14 +266,22 @@
                                         <label class="form-label">Phone Number</label>
                                         <div class="phone-input">
                                             <span class="phone-prefix">+234</span>
-                                            <input type="tel" class="form-control" placeholder="0802 123 4567" required>
+                                            <input type="tel" name="phone_number" class="form-control @error('phone_number') is-invalid @enderror"
+                                                placeholder="0802 123 4567" value="{{ old('phone_number') }}" required>
+                                            @error('phone_number')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">Job Title</label>
-                                        <input type="text" class="form-control" required>
+                                        <input type="text" name="job_title" class="form-control @error('job_title') is-invalid @enderror"
+                                            value="{{ old('job_title') }}" required>
+                                        @error('job_title')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -229,40 +292,63 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">Company Name</label>
-                                            <input type="text" class="form-control">
+                                            <input type="text" name="company_name" class="form-control @error('company_name') is-invalid @enderror"
+                                                value="{{ old('company_name') }}">
+                                            @error('company_name')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">Industry</label>
-                                            <select class="form-control">
+                                            <select name="industry" class="form-control @error('industry') is-invalid @enderror">
                                                 <option value="">Select Industry</option>
-                                                <option>E-commerce</option>
-                                                <option>Manufacturing</option>
-                                                <option>Retail</option>
-                                                <option>Other</option>
+                                                <option value="E-commerce" {{ old('industry') == 'E-commerce' ? 'selected' : '' }}>E-commerce</option>
+                                                <option value="Manufacturing" {{ old('industry') == 'Manufacturing' ? 'selected' : '' }}>Manufacturing</option>
+                                                <option value="Retail" {{ old('industry') == 'Retail' ? 'selected' : '' }}>Retail</option>
+                                                <option value="Other" {{ old('industry') == 'Other' ? 'selected' : '' }}>Other</option>
                                             </select>
+                                            @error('industry')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="mb-4">
-                                <div class="g-recaptcha" data-sitekey="your-site-key"></div>
-                            </div>
-
-                            <button type="submit" class="btn btn-submit">
-                                Create Account
-                                <i class="fas fa-arrow-right ms-2"></i>
+                            <button type="submit" class="btn btn-submit" id="submitBtn">
+                                <span class="normal-state">
+                                    Create Account
+                                    <i class="fas fa-arrow-right ms-2"></i>
+                                </span>
+                                <span class="loading-state d-none">
+                                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                    Creating Account...
+                                </span>
                             </button>
+
+
                         </form>
+
+                        <div class="login-section">
+                            <div class="d-flex align-items-center justify-content-center mb-3">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" class="text-danger">
+                                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13.8 12H3" />
+                                </svg>
+                                <span class="ms-2">Already have an account?</span>
+                            </div>
+                            <a href="{{ route('login') }}" class="login-link">
+                                Login to your account
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script>
         document.querySelectorAll('.btn-toggle').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -279,4 +365,44 @@
             });
         });
     </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('registerForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const accountType = document.getElementById('accountType');
+    const businessSection = document.getElementById('business-section');
+
+    // Handle account type toggle
+    document.querySelectorAll('.btn-toggle').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent form submission
+            document.querySelectorAll('.btn-toggle').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const type = btn.dataset.type;
+            accountType.value = type;
+
+            if (type === 'business') {
+                businessSection.classList.remove('d-none');
+                businessSection.querySelectorAll('input, select').forEach(input => {
+                    input.required = true;
+                });
+            } else {
+                businessSection.classList.add('d-none');
+                businessSection.querySelectorAll('input, select').forEach(input => {
+                    input.required = false;
+                });
+            }
+        });
+    });
+
+    // Handle form submission
+    form.addEventListener('submit', function() {
+        submitBtn.disabled = true;
+        submitBtn.querySelector('.normal-state').classList.add('d-none');
+        submitBtn.querySelector('.loading-state').classList.remove('d-none');
+    });
+});
+</script>
 @endsection

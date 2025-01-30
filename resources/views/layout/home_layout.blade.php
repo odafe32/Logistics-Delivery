@@ -167,6 +167,47 @@
                 color: #DF1118;
             }
         }
+
+        .dropdown-toggle::after {
+            display: inline-block;
+            margin-left: 0.5em;
+            vertical-align: middle;
+            content: "";
+            border-top: 0.3em solid;
+            border-right: 0.3em solid transparent;
+            border-bottom: 0;
+            border-left: 0.3em solid transparent;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            z-index: 1000;
+            display: none;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            clear: both;
+            font-weight: 400;
+            color: #212529;
+            text-align: inherit;
+            text-decoration: none;
+            white-space: nowrap;
+            background-color: transparent;
+            border: 0;
+        }
+
+        .dropdown-item:hover, .dropdown-item:focus {
+            color: #dc3545;
+            text-decoration: none;
+            background-color: #f8f9fa;
+        }
     </style>
 </head>
 
@@ -175,7 +216,7 @@
     <!-- Your content here -->
     {{ csrf_field() }}
     <!--====== PRELOADER PART START ======-->
-    {{-- 
+    {{--
     <div
         class="preloader bg-white tw-h-screen justify-content-center align-items-center tw-z-999 position-fixed top-0 tw-start-0 w-100 h-100">
         <div class="car-road">
@@ -502,7 +543,7 @@
                                 </a>
                             </li>
                             <li class="nav-submenu__item d-block tw-rounded tw-duration-200 position-relative">
-                                <a href="{{ url('/support') }}"
+                                <a href="{{ url('/contact') }}"
                                     class="nav-submenu__link {{ request()->is('support*') ? 'tw-text-[#DF1118] tw-bg-white' : 'hover-bg-neutral-100 text-black' }} fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded">
                                     Help & Support Center
                                 </a>
@@ -842,7 +883,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-submenu__item d-block tw-rounded tw-duration-200 position-relative">
-                                        <a href="{{ url('/support') }}"
+                                        <a href="{{ url('/contact') }}"
                                             class="nav-submenu__link hover-bg-neutral-100 text-black fw-medium w-100 d-block tw-py-2 tw-px-305 tw-rounded">
                                             Help & Support Center
                                         </a>
@@ -954,13 +995,51 @@
                             </ul>
                         </div>
                         <!-- Language End -->
-                        <li class="nav-submenu__item d-block tw-rounded tw-duration-200 position-relative">
-                            <button type="button" class="btn btn-danger rounded fw-bold" data-bs-toggle="modal"
-                                data-bs-target="#loginModal">
-                                Login
-                            </button>
-
-                        </li>
+                        <div class="nav-submenu__item d-block tw-rounded tw-duration-200 position-relative">
+                            @auth
+                                <div class="dropdown">
+                                    <button class="btn btn-danger dropdown-toggle rounded fw-bold d-flex align-items-center gap-2"
+                                            type="button" id="userDropdown"
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                        <span class="d-inline-block text-truncate" style="max-width: 150px;">
+                                            {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}
+                                        </span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                                        @if(Auth::user()->role === 'admin')
+                                            <li>
+                                                <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                                                    <i class="ph-bold ph-gauge me-2"></i>
+                                                    Dashboard
+                                                </a>
+                                            </li>
+                                        @else
+                                            <li>
+                                                <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                                    <i class="ph-bold ph-gauge me-2"></i>
+                                                    Dashboard
+                                                </a>
+                                            </li>
+                                        @endif
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                                                @csrf
+                                                <button type="submit" class="dropdown-item text-danger">
+                                                    <i class="ph-bold ph-sign-out me-2"></i>
+                                                    Logout
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            @else
+                                <button type="button" class="btn btn-danger rounded fw-bold" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                    Login
+                                </button>
+                            @endauth
+                        </div>
 
                         <!-- Line Start -->
                         <span class="line h-100"></span>
@@ -1185,6 +1264,45 @@
     <script src="{{ url('assets/js/magnific-popup.min.js?v=' . env('CACHE_VERSION')) }}"></script>
     <script src="{{ url('assets/js/jquery.marquee.min.js?v=' . env('CACHE_VERSION')) }}"></script>
     <script src="{{ url('assets/js/main.js?v=' . env('CACHE_VERSION')) }}"></script>
+
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Bootstrap
+    if (typeof bootstrap !== 'undefined') {
+        // Initialize all dropdowns
+        var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
+        dropdownElementList.forEach(function(dropdownToggleEl) {
+            new bootstrap.Dropdown(dropdownToggleEl, {
+                offset: [0, 10],
+                boundary: 'viewport'
+            });
+        });
+    }
+
+    // Fallback manual initialization if Bootstrap isn't loaded
+    document.querySelectorAll('.dropdown-toggle').forEach(function(element) {
+        element.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            var dropdownMenu = this.nextElementSibling;
+            if (dropdownMenu && dropdownMenu.classList.contains('dropdown-menu')) {
+                dropdownMenu.classList.toggle('show');
+            }
+        });
+    });
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.matches('.dropdown-toggle')) {
+            document.querySelectorAll('.dropdown-menu.show').forEach(function(dropdown) {
+                dropdown.classList.remove('show');
+            });
+        }
+    });
+});
+</script>
 
 </body>
 

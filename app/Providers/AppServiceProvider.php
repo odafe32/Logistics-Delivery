@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\Role;
+use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Foundation\Application;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,7 +14,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Register the Role middleware
+        $this->app->singleton(Role::class);
     }
 
     /**
@@ -19,6 +23,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        RedirectIfAuthenticated::redirectUsing(fn ($request) => route('admin.dashboard'));
+
+        // Register middleware alias
+        /** @var \Illuminate\Routing\Router $router */
+        $router = $this->app['router'];
+        $router->aliasMiddleware('role', Role::class);
     }
 }

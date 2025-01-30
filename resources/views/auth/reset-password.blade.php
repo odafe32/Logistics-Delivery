@@ -90,45 +90,109 @@
                height: 64px;
                margin-bottom: 1rem;
            }
+
+           .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .btn-loading {
+            position: relative;
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        .btn-loading .spinner {
+            display: inline-block;
+        }
+
+        .btn-loading .btn-text {
+            margin-left: 8px;
+        }
+
+        .btn-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
        </style>
 
-       <div class="auth-container">
-           <div class="container">
-               <div class="row justify-content-center">
-                   <div class="col-md-6 col-lg-5">
-                       <div class="auth-card p-4 p-md-5">
-                           <div class="auth-header">
-                               <svg class="auth-icon text-danger" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                   viewBox="0 0 24 24" stroke="currentColor">
-                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                       d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                               </svg>
-                               <h3>Reset Password</h3>
-                               <p class="text-muted">Enter your new password below</p>
-                           </div>
+<div class="auth-container">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-5">
+                    <div class="auth-card p-4 p-md-5">
+                        <div class="auth-header">
+                            <svg class="auth-icon text-danger" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                            <h3>Reset Password</h3>
+                            <p class="text-muted">Enter your new password below</p>
+                        </div>
 
-                           <form action="/reset-password" method="POST">
-                               @csrf
-                               {{-- <input type="hidden" name="token" value="{{ $token }}">
-                               <input type="hidden" name="email" value="{{ $email }}"> --}}
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
 
-                               <div class="form-group">
-                                   <label class="form-label">New Password</label>
-                                   <input type="password" class="form-control" name="password" required>
-                               </div>
+                        <form action="{{ route('password.update') }}" method="POST" id="resetForm">
+                            @csrf
+                            <input type="hidden" name="token" value="{{ $token }}">
+                            <input type="hidden" name="email" value="{{ $email }}">
 
-                               <div class="form-group">
-                                   <label class="form-label">Confirm New Password</label>
-                                   <input type="password" class="form-control" name="password_confirmation" required>
-                               </div>
+                            <div class="form-group">
+                                <label class="form-label">New Password</label>
+                                <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                    name="password" required>
+                                @error('password')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-                               <button type="submit" class="btn btn-primary">
-                                   Reset Password
-                               </button>
-                           </form>
-                       </div>
-                   </div>
-               </div>
-           </div>
-       </div>
-   @endsection
+                            <div class="form-group">
+                                <label class="form-label">Confirm New Password</label>
+                                <input type="password" class="form-control"
+                                    name="password_confirmation" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" id="submitBtn">
+                                <div class="btn-content">
+                                    <div class="spinner"></div>
+                                    <span class="btn-text">Reset Password</span>
+                                </div>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('resetForm').addEventListener('submit', function(e) {
+            const button = document.getElementById('submitBtn');
+            button.classList.add('btn-loading');
+            button.disabled = true;
+        });
+    </script>
+@endsection

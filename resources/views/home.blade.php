@@ -25,13 +25,13 @@
             z-index: 0;
         }
 
-        .bg-circle-1 {
+        /* .bg-circle-1 {
             width: 400px;
             height: 400px;
             background: linear-gradient(45deg, rgba(227, 24, 55, 0.05) 0%, rgba(227, 24, 55, 0.02) 100%);
             top: -100px;
             right: -100px;
-        }
+        } */
 
         .bg-circle-2 {
             width: 300px;

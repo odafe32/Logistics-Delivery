@@ -540,10 +540,12 @@
         </div>
         <!-- User Profile -->
         <div class="user-profile" id="userProfile">
-            <div class="user-avatar">JS</div>
+             <div class="user-avatar">
+                {{ substr(Auth::user()->first_name, 0, 1) . substr(Auth::user()->last_name, 0, 1) }}
+            </div>
             <div class="user-info">
-                <div class="user-name">Joseph Sule</div>
-                <div class="user-role">Admin</div>
+                <div class="user-name">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</div>
+                <div class="user-role">{{ ucfirst(Auth::user()->role) }}</div>
             </div>
             <i class="fas fa-chevron-down ms-2"></i>
 
@@ -554,31 +556,33 @@
                     View Profile
                 </a>
 
-                <div class="profile-dropdown-divider"></div>
-                <a href="{{ url('admin/logout') }}" class="profile-dropdown-item text-red-600">
+                <form id="admin-logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+                <a href="#" onclick="event.preventDefault(); document.getElementById('admin-logout-form').submit();"
+                class="profile-dropdown-item text-red-600">
                     <i class="fas fa-sign-out-alt"></i>
-                    Logout
+                    <span class="logout-text">Logout</span>
                 </a>
             </div>
         </div>
         <nav class="sidebar-nav">
             <!-- Dashboard Link -->
-            <a href="{{ url('admin/dashboard') }}"
-                class="nav-item {{ request()->is('admin/dashboard') ? 'active' : '' }}">
+            <a href="{{ url('admin/dashboard') }}" class="nav-item {{ request()->is('admin/dashboard') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-home"></i></span>
                 <span class="nav-text">Dashboard</span>
                 <span class="nav-arrow">→</span>
             </a>
 
-            <!-- Account Management Dropdown -->
+            <!-- Users Management -->
             <a href="{{ url('admin/users') }}" class="nav-item {{ request()->is('admin/users') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-users"></i></span>
                 <span class="nav-text">Users</span>
                 <span class="nav-arrow">→</span>
             </a>
 
-            <a href="{{ url('admin/timelines') }}"
-                class="nav-item {{ request()->is('admin/timelines') ? 'active' : '' }}">
+            <!-- Shipment Management -->
+            <a href="{{ url('admin/timelines') }}" class="nav-item {{ request()->is('admin/timelines') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-car"></i></span>
                 <span class="nav-text">Timelines</span>```php
                 <!-- Add Logs Link -->
@@ -592,34 +596,31 @@
                 <span class="nav-arrow">→</span>
             </a>
 
-            <!-- Shipment Management Dropdown -->
 
-            <a href="{{ url('admin/profile') }}"
-                class="nav-item {{ request()->is('admin/profile') ? 'active' : '' }}">
+            <div class="sidebar-divider"></div>
+
+            <!-- Profile Link -->
+            <a href="{{ route('admin.profile') }}" class="nav-item {{ request()->is('admin/profile') ? 'active' : '' }}">
                 <span class="nav-icon">
                     <i class="fas fa-user"></i>
                 </span>
                 <span class="nav-text">My Profile</span>
                 <span class="nav-arrow">→</span>
             </a>
-
-
             <div class="sidebar-divider"></div>
 
-
-
-
-
-            <a href="{{ url('logout') }}" class="nav-item {{ request()->is('logout') ? 'active' : '' }}">
+            <!-- Logout -->
+            <form id="nav-admin-logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+            <a href="#" onclick="event.preventDefault(); handleLogout('nav-admin-logout-form', this);"
+            class="nav-item {{ request()->is('logout') ? 'active' : '' }}">
                 <span class="nav-icon">
                     <i class="fas fa-sign-out-alt"></i>
                 </span>
                 <span class="nav-text">Logout</span>
                 <span class="nav-arrow">→</span>
             </a>
-
-
-
         </nav>
     </div>
 
@@ -778,7 +779,45 @@
     <script src="{{ url('assets/js/magnific-popup.min.js?v=' . env('CACHE_VERSION')) }}"></script>
     <script src="{{ url('assets/js/jquery.marquee.min.js?v=' . env('CACHE_VERSION')) }}"></script>
     <script src="{{ url('assets/js/main.js?v=' . env('CACHE_VERSION')) }}"></script>
+    <script>
+    function handleLogout(formId, linkElement) {
+        // Add loading state
+        const icon = linkElement.querySelector('.fas');
+        const originalClass = icon.className;
+        icon.className = 'fas fa-spinner fa-spin';
 
+        // Disable the link
+        linkElement.style.pointerEvents = 'none';
+        linkElement.style.opacity = '0.7';
+
+        // Submit the form
+        document.getElementById(formId).submit();
+
+        // Reset after a delay (in case submission fails)
+        setTimeout(() => {
+            icon.className = originalClass;
+            linkElement.style.pointerEvents = '';
+            linkElement.style.opacity = '';
+        }, 3000);
+    }
+
+    // Add loading state for profile dropdown logout
+    document.addEventListener('DOMContentLoaded', function() {
+        const profileLogoutLink = document.querySelector('.profile-dropdown-item.text-red-600');
+        profileLogoutLink.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // Add loading state
+            const icon = this.querySelector('.fas');
+            icon.className = 'fas fa-spinner fa-spin';
+            this.style.pointerEvents = 'none';
+            this.style.opacity = '0.7';
+
+            // Submit the form
+            document.getElementById('admin-logout-form').submit();
+        });
+    });
+</script>
 </body>
 
 </html>

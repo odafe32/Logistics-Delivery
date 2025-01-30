@@ -38,6 +38,7 @@
     <meta name="apple-mobile-web-app-title" content="{{ config('website.name') }} Logistics">
     <meta name="application-name" content="{{ config('website.name') }} Logistics">
     <meta name="theme-color" content="#ffffff">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -539,11 +540,13 @@
             </a>
         </div>
         <!-- User Profile -->
-        <div class="user-profile" id="userProfile">
-            <div class="user-avatar">JS</div>
+        <iv class="user-profile" id="userProfile">
+            <div class="user-avatar">
+                {{ substr(Auth::user()->first_name, 0, 1) . substr(Auth::user()->last_name, 0, 1) }}
+            </div>
             <div class="user-info">
-                <div class="user-name">Joseph Sule</div>
-                <div class="user-role">User</div>
+                <div class="user-name">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</div>
+                <div class="user-role">{{ ucfirst(Auth::user()->role) }}</div>
             </div>
             <i class="fas fa-chevron-down ms-2"></i>
 
@@ -555,12 +558,16 @@
                 </a>
 
                 <div class="profile-dropdown-divider"></div>
-                <a href="{{ url('logout') }}" class="profile-dropdown-item text-red-600">
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                class="profile-dropdown-item text-red-600">
                     <i class="fas fa-sign-out-alt"></i>
                     Logout
                 </a>
             </div>
-        </div>
+        </iv>
         <nav class="sidebar-nav">
             <!-- Dashboard Link -->
             <a href="{{ url('dashboard') }}" class="nav-item {{ request()->is('dashboard') ? 'active' : '' }}">
@@ -604,15 +611,19 @@
 
 
 
-            <a href="{{ url('support') }}" class="nav-item {{ request()->is('support') ? 'active' : '' }}">
+            <!-- <a href="{{ url('support') }}" class="nav-item {{ request()->is('support') ? 'active' : '' }}">
                 <span class="nav-icon">
                     <i class="fas fa-headset"></i>
                 </span>
                 <span class="nav-text">Support Requests</span>
                 <span class="nav-arrow">→</span>
-            </a>
+            </a> -->
 
-            <a href="{{ url('logout') }}" class="nav-item {{ request()->is('logout') ? 'active' : '' }}">
+            <form id="nav-logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+            <a href="#" onclick="event.preventDefault(); document.getElementById('nav-logout-form').submit();"
+            class="nav-item {{ request()->is('logout') ? 'active' : '' }}">
                 <span class="nav-icon">
                     <i class="fas fa-sign-out-alt"></i>
                 </span>
@@ -780,6 +791,7 @@
     <script src="{{ url('assets/js/magnific-popup.min.js?v=' . env('CACHE_VERSION')) }}"></script>
     <script src="{{ url('assets/js/jquery.marquee.min.js?v=' . env('CACHE_VERSION')) }}"></script>
     <script src="{{ url('assets/js/main.js?v=' . env('CACHE_VERSION')) }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
 
