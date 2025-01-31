@@ -38,6 +38,9 @@
     <meta name="apple-mobile-web-app-title" content="{{ config('website.name') }} Logistics">
     <meta name="application-name" content="{{ config('website.name') }} Logistics">
     <meta name="theme-color" content="#ffffff">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8">
+
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -281,7 +284,7 @@
         <div class="d-flex flex-column tw-gap-8 overflow-hidden">
             <div class="animate-item">
                 <a href="{{ url('/') }}" class="cursor-big">
-                    <img src="assets/images/logo/logo2.png" alt="Logo" class="max-w-200-px">
+                    <img src="{{ url('assets/images/logo/logo2.png') }}" alt="Logo" class="max-w-200-px">
                 </a>
             </div>
             <div>
@@ -536,12 +539,12 @@
                     <div
                         class="logo-mask-bg cursor-big position-relative d-lg-flex d-none z-1 tw-w-156-px d-flex justify-content-center align-items-center">
                         <a href="{{ url('/') }}" class="tw-mt-7">
-                            <img src="assets/images/logo/logo.png" alt="Logo" class="max-w-200-px">
+                            <img src="{{ url('assets/images/logo/logo.png') }}" alt="Logo" class="max-w-200-px">
                         </a>
                     </div>
                     <div class="position-relative d-lg-none d-inline-block z-1">
                         <a href="{{ url('/') }}" class="cursor-big">
-                            <img src="assets/images/logo/logo2.png" alt="Logo" class="max-w-100-px">
+                            <img src="{{ url('assets/images/logo/logo2.png') }}" alt="Logo" class="max-w-100-px">
                         </a>
                     </div>
                     <!-- Logo End  -->
@@ -733,9 +736,9 @@
 
                         <!-- Bar icon -->
                         <button type="button"
-                            class="offcanvas-bar-icon cursor-small hover--translate-y-1 active--translate-y-05 tw-duration-150">
-                            <img src="assets/images/icons/bars.svg" alt="">
-                        </button>
+    class="offcanvas-bar-icon cursor-small hover--translate-y-1 active--translate-y-05 tw-duration-150 d-none d-lg-block">
+    <img src="assets/images/icons/bars.svg" alt="">
+</button>
                         <!-- Bar icon End -->
                     </div>
 

@@ -16,6 +16,7 @@
             min-height: 100vh;
             padding: 4rem 0;
             position: relative;
+            overflow: hidden;
         }
 
         /* Background Elements */
@@ -25,13 +26,51 @@
             z-index: 0;
         }
 
-        /* .bg-circle-1 {
+         .bg-circle-1 {
             width: 400px;
             height: 400px;
             background: linear-gradient(45deg, rgba(227, 24, 55, 0.05) 0%, rgba(227, 24, 55, 0.02) 100%);
             top: -100px;
             right: -100px;
-        } */
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating-1 {
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.1;
+        }
+
+        .floating-2 {
+            animation: float 4s ease-in-out infinite;
+            animation-delay: -2s;
+        }
+
+        /* Plane Animation */
+        @keyframes flyAlong {
+            0% { transform: translate(0, 0) scale(0.8); }
+            50% { transform: translate(800px, -50px) scale(1.2); }
+            100% { transform: translate(1600px, 0) scale(0.8); }
+        }
+
+        .plane {
+            animation: flyAlong 15s linear infinite;
+        }
 
         .bg-circle-2 {
             width: 300px;
@@ -48,69 +87,193 @@
         }
 
         .tracking-title {
-            font-size: 4rem;
+            font-size: 2.5rem;
             font-weight: 800;
             color: var(--aramex-red);
             line-height: 1.2;
             margin-bottom: 2rem;
             animation: slideIn 1s ease-out;
+            z-index: 2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 30px;
         }
 
         .tracking-form {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
             padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
-            animation: fadeIn 1s ease-out;
-        }
-
-        .input-container {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
-
-        .tracking-input {
-            width: 100%;
-            padding: 1.2rem 1.2rem 1.2rem 3.5rem;
-            border: 2px solid #eee;
-            border-radius: 12px;
-            font-size: 1.1rem;
+            box-shadow:
+                0 20px 40px rgba(0,0,0,0.05),
+                0 1px 3px rgba(0,0,0,0.05),
+                inset 0 0 0 1px rgba(255,255,255, 0.4);
+            backdrop-filter: blur(10px);
             transition: all 0.3s ease;
-            background: #f8f9fa;
         }
 
-        .tracking-input:focus {
-            outline: none;
-            border-color: var(--aramex-red);
-            background: white;
-            box-shadow: 0 0 0 4px rgba(227, 24, 55, 0.1);
+        .tracking-form:hover {
+            transform: translateY(-5px);
+            box-shadow:
+                0 30px 60px rgba(0,0,0,0.1),
+                0 1px 3px rgba(0,0,0,0.05),
+                inset 0 0 0 1px rgba(255,255,255, 0.4);
         }
 
-        .input-icon {
-            position: absolute;
-            left: 1.2rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #adb5bd;
-        }
+.tracking-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(227, 24, 55, 0.1);
+    color: #E31837;
+    padding: 0.5rem 1rem;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    position: relative;
+}
 
-        .btn-track {
-            background: var(--aramex-red);
-            color: white;
-            border: none;
-            padding: 1.2rem 2.5rem;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            width: 100%;
-        }
+.tracking-badge i {
+    font-size: 1.25rem;
+}
 
-        .btn-track:hover {
-            background: var(--aramex-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(227, 24, 55, 0.2);
-        }
+.pulse {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #E31837;
+    border-radius: 50%;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.pulse::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    border-radius: inherit;
+    animation: pulse 2s ease-out infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+.tracking-search-form {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.input-container {
+    position: relative;
+    margin-bottom: 1rem;
+    margin-top: 10px;
+}
+
+.input-icon {
+    position: absolute;
+    left: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #adb5bd;
+    z-index: 2;
+}
+
+.tracking-input {
+    width: 100%;
+    padding: 1.2rem 1.2rem 1.2rem 3.5rem;
+    border: 2px solid #eee;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+    position: relative;
+    z-index: 1;
+}
+
+.input-focus-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, #E31837, #ff4d6d);
+    border-radius: 16px;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all 0.3s ease;
+    z-index: 0;
+}
+
+.tracking-input:focus {
+    outline: none;
+    border-color: transparent;
+    background: white;
+    transform: translateY(-2px);
+}
+
+.tracking-input:focus + .input-focus-bg {
+    opacity: 0.1;
+    transform: scale(1);
+}
+
+.btn-track {
+    width: 100%;
+    padding: 1.2rem;
+    border: none;
+    border-radius: 16px;
+    background: #E31837;
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-track::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.2), transparent);
+    transform: translateX(-100%);
+    transition: all 0.6s ease;
+}
+
+.btn-track:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(227, 24, 55, 0.2);
+}
+
+.btn-track:hover::before {
+    transform: translateX(100%);
+}
+
+.btn-icon {
+    display: flex;
+    align-items: center;
+    font-size: 1.25rem;
+    transition: transform 0.3s ease;
+}
+
+.btn-track:hover .btn-icon {
+    transform: translateX(4px);
+}
 
         .helper-text {
             color: #6c757d;
@@ -140,12 +303,11 @@
         }
 
         .image-main {
-            width: 80%;
-            height: 450px;
+            width: 100%;
+            height: 520px;
             right: 0;
             top: 0;
             z-index: 3;
-            transform: rotate(2deg);
         }
 
         .image-top {
@@ -232,47 +394,80 @@
 
         /* Stats Section */
         .stats-container {
-            margin-top: 4rem;
-            padding: 2rem;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+            margin-top: 2.5rem;
+            padding: .75rem;
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
-        .stat-item {
-            text-align: center;
-            padding: 1.5rem;
-            border-right: 1px solid #eee;
+        .stat-item-wrapper {
+            transform: translateY(0);
+            transition: all 0.3s ease;
+            padding: 8px;
         }
 
-        .stat-item:last-child {
-            border-right: none;
+        .stat-item-wrapper:hover {
+            transform: translateY(-5px);
         }
 
         .stat-number {
             font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--aramex-red);
-            margin-bottom: 0.5rem;
+            line-height: 1;
+            background: linear-gradient(135deg, var(--aramex-red) 0%, var(--aramex-dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .stat-label {
-            color: #6c757d;
-            font-size: 0.9rem;
+        .stat-icon span {
+            transition: all 0.3s ease;
+        }
+
+        .stat-item-wrapper:hover .stat-icon span {
+            transform: scale(1.1);
+            background-color: var(--aramex-red);
+            color: white;
+        }
+
+        .stat-shape {
+            transition: all 0.3s ease;
+        }
+
+        .stat-item-wrapper:hover .stat-shape {
+            transform: scale(1.2) rotate(10deg);
+            opacity: 0.15;
+        }
+
+        @media (max-width: 768px) {
+            .stats-container {
+                margin-top: 2rem;
+                padding: 0.5rem;
+            }
+
+            .stat-item {
+                padding: 1rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
         }
 
         @media (max-width: 992px) {
             .tracking-title {
-                font-size: 3rem;
+                font-size: 2.2rem;
             }
 
             .images-gallery {
-                height: 500px;
-                margin-top: 3rem;
+                height: 400px;
+                margin-top: 1rem;
             }
 
+            .tracking-section {
+                padding: 0;
+            }
             .image-main {
-                width: 90%;
+                width: 100%;
                 height: 350px;
             }
 
@@ -300,25 +495,29 @@
     {{-- track shipment --}}
     <section class="tracking-section">
         <!-- Background Elements -->
-        <div class="bg-circle bg-circle-1"></div>
-        <div class="bg-circle bg-circle-2"></div>
+        <!-- <div class="bg-circle bg-circle-1"></div> -->
+        <!-- <div class="bg-circle bg-circle-2"></div> -->
 
         <div class="container">
             <div class="row align-items-center">
                 <!-- Left Column -->
-                <div class="col-lg-5 tracking-content">
+                <div class="col-lg-5 order-1 order-lg-0 tracking-content">
                     <h1 class="tracking-title">Track your shipment</h1>
 
-                    <div class="tracking-form">
-                        <form action="{{ route('track-shipment.submit') }}" method="POST">
+                   <div class="tracking-form">
+                        <div class="form-header">
+                            <div class="tracking-badge">
+                                <span class="pulse"></span>
+                                <i class="ph-fill ph-package"></i>
+                                TRACK PACKAGE
+                            </div>
+                        </div>
+
+                        <form action="{{ route('track-shipment.submit') }}" method="POST" class="tracking-search-form">
                             @csrf
                             <div class="input-container">
                                 <span class="input-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                                        viewBox="0 0 16 16">
-                                        <path
-                                            d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z" />
-                                    </svg>
+                                    <i class="ph-fill ph-magnifying-glass"></i>
                                 </span>
                                 <input type="text"
                                     name="tracking_number"
@@ -326,10 +525,14 @@
                                     placeholder="Enter your tracking number"
                                     id="trackingInput"
                                     required>
+                                <div class="input-focus-bg"></div>
                             </div>
 
                             <button type="submit" class="btn-track">
-                                Track Shipment
+                                <span class="btn-text">Track Shipment</span>
+                                <span class="btn-icon">
+                                    <i class="ph-bold ph-arrow-right"></i>
+                                </span>
                             </button>
                         </form>
                     </div>
@@ -342,39 +545,75 @@
                     @endif
 
                     <!-- Stats Section -->
-                    <div class="stats-container">
-                        <div class="row">
-                            <div class="col-md-4 stat-item">
-                                <div class="stat-number">98%</div>
-                                <div class="stat-label">On-time Delivery</div>
+                    <div class="stats-container" data-aos="fade-up" data-aos-duration="800">
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <div class="stat-item-wrapper position-relative overflow-hidden rounded-lg bg-white hover:shadow-lg transition-all duration-300">
+                                    <div class="stat-item p-8 text-center">
+                                        <div class="stat-icon mb-4">
+                                            <span class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-main-50 text-main-600">
+                                                <i class="ph-fill ph-timer text-3xl"></i>
+                                            </span>
+                                        </div>
+                                        <div class="stat-number font-bold text-main-600 mb-2" data-count="98">
+                                            <span class="counter">98</span>
+                                            <span class="text-3xl">%</span>
+                                        </div>
+                                        <div class="stat-label text-neutral-600 font-medium">On-time Delivery</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-4 stat-item">
-                                <div class="stat-number">220+</div>
-                                <div class="stat-label">Countries Served</div>
+                            <div class="col-md-4">
+                                <div class="stat-item-wrapper position-relative overflow-hidden rounded-lg bg-white hover:shadow-lg transition-all duration-300">
+                                    <div class="stat-item p-8 text-center">
+                                        <div class="stat-icon mb-4">
+                                            <span class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-main-50 text-main-600">
+                                                <i class="ph-fill ph-globe text-3xl"></i>
+                                            </span>
+                                        </div>
+                                        <div class="stat-number font-bold text-main-600 mb-2">
+                                            <span class="counter">220</span>
+                                            <span class="text-3xl">+</span>
+                                        </div>
+                                        <div class="stat-label text-neutral-600 font-medium">Countries Served</div>
+
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-4 stat-item">
-                                <div class="stat-number">24/7</div>
-                                <div class="stat-label">Customer Support</div>
+                            <div class="col-md-4">
+                                <div class="stat-item-wrapper position-relative overflow-hidden rounded-lg bg-white hover:shadow-lg transition-all duration-300">
+                                    <div class="stat-item p-8 text-center">
+                                        <div class="stat-icon mb-4">
+                                            <span class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-main-50 text-main-600">
+                                                <i class="ph-fill ph-headset text-3xl"></i>
+                                            </span>
+                                        </div>
+                                        <div class="stat-number font-bold text-main-600 mb-2">
+                                            <span>24/7</span>
+                                        </div>
+                                        <div class="stat-label text-neutral-600 font-medium">Customer Support</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Right Column - Image Gallery -->
-                <div class="col-lg-7">
+                <div class="col-lg-7 order-0 order-lg-1">
                     <div class="images-gallery">
-                        <div class="gallery-image image-main floating" style="--rotation: 2deg;">
-                            <img src="{{ url('assets/images/thumbs/banner-img3.png') }}"
+                        <div class="gallery-image image-main" style="">
+                            <img src="{{ url('assets/images/thumbs/home.png') }}"
                                 alt="{{ config('website.name') }} Delivery Service">
                         </div>
-                        <div class="gallery-image image-top floating" style="--rotation: -4deg;">
-                            <img src="{{ url('assets/images/thumbs/blog-page-img3.png') }}"
-                                alt="{{ config('website.name') }} Global Network">
-                        </div>
-                        <div class="gallery-image image-bottom floating" style="--rotation: 6deg;">
+                        <!-- <div class="gallery-image image-top floating" style="--rotation: -4deg;">
                             <img src="{{ url('assets/images/thumbs/blog-two-img3.png') }}"
+                                alt="{{ config('website.name') }} Global Network">
+                        </div> -->
+                        <!-- <div class="gallery-image image-bottom floating" style="--rotation: 6deg;">
+                            <img src="{{ url('assets/images/thumbs/banner-img3.png') }}"
                                 alt="{{ config('website.name') }} Shipping">
-                        </div>
+                        </div> -->
 
                         <!-- Dot Pattern -->
                         <div class="dot-pattern">
@@ -1687,6 +1926,7 @@
     @include('components.popup')
     <script>
 document.addEventListener('DOMContentLoaded', function() {
+
     const form = document.querySelector('.tracking-form form');
     const input = document.getElementById('trackingInput');
 
