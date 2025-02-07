@@ -266,8 +266,8 @@
     <!-- ==================== Scroll to Top End Here ==================== -->
 
     <!-- Custom Cursor Start -->
-    <div class="cursor"></div>
-    <span class="dot"></span>
+    <!-- <div class="cursor"></div>
+    <span class="dot"></span> -->
     <!-- Custom Cursor End -->
 
 
@@ -300,17 +300,16 @@
                             class="tw-w-10 tw-h-10 flex-shrink-0 bg-main-600 rounded-circle text-white tw-text-xl d-flex justify-content-center align-items-center">
                             <i class="ph ph-phone"></i>
                         </span>
-                        <a href="tel:+880(123)45688"
-                            class="text-main-two-600 hover-text-main-600 hover--translate-x-1 fw-medium tw-text-lg">+880
-                            (123) 456 88</a>
+                        <a href="tel:{{ config('website.contact') }}"
+                            class="text-main-two-600 hover-text-main-600 hover--translate-x-1 fw-medium tw-text-lg">{{ config('website.contact') }}</a>
                     </div>
                     <div class="cursor-small animate-item d-flex align-items-center tw-gap-5">
                         <span
                             class="tw-w-10 tw-h-10 flex-shrink-0 bg-main-600 rounded-circle text-white tw-text-xl d-flex justify-content-center align-items-center">
                             <i class="ph ph-map-pin"></i>
                         </span>
-                        <a href="mailto:support@gmail.com"
-                            class="text-main-two-600 hover-text-main-600 hover--translate-x-1 fw-medium tw-text-lg">support@gmail.com</a>
+                         <a href="mailto:{{ config('website.email') }}"
+                            class="text-main-two-600 hover-text-main-600 hover--translate-x-1 fw-medium tw-text-lg">{{ config('website.email') }}</a>
                     </div>
                     <div class="cursor-small animate-item d-flex align-items-start tw-gap-5">
                         <span
@@ -506,15 +505,15 @@
                     </div>
                     <div class="cursor-small d-flex align-items-center tw-gap-2 tw-py-205">
                         <span class="text-main-600 d-flex"><i class="ph-bold ph-phone"></i></span>
-                        <a href="mailto:support@example.com"
-                            class="text-black xl-tw-text-sm tw-text-xs fw-medium hover--translate-x-05 hover-text-main-600 tw-transition-all">support@example.com</a>
+                         <a href="mailto:{{ config('website.email') }}"
+                            class="text-black xl-tw-text-sm tw-text-xs fw-medium hover--translate-x-05 hover-text-main-600 tw-transition-all">{{ config('website.email') }}</a>
                     </div>
                 </div>
                 <div class="d-md-flex d-none align-items-center tw-gap-6">
                     <div class="cursor-small d-flex align-items-center tw-gap-2 tw-py-205">
                         <span class="text-main-600 d-flex"><i class="ph-bold ph-chat-circle"></i></span>
-                        <a href="mailto:contact@gmail.com"
-                            class="text-black xl-tw-text-sm tw-text-xs fw-medium hover--translate-x-05 hover-text-main-600 tw-transition-all">contact@gmail.com</a>
+                        <a href="tel:{{ config('website.contact') }}"
+                            class="text-black xl-tw-text-sm tw-text-xs fw-medium hover--translate-x-05 hover-text-main-600 tw-transition-all">{{ config('website.contact') }}</a>
                     </div>
                     <div
                         class="cursor-small d-lg-flex d-none align-items-center tw-py-205 tw-gap-6 tw-ps-10 clip-path position-relative">
@@ -539,12 +538,12 @@
                     <div
                         class="logo-mask-bg cursor-big position-relative d-lg-flex d-none z-1 tw-w-156-px d-flex justify-content-center align-items-center">
                         <a href="{{ url('/') }}" class="tw-mt-7">
-                            <img src="{{ url('assets/images/logo/logo.png') }}" alt="Logo" class="max-w-200-px">
+                            <img src="{{ url('assets/images/logo/logo.png') }}" alt="Logo" class="max-w-200-px mt-3">
                         </a>
                     </div>
                     <div class="position-relative d-lg-none d-inline-block z-1">
                         <a href="{{ url('/') }}" class="cursor-big">
-                            <img src="{{ url('assets/images/logo/logo2.png') }}" alt="Logo" class="max-w-100-px">
+                            <img src="{{ url('assets/images/logo/logo2.png') }}" alt="Logo" class="max-w-200-px">
                         </a>
                     </div>
                     <!-- Logo End  -->
@@ -889,11 +888,10 @@
                             </div>
                             <div class="">
                                 <h5 class="text-white tw-mb-6 cursor-big">Contact</h5>
-                                <a href="mailto:support@gmail.com"
-                                    class="cursor-small hover--translate-x-2 position-relative text-neutral-500 hover-text-main-600 fw-semibold">support@gmail.com</a>
-                                <a href="tel:+880(123)45688"
-                                    class="cursor-big hover--translate-x-2 tw-mt-2 fw-bold position-relative text-main-600 tw-text-2xl hover-text-main-700 fw-semibold">+880
-                                    (123) 456 88</a>
+                                 <a href="mailto:{{ config('website.email') }}"
+                                    class="cursor-small hover--translate-x-2 position-relative text-neutral-500 hover-text-main-600 fw-semibold">{{ config('website.email') }}</a>
+                                <a href="tel:{{ config('website.contact') }}"
+                                    class="cursor-big hover--translate-x-2 tw-mt-2 fw-bold position-relative text-main-600 tw-text-2xl hover-text-main-700 fw-semibold">{{ config('website.contact') }}</a>
                             </div>
                         </div>
                     </div>

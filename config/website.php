@@ -1,5 +1,7 @@
 <?php
 
 return [
-    'name' => 'Manny'
+    'name' => 'QuickDrop International',
+    'email' => 'help@quickdropinternationallogistics.in',
+    'contact' => '0000 23447 4773'
 ];
