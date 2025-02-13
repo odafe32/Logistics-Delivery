@@ -295,40 +295,39 @@
             </div>
 
             <div class="row mt-5">
-                <div class="col-lg-4">
-                    <div class="location-card">
-                        <div class="location-name">{{ config('website.name') }} Abuja</div>
-                        <div class="location-address">Plot 1014, Samuel Ademulegun Street, Central Business District, Abuja
-                        </div>
-                    </div>
+    <div class="col-lg-4">
+        <div class="location-card">
+            <div class="location-name">{{ config('website.name') }} New York</div>
+            <div class="location-address">350 Fifth Avenue, Empire State Building, New York, NY 10118</div>
+        </div>
 
-                    <div class="location-card">
-                        <div class="location-name">{{ config('website.name') }} Ibadan</div>
-                        <div class="location-address">12 Magazine Road, Jericho, Ibadan</div>
-                    </div>
+        <div class="location-card">
+            <div class="location-name">{{ config('website.name') }} Los Angeles</div>
+            <div class="location-address">777 South Figueroa Street, Downtown LA, Los Angeles, CA 90017</div>
+        </div>
 
-                    <div class="location-card">
-                        <div class="location-name">{{ config('website.name') }} Airport Logistics Center</div>
-                        <div class="location-address">Murtala Muhammed International Airport, Ikeja, Lagos</div>
-                    </div>
+        <div class="location-card">
+            <div class="location-name">{{ config('website.name') }} Chicago O'Hare Logistics Center</div>
+            <div class="location-address">10000 West O'Hare Avenue, Chicago, IL 60666</div>
+        </div>
 
-                    <div class="location-card">
-                        <div class="location-name">{{ config('website.name') }} Port Harcourt</div>
-                        <div class="location-address">Plot 20 Trans Amadi Industrial Layout, Port Harcourt</div>
-                    </div>
-                </div>
+        <div class="location-card">
+            <div class="location-name">{{ config('website.name') }} Miami</div>
+            <div class="location-address">801 Brickell Avenue, Miami, FL 33131</div>
+        </div>
+    </div>
 
-                <div class="col-lg-8">
-                    <div class="map-container">
-                        <div class="w-100 h-100 d-flex align-items-center justify-content-center text-muted">
-                            <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8070639.283284887!2d3.3776973065334874!3d8.995886348042317!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x104e0baf7da48d0d%3A0x99a8fe4168c50bc8!2sNigeria!5e0!3m2!1sen!2sng!4v1737909900800!5m2!1sen!2sng"
-                                width="100%" height="650" style="border:0;" allowfullscreen="" loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade"></iframe>
-                        </div>
-                    </div>
-                </div>
+    <div class="col-lg-8">
+        <div class="map-container">
+            <div class="w-100 h-100 d-flex align-items-center justify-content-center text-muted">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12087.440706340515!2d-73.99243645!3d40.75090975!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e199a405a163!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1737909900800!5m2!1sen!2sus"
+                    width="100%" height="650" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
+        </div>
+    </div>
+</div>
         </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>

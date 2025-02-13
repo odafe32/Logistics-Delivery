@@ -46,6 +46,8 @@
     <meta property="og:description"
         content="{{ $meta_desc ?? config('website.name') . ' Logistics offers fast & reliable shipping services' }}">
     <meta property="og:image" content="{{ $meta_image ?? url('assets/images/logo/favicon.png') }}">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
@@ -584,16 +586,9 @@
             <!-- Shipment Management -->
             <a href="{{ url('admin/timelines') }}" class="nav-item {{ request()->is('admin/timelines') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-car"></i></span>
-                <span class="nav-text">Timelines</span>```php
+                <span class="nav-text">Timelines</span>
                 <!-- Add Logs Link -->
-                <a href="{{ url('admin/logs') }}"
-                    class="nav-item {{ request()->is('admin/logs') ? 'active' : '' }}">
-                    <span class="nav-icon"><i class="fas fa-file-alt"></i></span>
-                    <span class="nav-text">Logs</span>
-                    <span class="nav-arrow">→</span>
-                </a>
-                ```
-                <span class="nav-arrow">→</span>
+
             </a>
 
 

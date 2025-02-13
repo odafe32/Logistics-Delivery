@@ -94,6 +94,20 @@
 
 
     <style>
+        .max-w-200-px {
+            max-width: 200px !important; /* Reduced from 200px */
+            height: auto;
+        }
+
+        .max-w-100-px {
+            max-width: 100px !important; /* Reduced from 100px */
+            height: auto;
+        }
+
+        /* For the logo-mask-bg section */
+        .tw-w-156-px {
+            width: 156px !important; /* Reduced from 156px */
+        }
         /* Mobile Navigation Styles */
         @media (max-width: 867px) {
 
@@ -213,6 +227,18 @@
             background-color: #f8f9fa;
         }
     </style>
+        <!-- Smartsupp Live Chat script -->
+<script type="text/javascript">
+var _smartsupp = _smartsupp || {};
+_smartsupp.key = 'c17a0747e717da17a20e35d87c1cf0b3a4c20b45';
+window.smartsupp||(function(d) {
+  var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+  s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+  c.type='text/javascript';c.charset='utf-8';c.async=true;
+  c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+})(document);
+</script>
+<noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>
 </head>
 
 <body>
@@ -284,7 +310,7 @@
         <div class="d-flex flex-column tw-gap-8 overflow-hidden">
             <div class="animate-item">
                 <a href="{{ url('/') }}" class="cursor-big">
-                    <img src="{{ url('assets/images/logo/logo2.png') }}" alt="Logo" class="max-w-200-px">
+                    <img src="{{ url('assets/images/logo/logo2.jpg') }}" alt="Logo" class="max-w-100-px">
                 </a>
             </div>
             <div>
@@ -366,7 +392,7 @@
 
         <div class="mobile-menu__inner">
             <a href="{{ url('/') }}" class="mobile-menu__logo">
-                <img src="{{ url('assets/images/logo/logo2.png') }}" alt="Logo">
+                <img src="{{ url('assets/images/logo/logo2.jpg') }}" alt="Logo">
             </a>
             <div class="mobile-menu__menu">
                 <!-- Nav menu Start -->
@@ -543,7 +569,7 @@
                     </div>
                     <div class="position-relative d-lg-none d-inline-block z-1">
                         <a href="{{ url('/') }}" class="cursor-big">
-                            <img src="{{ url('assets/images/logo/logo2.png') }}" alt="Logo" class="max-w-200-px">
+                            <img src="{{ url('assets/images/logo/logo2.jpg') }}" alt="Logo" class="max-w-200-px">
                         </a>
                     </div>
                     <!-- Logo End  -->

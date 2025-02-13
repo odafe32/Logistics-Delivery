@@ -273,6 +273,16 @@
                                         class="btn btn-sm btn-warning">
                                             <i class="fas fa-plus"></i> Add Timeline
                                         </a>
+                                        <form action="{{ route('admin.shipments.delete', $shipment) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this shipment?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                        <a href="{{ route('admin.shipments.pdf', $shipment) }}" class="btn btn-sm btn-secondary" target="_blank">
+                                            <i class="fas fa-print"></i>
+                                        </a>
                                 </div>
                             </td>
                         </tr>

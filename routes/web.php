@@ -70,12 +70,16 @@ Route::middleware(['auth'])->group(function () {
             Route::put('/users/{user}', 'updateUser')->name('users.update');
             Route::delete('/users/{user}', 'deleteUser')->name('users.delete');
             Route::get('/timelines', 'ShowTimelines')->name('timelines');
+            Route::post('/shipments/create', 'createShipment')->name('shipments.create');
+            Route::post('/shipments/draft', 'saveShipmentDraft')->name('shipments.draft');
             Route::get('/shipment-details', 'ShowShipmentDetails')->name('shipment-details');
             Route::get('/add-timeline/{tracking_number}', 'AddTimelines')->name('add-timeline');
             Route::get('/new-shipment', 'ShowNewShipment')->name('new-shipment');
             Route::get('/profile', 'ShowProfile')->name('admin.profile');
             Route::get('/admin/users/new', 'showNewUser')->name('users.new');
             Route::get('/users/{user}/edit', 'editUser')->name('users.edit');
+            Route::delete('/shipments/{shipment}', 'deleteShipment')->name('admin.shipments.delete');
+            Route::get('/shipments/{shipment}/pdf', 'printShipmentPDF')->name('admin.shipments.pdf');
 
             // New routes for messages
             Route::get('/support-messages', 'ShowSupportMessages')->name('admin.support-messages');

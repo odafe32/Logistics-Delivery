@@ -8,6 +8,139 @@
             text-decoration: none
         }
 
+        .alert-list {
+    margin: 2rem 0;
+}
+
+.alert-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    animation: fadeInLeft 0.6s ease-out;
+    backdrop-filter: blur(10px);
+}
+
+.alert-item i {
+    font-size: 1.5rem;
+    color: #FFD700;
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+}
+
+.alert-item p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.alert-item strong {
+    color: #FFD700;
+}
+
+.safety-tips {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1.5rem;
+    border-radius: 12px;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.safety-tips h3 {
+    color: #FFD700;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.safety-tips ul {
+    padding-left: 1.5rem;
+    margin-bottom: 0;
+}
+
+.safety-tips li {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.safety-tips li:last-child {
+    margin-bottom: 0;
+}
+
+.contact-info {
+    animation: fadeInUp 1s ease-out;
+}
+
+.btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.image-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.security-image {
+    max-width: 300px;
+    margin: 0 auto;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+}
+
+.security-image svg {
+    width: 100%;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .security-image {
+        max-width: 200px;
+        margin-top: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .alert-item {
+        padding: 0.8rem;
+    }
+
+    .alert-item i {
+        font-size: 1.2rem;
+    }
+
+    .alert-item p {
+        font-size: 0.85rem;
+    }
+
+    .safety-tips {
+        padding: 1rem;
+    }
+
+    .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .contact-info .btn {
+        width: 100%;
+    }
+
+    .security-image {
+        max-width: 300px;
+        margin-top: 2rem;
+    }
+}
+
         /* Enhanced base styles */
         .modal-dialog {
             max-width: 900px !important;
@@ -193,9 +326,9 @@
 
 <body>
     <!-- Debug Panel -->
-    <div id="debugPanel">
-        Next popup in: <span id="countdown">calculating...</span>
-    </div>
+    <!--<div id="debugPanel">-->
+    <!--    Next popup in: <span id="countdown">calculating...</span>-->
+    <!--</div>-->
 
     <div class="modal fade" id="welcomePopup" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -203,34 +336,86 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
                 <div class="container-fluid">
-                    <div class="row align-items-center">
-                        <div class="col-md-6 content-wrapper text-white">
-                            <img src="{{ url('assets/images/logo/favicon.png') }}" alt="Aramex Logo" class="logo">
+    <div class="row align-items-center">
+        <div class="col-md-6 content-wrapper text-white">
+            <img src="{{ url('assets/images/logo/favicon.png') }}" alt="Aramex Logo" class="logo">
 
-                            <h1 class="heading-primary">BEWARE of</h1>
-                            <h2 class="heading-secondary">fraudsters pretending to be us</h2>
+            <h1 class="heading-primary">BEWARE of</h1>
+            <h2 class="heading-secondary">fraudsters pretending to be us</h2>
 
-                            <div class="alert-section">
-                                <h3 class="h5 fw-bold mb-2">Help us beat the scam</h3>
-                                <p class="lead mb-0">Pay through the App</p>
-                            </div>
-
-                            <div class="store-buttons d-flex gap-3">
-                                <a href="#" class="store-button">
-                                    <img src="{{ url('assets/images/googleplay.png') }}" alt="Get it on Google Play">
-                                </a>
-                                <a href="#" class="store-button">
-                                    <img src="{{ url('assets/images/applestore.png') }}" alt="Download on App Store">
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 p-4 text-center">
-                            <img src="{{ url('assets/images/aramex-app.png') }}" alt="App Interface"
-                                class="img-fluid app-preview">
-                        </div>
-                    </div>
+            <div class="alert-list">
+                <div class="alert-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <p>Track shipments through our official website</p>
                 </div>
+
+            </div>
+        </div>
+        <div class="col-md-6 image-wrapper">
+            <div class="security-image">
+                <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background Shield -->
+    <path d="M200 40 L350 90 L350 200 C350 300 200 360 200 360 C200 360 50 300 50 200 L50 90 Z"
+          fill="rgba(255,255,255,0.1)"
+          stroke="rgba(255,255,255,0.3)"
+          stroke-width="4"/>
+
+    <!-- Inner Shield -->
+    <path d="M200 80 L310 115 L310 200 C310 275 200 320 200 320 C200 320 90 275 90 200 L90 115 Z"
+          fill="rgba(227,24,55,0.2)"
+          stroke="#E31837"
+          stroke-width="3"/>
+
+    <!-- Lock Body -->
+    <rect x="160" y="180" width="80" height="70" rx="10"
+          fill="#E31837"
+          stroke="white"
+          stroke-width="3"/>
+
+    <!-- Lock Shackle -->
+    <path d="M175 180 L175 140 C175 110 225 110 225 140 L225 180"
+          fill="none"
+          stroke="white"
+          stroke-width="12"
+          stroke-linecap="round"/>
+
+    <!-- Check Mark -->
+    <path d="M180 210 L195 225 L220 200"
+          fill="none"
+          stroke="white"
+          stroke-width="8"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+
+    <!-- Alert Icons -->
+    <g transform="translate(100,100)" class="alert-icon">
+        <circle cx="0" cy="0" r="15" fill="#FFD700"/>
+        <text x="0" y="7" font-size="20" fill="#E31837" text-anchor="middle">!</text>
+    </g>
+
+    <g transform="translate(300,100)" class="alert-icon">
+        <circle cx="0" cy="0" r="15" fill="#FFD700"/>
+        <text x="0" y="7" font-size="20" fill="#E31837" text-anchor="middle">!</text>
+    </g>
+
+    <style>
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+        .alert-icon {
+            animation: pulse 2s infinite;
+        }
+        .alert-icon:nth-child(2) {
+            animation-delay: 1s;
+        }
+    </style>
+</svg>
+            </div>
+        </div>
+    </div>
+</div>
             </div>
         </div>
     </div>

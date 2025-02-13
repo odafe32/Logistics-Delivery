@@ -176,7 +176,8 @@
         <div class="container">
             <h1 class="page-title">Create New Shipment</h1>
 
-            <form id="shipmentForm">
+            <form action="/admin/shipments/create" method="POST">
+                @csrf
                 <div class="form-container">
                     <!-- Sender Information -->
                     <div class="form-section">
@@ -229,7 +230,9 @@
                         <h2 class="section-title">Package Details</h2>
                         <div id="packagesContainer">
                             <div class="package-card">
-                                <i class="fas fa-times remove-package"></i>
+                                <div class="remove-package">
+                                    <i class="fas fa-times"></i>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Weight (kg)</label>
@@ -238,12 +241,9 @@
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Dimensions (cm)</label>
                                         <div class="dimension-inputs">
-                                            <input type="number" class="form-control" placeholder="Length" name="length[]"
-                                                required>
-                                            <input type="number" class="form-control" placeholder="Width" name="width[]"
-                                                required>
-                                            <input type="number" class="form-control" placeholder="Height" name="height[]"
-                                                required>
+                                            <input type="number" class="form-control" placeholder="Length" name="length[]" required>
+                                            <input type="number" class="form-control" placeholder="Width" name="width[]" required>
+                                            <input type="number" class="form-control" placeholder="Height" name="height[]" required>
                                         </div>
                                     </div>
                                     <div class="col-12 mb-3">
@@ -253,35 +253,33 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-outline" id="addPackage">
-                            <i class="fas fa-plus me-2"></i>Add Another Package
-                        </button>
+                        <div class="text-end mt-3">
+                            <button type="button" id="addPackage" class="btn btn-outline">
+                                <i class="fas fa-plus me-2"></i>Add Another Package
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Shipping Service -->
                     <div class="form-section">
                         <h2 class="section-title">Shipping Service</h2>
-                        <div class="service-options">
-                            <div class="service-option selected">
-                                <div class="service-title">Express Delivery</div>
-                                <div class="service-description">1-2 business days</div>
-                                <div class="price-tag mt-2">$25.99</div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Service Type</label>
+                                <select class="form-control" name="service_type" required>
+                                    <option value="express">Express Delivery (1-2 business days)</option>
+                                    <option value="standard">Standard Delivery (3-5 business days)</option>
+                                    <option value="economy">Economy Delivery (5-7 business days)</option>
+                                </select>
                             </div>
-                            <div class="service-option">
-                                <div class="service-title">Standard Delivery</div>
-                                <div class="service-description">3-5 business days</div>
-                                <div class="price-tag mt-2">$15.99</div>
-                            </div>
-                            <div class="service-option">
-                                <div class="service-title">Economy Delivery</div>
-                                <div class="service-description">5-7 business days</div>
-                                <div class="price-tag mt-2">$10.99</div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Amount ($)</label>
+                                <input type="number" class="form-control" name="amount" step="0.01" min="0" required>
                             </div>
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-end gap-3">
-                        <button type="button" class="btn btn-outline" id="saveAsDraft">Save as Draft</button>
                         <button type="submit" class="btn btn-primary">Create Shipment</button>
                     </div>
                 </div>
@@ -293,28 +291,36 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Handle adding new packages
-            const addPackageBtn = document.getElementById('addPackage');
-            const packagesContainer = document.getElementById('packagesContainer');
-            const packageTemplate = packagesContainer.querySelector('.package-card').cloneNode(true);
+            // Handle adding new packages
+const addPackageBtn = document.getElementById('addPackage');
+const packagesContainer = document.getElementById('packagesContainer');
+const packageTemplate = packagesContainer.querySelector('.package-card').cloneNode(true);
 
-            addPackageBtn.addEventListener('click', function() {
-                const newPackage = packageTemplate.cloneNode(true);
-                // Clear input values
-                newPackage.querySelectorAll('input, textarea').forEach(input => input.value = '');
-                packagesContainer.appendChild(newPackage);
-            });
+if (addPackageBtn) {
+    addPackageBtn.addEventListener('click', function() {
+        const newPackage = packageTemplate.cloneNode(true);
+        // Clear input values
+        newPackage.querySelectorAll('input, textarea').forEach(input => input.value = '');
+        packagesContainer.appendChild(newPackage);
 
-            // Handle removing packages
-            packagesContainer.addEventListener('click', function(e) {
-                if (e.target.classList.contains('remove-package')) {
-                    const packageCard = e.target.closest('.package-card');
-                    if (packagesContainer.querySelectorAll('.package-card').length > 1) {
-                        packageCard.remove();
-                    } else {
-                        alert('At least one package is required');
-                    }
-                }
-            });
+        // Scroll to the new package
+        newPackage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+}
+
+// Handle removing packages
+if (packagesContainer) {
+    packagesContainer.addEventListener('click', function(e) {
+        if (e.target.closest('.remove-package')) {
+            const packageCard = e.target.closest('.package-card');
+            if (packagesContainer.querySelectorAll('.package-card').length > 1) {
+                packageCard.remove();
+            } else {
+                alert('At least one package is required');
+            }
+        }
+    });
+}
 
             // Handle service selection
             const serviceOptions = document.querySelectorAll('.service-option');
@@ -327,7 +333,7 @@
 
             // Handle form submission
             const shipmentForm = document.getElementById('shipmentForm');
-            shipmentForm.addEventListener('submit', function(e) {
+            shipmentForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
 
                 // Show loading state
@@ -336,36 +342,96 @@
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creating Shipment...';
 
-                // Collect form data
-                const formData = new FormData(this);
+                try {
+                    // Get selected service type
+                    const selectedService = document.querySelector('.service-option.selected');
+                    const serviceType = selectedService.querySelector('.service-title').textContent.toLowerCase().split(' ')[0];
 
-                // Simulate API call
-                setTimeout(() => {
-                    // Reset button state
+                    const formData = new FormData(this);
+                    formData.append('service_type', serviceType);
+
+                    const response = await fetch('/admin/shipments/create', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        }
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        // Show success message and wait for it to close before redirecting
+                        await Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: `Shipment created successfully! Tracking number: ${data.tracking_number}`,
+                            confirmButtonText: 'View Shipments'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = '/admin/timelines';
+                            }
+                        });
+                    } else {
+                        throw new Error(data.message || 'Error creating shipment');
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: error.message || 'Error creating shipment. Please try again.'
+                    });
+                } finally {
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = originalText;
-
-                    // Show success message
-                    alert('Shipment created successfully!');
-
-                    // Redirect to tracking page (in real implementation)
-                    // window.location.href = '/tracking/' + trackingNumber;
-                }, 1500);
+                }
             });
 
             // Handle save as draft
             const saveAsDraftBtn = document.getElementById('saveAsDraft');
-            saveAsDraftBtn.addEventListener('click', function() {
+            saveAsDraftBtn.addEventListener('click', async function() {
                 const btn = this;
                 const originalText = btn.innerHTML;
                 btn.disabled = true;
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
 
-                setTimeout(() => {
+                try {
+                    const formData = new FormData(shipmentForm);
+                    const response = await fetch('/admin/shipments/draft', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        }
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        // Show success message and wait for it to close before redirecting
+                        await Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: `Shipment created successfully! Tracking number: ${data.tracking_number}`,
+                            confirmButtonText: 'View Shipments'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = '/admin/timelines';
+                            }
+                        });
+                    } else {
+                        throw new Error(data.message || 'Error saving draft');
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: error.message || 'Error saving draft. Please try again.'
+                    });
+                } finally {
                     btn.disabled = false;
                     btn.innerHTML = originalText;
-                    alert('Draft saved successfully!');
-                }, 1000);
+                }
             });
         });
     </script>

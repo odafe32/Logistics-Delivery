@@ -16,10 +16,22 @@ use App\Models\Shipment;
 use App\Models\ShipmentPackage;
 use App\Models\ShipmentStatus;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 class AdminController extends Controller
 {
+    public function printShipmentPDF(Shipment $shipment)
+    {
+        // Load the shipment with its relationships
+        $shipment->load(['packages', 'statuses' => function($query) {
+            $query->orderBy('status_date', 'desc');
+        }]);
+
+        $pdf = PDF::loadView('admin.pdf.shipment', compact('shipment'));
+
+        return $pdf->stream('shipment-' . $shipment->tracking_number . '.pdf');
+    }
     //
     public function ShowDashboard()
     {
@@ -338,6 +350,149 @@ class AdminController extends Controller
              return back()->with('success', 'Profile updated successfully');
          } catch (\Exception $e) {
              return back()->with('error', 'Error updating profile: ' . $e->getMessage());
+         }
+     }
+
+     public function createShipment(Request $request)
+     {
+         $request->validate([
+             'sender_name' => 'required|string',
+             'sender_phone' => 'required|string',
+             'sender_email' => 'required|email',
+             'sender_address' => 'required|string',
+             'recipient_name' => 'required|string',
+             'recipient_phone' => 'required|string',
+             'recipient_email' => 'required|email',
+             'recipient_address' => 'required|string',
+             'service_type' => 'required|in:express,standard,economy',
+             'weight' => 'required|array',
+             'weight.*' => 'required|numeric|min:0.1',
+             'length' => 'required|array',
+             'length.*' => 'required|numeric|min:1',
+             'width' => 'required|array',
+             'width.*' => 'required|numeric|min:1',
+             'height' => 'required|array',
+             'height.*' => 'required|numeric|min:1',
+             'contents' => 'required|array',
+             'contents.*' => 'required|string'
+         ]);
+
+         try {
+             DB::beginTransaction();
+
+             // Create shipment
+             $shipment = new Shipment();
+             $shipment->user_id = Auth::id();
+             $shipment->tracking_number = $shipment->generateTrackingNumber();
+             $shipment->sender_name = $request->sender_name;
+             $shipment->sender_phone = $request->sender_phone;
+             $shipment->sender_email = $request->sender_email;
+             $shipment->sender_address = $request->sender_address;
+             $shipment->recipient_name = $request->recipient_name;
+             $shipment->recipient_phone = $request->recipient_phone;
+             $shipment->recipient_email = $request->recipient_email;
+             $shipment->recipient_address = $request->recipient_address;
+             $shipment->service_type = $request->service_type;
+
+             // Calculate price based on service type and number of packages
+             $basePrice = [
+                 'express' => 25.99,
+                 'standard' => 15.99,
+                 'economy' => 10.99
+             ];
+             $shipment->total_price = $basePrice[$request->service_type] * count($request->weight);
+             $shipment->save();
+
+             // Save packages
+             foreach ($request->weight as $index => $weight) {
+                 ShipmentPackage::create([
+                     'shipment_id' => $shipment->id,
+                     'weight' => $weight,
+                     'length' => $request->length[$index],
+                     'width' => $request->width[$index],
+                     'height' => $request->height[$index],
+                     'contents' => $request->contents[$index]
+                 ]);
+             }
+
+             // Create initial status
+             ShipmentStatus::create([
+                 'shipment_id' => $shipment->id,
+                 'status' => 'pending',
+                 'status_date' => now(),
+                 'notes' => 'Shipment created'
+             ]);
+
+             DB::commit();
+
+             return redirect('/shipment-history')->with('success', 'Shipment created successfully. Tracking number: ' . $shipment->tracking_number);
+
+         } catch (\Exception $e) {
+             DB::rollback();
+             return back()->with('error', 'Error creating shipment: ' . $e->getMessage())->withInput();
+         }
+     }
+     public function deleteShipment(Shipment $shipment)
+{
+    try {
+        DB::beginTransaction();
+
+        // Delete related records first
+        $shipment->statuses()->delete();
+        $shipment->packages()->delete();
+
+        // Delete the shipment
+        $shipment->delete();
+
+        DB::commit();
+
+        return redirect()->back()->with('success', 'Shipment deleted successfully');
+    } catch (\Exception $e) {
+        DB::rollback();
+        return redirect()->back()->with('error', 'Error deleting shipment: ' . $e->getMessage());
+    }
+}
+     public function saveShipmentDraft(Request $request)
+     {
+         try {
+             DB::beginTransaction();
+
+             $shipment = new Shipment();
+             $shipment->user_id = Auth::id();
+             $shipment->tracking_number = $shipment->generateTrackingNumber();
+             $shipment->fill($request->all());
+             $shipment->is_draft = true;
+             $shipment->save();
+
+             // Save packages if provided
+             if ($request->has('weight')) {
+                 foreach ($request->weight as $index => $weight) {
+                     if ($weight) {
+                         ShipmentPackage::create([
+                             'shipment_id' => $shipment->id,
+                             'weight' => $weight,
+                             'length' => $request->length[$index] ?? 0,
+                             'width' => $request->width[$index] ?? 0,
+                             'height' => $request->height[$index] ?? 0,
+                             'contents' => $request->contents[$index] ?? ''
+                         ]);
+                     }
+                 }
+             }
+
+             DB::commit();
+
+             return response()->json([
+                 'success' => true,
+                 'message' => 'Draft saved successfully'
+             ]);
+
+         } catch (\Exception $e) {
+             DB::rollback();
+             return response()->json([
+                 'success' => false,
+                 'message' => 'Error saving draft: ' . $e->getMessage()
+             ], 500);
          }
      }
 
