@@ -569,7 +569,7 @@ window.smartsupp||(function(d) {
                     </div>
                     <div class="position-relative d-lg-none d-inline-block z-1">
                         <a href="{{ url('/') }}" class="cursor-big">
-                            <img src="{{ url('assets/images/logo/logo2.jpg') }}" alt="Logo" class="max-w-200-px">
+                            <img src="{{ url('assets/images/logo/logo2.png') }}" alt="Logo" class="max-w-200-px">
                         </a>
                     </div>
                     <!-- Logo End  -->
