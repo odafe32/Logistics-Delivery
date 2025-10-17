@@ -564,12 +564,12 @@ window.smartsupp||(function(d) {
                     <div
                         class="logo-mask-bg cursor-big position-relative d-lg-flex d-none z-1 tw-w-156-px d-flex justify-content-center align-items-center">
                         <a href="{{ url('/') }}" class="tw-mt-7">
-                            <img src="{{ url('assets/images/logo/logo.png') }}" alt="Logo" class="max-w-200-px mt-3">
+                            <img src="{{ url('assets/images/logo/logo2.jpg') }}" alt="Logo" class="max-w-100-px">
                         </a>
                     </div>
                     <div class="position-relative d-lg-none d-inline-block z-1">
                         <a href="{{ url('/') }}" class="cursor-big">
-                            <img src="{{ url('assets/images/logo/logo2.png') }}" alt="Logo" class="max-w-200-px">
+                            <img src="{{ url('assets/images/logo/logo2.jpg') }}" alt="Logo" class="max-w-100-px">
                         </a>
                     </div>
                     <!-- Logo End  -->
