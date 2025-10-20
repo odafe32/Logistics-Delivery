@@ -364,6 +364,8 @@ class AdminController extends Controller
              'recipient_phone' => 'required|string',
              'recipient_email' => 'required|email',
              'recipient_address' => 'required|string',
+             'dispatch_date' => 'required|date',
+             'delivery_date' => 'required|date|after_or_equal:dispatch_date',
              'service_type' => 'required|in:express,standard,economy',
              'weight' => 'required|array',
              'weight.*' => 'required|numeric|min:0.1',
@@ -393,6 +395,8 @@ class AdminController extends Controller
              $shipment->recipient_email = $request->recipient_email;
              $shipment->recipient_address = $request->recipient_address;
              $shipment->service_type = $request->service_type;
+             $shipment->dispatch_date = $request->dispatch_date;
+             $shipment->delivery_date = $request->delivery_date;
 
              // Calculate price based on service type and number of packages
              $basePrice = [

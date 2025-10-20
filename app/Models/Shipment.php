@@ -20,7 +20,9 @@ class Shipment extends Model
         'service_type',
         'total_price',
         'current_status',
-        'is_draft'
+        'is_draft',
+        'dispatch_date',
+        'delivery_date'
     ];
 
     public function user()

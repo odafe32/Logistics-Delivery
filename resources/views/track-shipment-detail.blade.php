@@ -357,10 +357,14 @@
                     <div class="detail-group">
                         <div class="detail-label">Expected Delivery</div>
                         <div class="detail-value">
-                            @if($latestStatus = $shipment->statuses->where('status', 'delivered')->first())
-                                {{ $latestStatus->status_date->format('M d, Y') }}
+                            @if($shipment->current_status === 'delivered')
+                                @if($latestStatus = $shipment->statuses->where('status', 'delivered')->first())
+                                    {{ $latestStatus->status_date->format('M d, Y') }}
+                                @endif
+                            @elseif($shipment->delivery_date)
+                                {{ \Carbon\Carbon::parse($shipment->delivery_date)->format('M d, Y') }}
                             @else
-                                Pending
+                                <span class="text-muted">Pending</span>
                             @endif
                         </div>
                     </div>

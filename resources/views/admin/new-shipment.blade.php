@@ -273,8 +273,23 @@
                                 </select>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Amount ($)</label>
+                                <label class="form-label">Billing Amount ($)</label>
                                 <input type="number" class="form-control" name="amount" step="0.01" min="0" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Shipping Dates -->
+                    <div class="form-section">
+                        <h2 class="section-title">Shipping Dates</h2>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Dispatch Date</label>
+                                <input type="date" class="form-control" name="dispatch_date" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Expected Delivery Date</label>
+                                <input type="date" class="form-control" name="delivery_date" required>
                             </div>
                         </div>
                     </div>

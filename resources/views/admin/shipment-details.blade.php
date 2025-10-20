@@ -361,6 +361,26 @@
                     <div class="detail-value">{{ $shipment->created_at->format('M d, Y') }}</div>
                 </div>
                 <div class="detail-group">
+                    <div class="detail-label">Dispatch Date</div>
+                    <div class="detail-value">
+                        @if($shipment->dispatch_date)
+                            {{ \Carbon\Carbon::parse($shipment->dispatch_date)->format('M d, Y') }}
+                        @else
+                            <span class="text-muted">Not set</span>
+                        @endif
+                    </div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Delivery Date</div>
+                    <div class="detail-value">
+                        @if($shipment->delivery_date)
+                            {{ \Carbon\Carbon::parse($shipment->delivery_date)->format('M d, Y') }}
+                        @else
+                            <span class="text-muted">Not set</span>
+                        @endif
+                    </div>
+                </div>
+                <div class="detail-group">
                     <div class="detail-label">Total Price</div>
                     <div class="detail-value">${{ number_format($shipment->total_price, 2) }}</div>
                 </div>
